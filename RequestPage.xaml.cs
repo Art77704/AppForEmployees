@@ -38,8 +38,7 @@ namespace AppForEmployees
 
         void CheckNameBTN()
         {
-            SqlConnection con = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee", con);
+            var cmd = DataBaseClass.connectionOpen($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
             //SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdEmployee={IdEmployee} and e.IdEmployee=ew.IdEmployee", con);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -80,8 +79,7 @@ namespace AppForEmployees
         void ShowData()
         {
 
-            SqlConnection con = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})",con);
+            var cmd = DataBaseClass.connectionOpen($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -112,8 +110,7 @@ namespace AppForEmployees
         private void GetWork_BTN_Click(object sender, RoutedEventArgs e)
         {
             string tempRoleName = "";
-            SqlConnection con7 = MainWindow.connectionOpen();
-            SqlCommand cmd7 = new SqlCommand($"select r.RoleName from Role r, AuthorizationAcc aa where aa.IdRole = r.IdRole and aa.IdAuth = {AuthorizationPage.UserAuthId}", con7);
+           var cmd7 = DataBaseClass.connectionOpen($"select r.RoleName from Role r, AuthorizationAcc aa where aa.IdRole = r.IdRole and aa.IdAuth = {AuthorizationPage.UserAuthId}");
             //SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdEmployee={IdEmployee} and e.IdEmployee=ew.IdEmployee", con);
             SqlDataReader reader7 = cmd7.ExecuteReader();
             while (reader7.Read())
@@ -129,8 +126,7 @@ namespace AppForEmployees
 
             bool WorkStatus = false;
             bool WorkFinished = false;
-            SqlConnection con = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee", con);
+            var cmd = DataBaseClass.connectionOpen($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
             //SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdEmployee={IdEmployee} and e.IdEmployee=ew.IdEmployee", con);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -139,8 +135,7 @@ namespace AppForEmployees
                 WorkFinished = Convert.ToBoolean(reader.GetValue(1).ToString());
 
             }
-            SqlConnection con2 = MainWindow.connectionOpen();
-            SqlCommand cmd2 = new SqlCommand($"select ew.IdEmployee from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee", con2);
+            var cmd2 = DataBaseClass.connectionOpen($"select ew.IdEmployee from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
             SqlDataReader reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
@@ -189,20 +184,13 @@ namespace AppForEmployees
                     }
                     if (filePath != null)
                     {
-                        SqlConnection con5 = MainWindow.connectionOpen();
-
                         string sql5 = $"update EmployeeWorking set WorkInProcess=1, WorkFinished=1 where IdRequest={IdRequest}";
+                        DataBaseClass.AddEditDel(sql5);
 
-                        SqlCommand command5 = new SqlCommand(sql5, con5);
-                        command5.ExecuteNonQuery();
+                        sql5 = $"UPDATE EmployeeWorking SET Report = BulkColumn FROM OPENROWSET(BULK '{filePath}', SINGLE_BLOB) AS Document WHERE IdRequest={IdRequest}";
+                        DataBaseClass.AddEditDel(sql5);
 
-
-                        var constr = MainWindow.connectionOpen();
-                        var cmd5 = new SqlCommand($"UPDATE EmployeeWorking SET Report = BulkColumn FROM OPENROWSET(BULK '{filePath}', SINGLE_BLOB) AS Document WHERE IdRequest={IdRequest}", constr);
-
-                        cmd5.ExecuteNonQuery();
                         MessageBox.Show("Вы успешно сдали работу! Ожидайте, пожалуйста, подтверждение выполненной работы от Менеджера!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-
                     }
 
                 }

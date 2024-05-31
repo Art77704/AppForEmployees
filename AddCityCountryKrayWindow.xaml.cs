@@ -48,11 +48,9 @@ namespace AppForEmployees
             _CityCountryKray = "Город добавлен!";
 
 
-            var connection = MainWindow.connectionOpen();
-            string sql = $"INSERT INTO City (NameCity) VALUES ('{CityCountryKray_TXB.Text}')";
+            var cmd = DataBaseClass.connectionOpen($"INSERT INTO City (NameCity) VALUES ('{CityCountryKray_TXB.Text}')");
 
-            SqlCommand command = new SqlCommand(sql, connection);
-            return command;
+            return cmd;
 
         }
 
@@ -63,11 +61,9 @@ namespace AppForEmployees
             _CityCountryKray = "Страна добавлена!";
 
 
-            var connection = MainWindow.connectionOpen();
-            string sql = $"INSERT INTO Country (NameCountry) VALUES ('{CityCountryKray_TXB.Text}')";
+            var cmd = DataBaseClass.connectionOpen($"INSERT INTO Country (NameCountry) VALUES ('{CityCountryKray_TXB.Text}')");
 
-            SqlCommand command = new SqlCommand(sql, connection);
-            return command;
+            return cmd;
 
         }
 
@@ -77,11 +73,9 @@ namespace AppForEmployees
             this.Title = "Добавление края";
             _CityCountryKray = "Край добавлен!";
 
-            var connection = MainWindow.connectionOpen();
-            string sql = $"INSERT INTO Kray (NameKray) VALUES ('{CityCountryKray_TXB.Text}')";
+            var cmd = DataBaseClass.connectionOpen($"INSERT INTO Kray (NameKray) VALUES ('{CityCountryKray_TXB.Text}')");
 
-            SqlCommand command = new SqlCommand(sql, connection);
-            return command;
+            return cmd;
 
         }
 
@@ -89,8 +83,7 @@ namespace AppForEmployees
         {
             if (_text == "Kray")
             {
-                SqlConnection con = MainWindow.connectionOpen();
-                SqlCommand cmd = new SqlCommand($"select NameKray from Kray where NameKray='{CityCountryKray_TXB.Text}'", con);
+                 var cmd = DataBaseClass.connectionOpen($"select NameKray from Kray where NameKray='{CityCountryKray_TXB.Text}'");
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -101,8 +94,7 @@ namespace AppForEmployees
             }
             else if (_text == "Country")
             {
-                SqlConnection con = MainWindow.connectionOpen();
-                SqlCommand cmd = new SqlCommand($"select NameCountry from Country where NameCountry='{CityCountryKray_TXB.Text}'", con);
+                var cmd = DataBaseClass.connectionOpen($"select NameCountry from Country where NameCountry='{CityCountryKray_TXB.Text}'");
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -113,8 +105,7 @@ namespace AppForEmployees
             }
             else
             {
-                SqlConnection con = MainWindow.connectionOpen();
-                SqlCommand cmd = new SqlCommand($"select NameCity from City where NameCity='{CityCountryKray_TXB.Text}'", con);
+                var cmd = DataBaseClass.connectionOpen($"select NameCity from City where NameCity='{CityCountryKray_TXB.Text}'");
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

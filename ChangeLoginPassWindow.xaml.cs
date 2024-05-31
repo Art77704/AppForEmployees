@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppForEmployees.DataBase;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -47,10 +48,7 @@ namespace AppForEmployees
                 MessageBox.Show("Минимальная длина логина - 4 символа", "Ненадежный логин", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            var con = MainWindow.connectionOpen();
-            string sql = $"update AuthorizationAcc set AuthLogin='{Login_TXB.Text}' where IdAuth={AuthorizationPage.UserAuthId}";
-            SqlCommand command = new SqlCommand(sql, con);
-            command.ExecuteNonQuery();
+            DataBaseClass.AddEditDel($"update AuthorizationAcc set AuthLogin='{Login_TXB.Text}' where IdAuth={AuthorizationPage.UserAuthId}");
             MessageBox.Show("Введённые данные были успешно обновлены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             Manager.MainFrame.Navigate(new PersonalAccountPage());
@@ -71,10 +69,8 @@ namespace AppForEmployees
                 MessageBox.Show("Минимальная длина пароля - 8 символов", "Ненадежный пароль", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            var con = MainWindow.connectionOpen();
-            string sql = $"update AuthorizationAcc set AuthPassword='{NewPassword_TXB.Text}' where IdAuth={AuthorizationPage.UserAuthId}";
-            SqlCommand command = new SqlCommand(sql, con);
-            command.ExecuteNonQuery();
+
+            DataBaseClass.AddEditDel($"update AuthorizationAcc set AuthPassword='{NewPassword_TXB.Text}' where IdAuth={AuthorizationPage.UserAuthId}");
             MessageBox.Show("Введённые данные были успешно обновлены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             Manager.MainFrame.Navigate(new PersonalAccountPage());

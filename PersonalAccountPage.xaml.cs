@@ -38,8 +38,8 @@ namespace AppForEmployees
             InitializeComponent();
             MainWindow.PageText.Text = "Личный кабинет";
 
-            MainWindow.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
-            MainWindow.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
+            DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
+            DataBaseClass.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
             FinishWork_DT.Columns[0].Width = DataGridLength.Auto;
             FinishWork_DT.Columns[1].Width = DataGridLength.Auto;
             forManagerAdm_DT.Columns[0].Width = DataGridLength.Auto;
@@ -51,8 +51,7 @@ namespace AppForEmployees
 
         void GetDataAcc()
         {
-            SqlConnection con = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select AA.AuthPassword, AA.AuthLogin, emp.FirstName, emp.Surname, emp.Patronymic, r.RoleName from AuthorizationAcc AA, Employee emp, Role r where AA.IdAuth={AuthorizationPage.UserAuthId} and AA.IdAuth=emp.IdAuth and r.IdRole=aa.IdRole", con);
+            var cmd = DataBaseClass.connectionOpen($"select AA.AuthPassword, AA.AuthLogin, emp.FirstName, emp.Surname, emp.Patronymic, r.RoleName from AuthorizationAcc AA, Employee emp, Role r where AA.IdAuth={AuthorizationPage.UserAuthId} and AA.IdAuth=emp.IdAuth and r.IdRole=aa.IdRole");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -68,7 +67,7 @@ namespace AppForEmployees
 
 
             //Отображение списка выполненных работ у работника
-            MainWindow.ShowOrUpdateDT($"select WorkAllData as ВыполненнаяРабота from Archive where WorkAllData like '%{Surname_TB.Text} {FirstName_TB.Text} {Patronymic_TB.Text}%'", Archive_DT);
+            DataBaseClass.ShowOrUpdateDT($"select WorkAllData as ВыполненнаяРабота from Archive where WorkAllData like '%{Surname_TB.Text} {FirstName_TB.Text} {Patronymic_TB.Text}%'", Archive_DT);
 
         }
 
@@ -103,8 +102,7 @@ namespace AppForEmployees
 
         public static void GetUserRole(StackPanel stp, StackPanel stp2, StackPanel stp3)
         {
-            SqlConnection con2 = MainWindow.connectionOpen();
-            SqlCommand cmd2 = new SqlCommand($"select a.IdRole, r.RoleName from Role r, AuthorizationAcc a where r.IdRole=a.IdRole and a.IdAuth={AuthorizationPage.UserAuthId}", con2);
+            var cmd2 = DataBaseClass.connectionOpen($"select a.IdRole, r.RoleName from Role r, AuthorizationAcc a where r.IdRole=a.IdRole and a.IdAuth={AuthorizationPage.UserAuthId}");
             SqlDataReader reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
@@ -169,15 +167,13 @@ namespace AppForEmployees
 
         private void Confirm_BTN_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection con = MainWindow.connectionOpen();
 
             DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
             IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
 
             string sql = $"update AuthorizationAcc set AccIsValid=1 where IdAuth={IdNewUser}";
+            DataBaseClass.AddEditDel(sql);
 
-            SqlCommand command = new SqlCommand(sql, con);
-            command.ExecuteNonQuery();
             MessageBox.Show("Пользователь добавлен в систему!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
             Manager.MainFrame.Navigate(new PersonalAccountPage());
 
@@ -189,15 +185,14 @@ namespace AppForEmployees
             var res = MessageBox.Show("Вы действительно хотите отклонить заявку на регистрацию аккаунта?", "Отклонение регистрации", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.Yes)
             {
-                SqlConnection con = MainWindow.connectionOpen();
 
                 DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
                 IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
 
-                string sql = $"DELETE AuthorizationAcc where IdAuth={IdNewUser}";
+                DataBaseClass.AddEditDel($"DELETE AuthorizationAcc where IdAuth={IdNewUser}");
 
-                SqlCommand command = new SqlCommand(sql, con);
-                command.ExecuteNonQuery();
+                //SqlCommand command = new SqlCommand(sql, con);
+                //command.ExecuteNonQuery();
                 MessageBox.Show("Запрос на регистрацию аккаунта был отклонён!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new PersonalAccountPage());
             }
@@ -205,8 +200,8 @@ namespace AppForEmployees
 
         private void Refresh_BTN_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
-            MainWindow.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
+            DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
+            DataBaseClass.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
 
         }
 
@@ -229,21 +224,16 @@ namespace AppForEmployees
             string WorkDescription = "";
             string WorkerFIO = "";
             AppConnect.modelOdb = new RCCEntities();
-            SqlConnection con = MainWindow.connectionOpen();
+            
 
             DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
             int IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
 
             string sql = $"update EmployeeWorking set WorkFinished=1, WorkInProcess=0 where IdRequest={IdRequest}";
+            DataBaseClass.AddEditDel(sql);
+           
 
-            SqlCommand command = new SqlCommand(sql, con);
-            command.ExecuteNonQuery();//Изменение информации по работе над заявкой в таблице empwork
-                                      //MessageBox.Show("Заявка была выполнена и перемещена в архив!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-
-
-
-            SqlConnection cn = MainWindow.connectionOpen();
-            SqlCommand cm = new SqlCommand($"select e.Surname, e.FirstName, E.Patronymic from EmployeeWorking ew, Employee e where e.IdEmployee=ew.IdEmployee and ew.IdRequest={IdRequest}", cn);
+            var cm = DataBaseClass.connectionOpen($"select e.Surname, e.FirstName, E.Patronymic from EmployeeWorking ew, Employee e where e.IdEmployee=ew.IdEmployee and ew.IdRequest={IdRequest}");
             SqlDataReader readr = cm.ExecuteReader();
             while (readr.Read()) 
             {
@@ -251,8 +241,7 @@ namespace AppForEmployees
             }
 
 
-            SqlConnection con2 = MainWindow.connectionOpen();
-            SqlCommand cmd2 = new SqlCommand($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})", con2);
+            var cmd2 = DataBaseClass.connectionOpen($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})");
             SqlDataReader reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
@@ -285,11 +274,9 @@ namespace AppForEmployees
             AppConnect.modelOdb.Archive.Add(ar);
             MainWindow.SaveToBD();
 
-           SqlConnection con7 = MainWindow.connectionOpen();
             string sql7 = $"delete EmployeeWorking where IdRequest={IdRequest}\r\ndelete Request where IdRequest={IdRequest}";
+            DataBaseClass.AddEditDel(sql7);
 
-            SqlCommand command7 = new SqlCommand(sql7, con7);
-            command7.ExecuteNonQuery();
 
 
             MessageBox.Show("Заявка изменена на статус 'Выполнена' и была перемещена в архив!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -302,14 +289,12 @@ namespace AppForEmployees
             var res = MessageBox.Show("Вы действительно хотите отклонить данную работу?", "Отклонение работы", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.Yes)
             {
-                SqlConnection con = MainWindow.connectionOpen();
 
                 DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
 
                 string sql = $"delete EmployeeWorking where IdRequest={Convert.ToInt32(selectedRow["НомерЗаявки"])}";
+                DataBaseClass.AddEditDel(sql);
 
-                SqlCommand command = new SqlCommand(sql, con);
-                command.ExecuteNonQuery();
                 MessageBox.Show("Заявка по данной работе отклонена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new PersonalAccountPage());
             }
@@ -341,9 +326,7 @@ namespace AppForEmployees
                         DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
                         int IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
 
-                        var connectionString = MainWindow.connectionOpen();
-                        string query = $"select Report from EmployeeWorking where IdRequest={IdRequest}";
-                        SqlCommand command = new SqlCommand(query, connectionString);
+                       var command = DataBaseClass.connectionOpen($"select Report from EmployeeWorking where IdRequest={IdRequest}");
                         SqlDataReader reader = command.ExecuteReader();
                         if (reader.Read())
                         {

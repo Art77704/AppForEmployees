@@ -9,13 +9,21 @@ using System.Windows.Controls;
 
 namespace AppForEmployees.DataBase
 {
-    static class DataBase
+    class DataBaseClass
     {
+        //public static SqlConnection connectionOpen
+
+        static string connectionString = "data source=DESKTOP-RETOSMJ;initial catalog=RCC;integrated security=True;trustservercertificate=True";
+
+        public static SqlConnection Connection()
+        {
+            var con = new SqlConnection(connectionString);
+            con.Open();
+            return con;
+        }
         public static SqlCommand connectionOpen(string querry)
         {
-            SqlConnection connection =
-               new SqlConnection("data source=ARTEM-PK;initial catalog=RCC;integrated security=True;trustservercertificate=True");
-            connection.Open();
+            var connection = Connection();
             SqlCommand cmd = new SqlCommand(querry, connection);
             return cmd;
         }
@@ -38,9 +46,8 @@ namespace AppForEmployees.DataBase
 
         public static void ShowOrUpdateDT(string querry, DataGrid datagr)
         {
-            var con = connectionOpen(querry);
 
-            SqlCommand cmd = new SqlCommand(querry, con);
+            var cmd = connectionOpen(querry);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);

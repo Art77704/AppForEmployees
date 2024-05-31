@@ -22,11 +22,16 @@ namespace AppForEmployees
     /// </summary>
     public partial class AddAddressPage : Page
     {
+        EstateAddress _ea = new EstateAddress();
         public AddAddressPage()
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление адреса";
-            AddCityToCMB();
+            EstateAddress ea = new EstateAddress();
+            DataContext = ea;
+            _ea = ea;
+            //DataBaseClass.AddToCMB("select NameCity from City", City_CMB);
+            City_CMB.ItemsSource = AppConnect.modelOdb.City.ToList();
         }
 
         private void AddCity_BTN_Click(object sender, RoutedEventArgs e)
@@ -35,38 +40,26 @@ namespace AppForEmployees
             w.ShowDialog();
         }
 
-        void AddCityToCMB()
-        {
-            var cmd = ConToBD.connectionOpen("select NameCity from City");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                var City = reader.GetValue(0).ToString();
-
-                City_CMB.Items.Add($"{City}");
-            }
-        }
-
         private void SaveDataAddress_BTN_Click(object sender, RoutedEventArgs e)
         {
             string[] textToCheck = { Street_TXB.Text, House_TXB.Text };
             if (MainMenuPage.CheckDataToEmpty(textToCheck))
                 return;
 
-            AppConnect.modelOdb = new RCCEntities();
-
-            EstateAddress ea = new EstateAddress();
+            try
             {
-                ea.IdCity = City_CMB.SelectedIndex + 1;
-                ea.EstateStreet = Street_TXB.Text;
-                ea.EstateHouse = House_TXB.Text;
-                ea.EstateFlat = Flat_TXB.Text;
-
-            }; // Добавляет в БД  данные
-            AppConnect.modelOdb.EstateAddress.Add(ea);
-            MainWindow.SaveToBD();
-            MessageBox.Show("Адрес добавлен!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-            Manager.MainFrame.Navigate(new AddRequestPage());
+                var ci = City_CMB.SelectedItem as City;
+                _ea.IdCity = ci.IdCity;
+                AppConnect.modelOdb.EstateAddress.Add(_ea);
+                AppConnect.modelOdb.SaveChanges();
+                MessageBox.Show("Адрес добавлен!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+                Manager.MainFrame.Navigate(new AddRequestPage());
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка ввода данных!");
+            }
+            
         }
     }
 }

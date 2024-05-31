@@ -109,8 +109,7 @@ namespace AppForEmployees
             int idCity = ShowIdCity();
             int idCountry = ShowIdCountry();
             int idKray = ShowIdKray();
-            var con = MainWindow.connectionOpen();
-            var cmd = new SqlCommand($"select * from PlaceOfBirth where IdCountry={idCountry} and IdCity={idCity} and IdKray={idKray}",con);
+           var cmd = DataBaseClass.connectionOpen($"select * from PlaceOfBirth where IdCountry={idCountry} and IdCity={idCity} and IdKray={idKray}");
             int IdPlaceOfBirth = -1;
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -133,8 +132,7 @@ namespace AppForEmployees
 
                 AppConnect.modelOdb.PlaceOfBirth.Add(pl);
                 MainWindow.SaveToBD();
-                var con2 = MainWindow.connectionOpen();
-                var cmd2 = new SqlCommand($"select * from PlaceOfBirth", con2);
+               var cmd2 = DataBaseClass.connectionOpen($"select * from PlaceOfBirth");
                
                 SqlDataReader reader2 = cmd2.ExecuteReader();
                 while (reader2.Read())

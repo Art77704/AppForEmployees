@@ -27,9 +27,9 @@ namespace AppForEmployees
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление места рождения";
 
-            AddCountryToCMB();
-            AddCityToCMB();
-            AddKrayToCMB();
+            DataBaseClass.AddToCMB("select NameCountry from Country", Country_CMB);
+            DataBaseClass.AddToCMB("select NameCity from City", City_CMB);
+            DataBaseClass.AddToCMB("select NameKray from Kray", Kray_CMB);
         }
 
         private void SaveData_BTN_Click(object sender, RoutedEventArgs e)
@@ -49,46 +49,6 @@ namespace AppForEmployees
 
             Manager.MainFrame.GoBack();
         }
-
-        void AddCountryToCMB()
-        {
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand("select NameCountry from Country", connection);
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                var NameCountry = reader.GetValue(0).ToString();
-
-                Country_CMB.Items.Add($"{NameCountry}");
-            }
-        }
-
-         void AddCityToCMB()
-         {
-             var connection = MainWindow.connectionOpen();
-             SqlCommand cmd = new SqlCommand("select NameCity from City", connection);
-             SqlDataReader reader = cmd.ExecuteReader();
-             while (reader.Read())
-             {
-                 var NameCity = reader.GetValue(0).ToString();
-
-                 City_CMB.Items.Add($"{NameCity}");
-             }
-         }
-
-         void AddKrayToCMB()
-         {
-             var connection = MainWindow.connectionOpen();
-             SqlCommand cmd = new SqlCommand("select NameKray from Kray", connection);
-             SqlDataReader reader = cmd.ExecuteReader();
-             while (reader.Read())
-             {
-                 var NameKray = reader.GetValue(0).ToString();
-
-                 Kray_CMB.Items.Add($"{NameKray}");
-             }
-         }
-
 
         private void AddKray_BTN_Click(object sender, RoutedEventArgs e)
         {

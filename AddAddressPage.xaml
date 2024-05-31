@@ -28,15 +28,15 @@
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
             <TextBlock Text="Введите улицу:" FontSize="18" ></TextBlock>
-            <TextBox x:Name="Street_TXB" MaxLength="45"  FontSize="16"></TextBox>
+            <TextBox x:Name="Street_TXB" Text="{Binding EstateStreet}" MaxLength="45"  FontSize="16"></TextBox>
             <TextBlock Text="Введите дом:"  FontSize="18"></TextBlock>
-            <TextBox x:Name="House_TXB" MaxLength="15" FontSize="16" ></TextBox>
+            <TextBox x:Name="House_TXB" Text="{Binding EstateHouse}" MaxLength="15" FontSize="16" ></TextBox>
             <TextBlock Text="Введите квартиру (N):"   FontSize="18"></TextBlock>
-            <TextBox x:Name="Flat_TXB" FontSize="18"  MaxLength="5"></TextBox>
+            <TextBox x:Name="Flat_TXB" Text="{Binding EstateFlat}" FontSize="18"  MaxLength="5"></TextBox>
 
             <TextBlock Text="Выберите город:"  FontSize="18"></TextBlock>
             <WrapPanel>
-                <ComboBox x:Name="City_CMB" Style="{StaticResource ComboBoxStyle1}" FontSize="16" Width="190"></ComboBox>
+                <ComboBox x:Name="City_CMB" Text="{Binding City}" DisplayMemberPath="NameCity" Style="{StaticResource ComboBoxStyle1}" FontSize="16" Width="190"></ComboBox>
                 <Button Background="Transparent" x:Name="AddCity_BTN" Click="AddCity_BTN_Click" FontSize="16"  BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
             </WrapPanel>
             

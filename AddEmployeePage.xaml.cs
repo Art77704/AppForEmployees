@@ -27,10 +27,10 @@ namespace AppForEmployees
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление сотрудника";
 
-            var connection = MainWindow.connectionOpen();
             if (MainMenuPage._RoleName == "Администратор")
             {
-                SqlCommand cmd = new SqlCommand("select RoleName from Role", connection);
+                var cmd = DataBaseClass.connectionOpen("select RoleName from Role");
+
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -41,7 +41,8 @@ namespace AppForEmployees
             }
             else
             {
-                SqlCommand cmd = new SqlCommand("select RoleName from Role where RoleName!='Администратор'", connection);
+                var cmd = DataBaseClass.connectionOpen("select RoleName from Role where RoleName!='Администратор'");
+
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -70,8 +71,7 @@ namespace AppForEmployees
             }
             AppConnect.modelOdb.AuthorizationAcc.Add(AA);
             MainWindow.SaveToBD();
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select IdAuth from AuthorizationAcc where AuthLogin='{Login_TXB.Text}' and AuthPassword='{Password_TXB.Text}'", connection);
+            var cmd = DataBaseClass.connectionOpen($"select IdAuth from AuthorizationAcc where AuthLogin='{Login_TXB.Text}' and AuthPassword='{Password_TXB.Text}'");
             SqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())

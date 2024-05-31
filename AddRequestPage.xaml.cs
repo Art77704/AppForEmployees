@@ -77,8 +77,7 @@ namespace AppForEmployees
 
         void AddClientToCMB()
         {
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand("select ClientFirstName, ClientSurname, ClientPatronymic from Client", connection);
+            var cmd = DataBaseClass.connectionOpen("select ClientFirstName, ClientSurname, ClientPatronymic from Client");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -91,8 +90,7 @@ namespace AppForEmployees
         }
         void AddAddressToCMB()
         {
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand("select ct.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City ct where ea.IdCity=ct.IdCity", connection);
+            var cmd = DataBaseClass.connectionOpen("select ct.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City ct where ea.IdCity=ct.IdCity");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -139,8 +137,7 @@ namespace AppForEmployees
 
         void EditData()
         {
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select * from Client where IdClient = {ClientIndex}", connection);
+            var cmd = DataBaseClass.connectionOpen($"select * from Client where IdClient = {ClientIndex}");
             SqlDataReader reader = cmd.ExecuteReader();
             string Surname = "", FirstName = "", Patronymic = "";
             string fullName = "";
@@ -153,8 +150,7 @@ namespace AppForEmployees
             }
             SelectClient_CMB.SelectedItem = SelectClient_CMB.Items.Cast<object>().FirstOrDefault(item => ((string)item).Equals(fullName));
 
-            var connection2 = MainWindow.connectionOpen();
-            cmd = new SqlCommand($"select c.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City c where ea.IdAddress={AddressIndex} and c.IdCity=ea.IdCity", connection2);
+            cmd = DataBaseClass.connectionOpen($"select c.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City c where ea.IdAddress={AddressIndex} and c.IdCity=ea.IdCity");
             reader = cmd.ExecuteReader();
             string fullAddress = "";
             while (reader.Read())
@@ -205,8 +201,7 @@ namespace AppForEmployees
                 else
                     Count++;
             }
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select IdClient from Client where ClientSurname='{Surname}' and ClientFirstName='{FirstName}' and ClientPatronymic='{Patronymic}'", connection);
+            var cmd = DataBaseClass.connectionOpen($"select IdClient from Client where ClientSurname='{Surname}' and ClientFirstName='{FirstName}' and ClientPatronymic='{Patronymic}'");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -227,6 +222,9 @@ namespace AppForEmployees
             string Flat = "";
             try
             {
+                if (SelectAddress_CMB.SelectedItem == null)
+                    return 1;
+
                 string FullAddress = SelectAddress_CMB.SelectedItem.ToString();
 
                 FullAddress.ToCharArray();
@@ -282,8 +280,7 @@ namespace AppForEmployees
                     }
 
                 }
-                var connection = MainWindow.connectionOpen();
-                SqlCommand cmd = new SqlCommand($"select adr.IdAddress from EstateAddress adr, City c where adr.EstateFlat='{Flat}' and EstateHouse='{House}' and EstateStreet='{Street}' and c.NameCity='{City}' and c.IdCity=adr.IdCity", connection);
+                 var cmd = DataBaseClass.connectionOpen($"select adr.IdAddress from EstateAddress adr, City c where adr.EstateFlat='{Flat}' and EstateHouse='{House}' and EstateStreet='{Street}' and c.NameCity='{City}' and c.IdCity=adr.IdCity");
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -304,8 +301,7 @@ namespace AppForEmployees
             int IdRole = 3;
             string RoleName = SelectRole_CMB.Text;
         
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select IdRole from Role where RoleName='{RoleName}'", connection);
+            var cmd = DataBaseClass.connectionOpen($"select IdRole from Role where RoleName='{RoleName}'");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -337,10 +333,8 @@ namespace AppForEmployees
             int IdAddress = ShowIdAddress();
             int IdRole = ShowIdRole();
 
-            string RoleName = SelectRole_CMB.SelectedItem.ToString();
             if (_AddOrEdit == "Edit")
             {
-                SqlConnection con = MainWindow.connectionOpen();
                 string sql;
 
                 if (SelectRole_CMB.SelectedIndex == 1)
@@ -349,9 +343,8 @@ namespace AppForEmployees
                 else
                     sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress=NULL,  WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction='{NumberOKS_TXB.Text}' where IdRequest={NumberRequest}";
 
-                //SelectClient_CMB.SelectedIndex + 3;
-                SqlCommand command = new SqlCommand(sql, con);
-                command.ExecuteNonQuery();
+                DataBaseClass.AddEditDel(sql);
+
                 MessageBox.Show("Заявка изменена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
@@ -362,17 +355,13 @@ namespace AppForEmployees
                 // 1 с адресом
 
 
-                SqlConnection connection7 = MainWindow.connectionOpen();
-                string sql7 = "";
+                string sql7;
                 if (SelectRole_CMB.SelectedIndex == 0)
                     sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, NumberCapitalConstruction) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', '{NumberOKS_TXB.Text}')";
                 else
                     sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, IdAddress) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', {IdAddress})";
 
-                SqlCommand command7 = new SqlCommand(sql7, connection7);
-
-                command7.ExecuteNonQuery();
-
+                DataBaseClass.AddEditDel(sql7);
                 MessageBox.Show("Заявка создана!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 Manager.MainFrame.Navigate(new MainMenuPage());

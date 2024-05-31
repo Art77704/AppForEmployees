@@ -40,7 +40,7 @@ namespace AppForEmployees
             
             MainWindow.PageText.Text = "Список активных заявок";
             MainWindow.GoBackBTN.Visibility = Visibility.Visible;
-            MainWindow.ShowOrUpdateDT("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", ListOfRequestsDT);
+            DataBaseClass.ShowOrUpdateDT("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", ListOfRequestsDT);
             
             ShowIdEmployee();
             _currentpage = Manager.MainFrame.Content;
@@ -54,8 +54,7 @@ namespace AppForEmployees
         void ShowIdEmployee()
         {
 
-            SqlConnection con = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select e.IdEmployee from Employee e, AuthorizationAcc a where a.IdAuth={AuthorizationPage.UserAuthId} and e.IdAuth=a.IdAuth", con);
+            var cmd = DataBaseClass.connectionOpen($"select e.IdEmployee from Employee e, AuthorizationAcc a where a.IdAuth={AuthorizationPage.UserAuthId} and e.IdAuth=a.IdAuth");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -95,8 +94,7 @@ namespace AppForEmployees
 
             DataRowView selectedRow = (DataRowView)ListOfRequestsDT.SelectedItem;
             IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
-            SqlConnection con10 = MainWindow.connectionOpen();
-            SqlCommand cmd10 = new SqlCommand($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})", con10);
+            var cmd10 = DataBaseClass.connectionOpen($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})");
             SqlDataReader reader10 = cmd10.ExecuteReader();
             while (reader10.Read())
             {
@@ -111,8 +109,7 @@ namespace AppForEmployees
             AddRequestPage.NumberRequest = IdRequest;
 
 
-            SqlConnection con = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand($"select cl.IdClient from Client cl where cl.ClientFirstName='{Convert.ToString(selectedRow["ИмяКлиента"])}' and cl.ClientSurname='{Convert.ToString(selectedRow["ФамилияКлиента"])}' and cl.ClientPatronymic='{Convert.ToString(selectedRow["ОтчествоКлиента"])}'", con);
+            var cmd = DataBaseClass.connectionOpen($"select cl.IdClient from Client cl where cl.ClientFirstName='{Convert.ToString(selectedRow["ИмяКлиента"])}' and cl.ClientSurname='{Convert.ToString(selectedRow["ФамилияКлиента"])}' and cl.ClientPatronymic='{Convert.ToString(selectedRow["ОтчествоКлиента"])}'");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -120,8 +117,7 @@ namespace AppForEmployees
             }
             int IdCity = 0;
             
-            SqlConnection con2 = MainWindow.connectionOpen();
-            SqlCommand cmd2 = new SqlCommand($"select IdCity from City where NameCity='{City}'", con2);
+            var cmd2 = DataBaseClass.connectionOpen($"select IdCity from City where NameCity='{City}'");
             SqlDataReader reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
@@ -129,8 +125,7 @@ namespace AppForEmployees
 
             }
 
-            SqlConnection con3 = MainWindow.connectionOpen();
-            SqlCommand cmd3 = new SqlCommand($"select ea.IdAddress from EstateAddress ea, City c where ea.EstateStreet='{Street}' and ea.EstateHouse='{House}' and ea.EstateFlat='{Flat}' and ea.IdCity={IdCity} and ea.IdCity=c.IdCity", con3);
+            var cmd3 = DataBaseClass.connectionOpen($"select ea.IdAddress from EstateAddress ea, City c where ea.EstateStreet='{Street}' and ea.EstateHouse='{House}' and ea.EstateFlat='{Flat}' and ea.IdCity={IdCity} and ea.IdCity=c.IdCity");
             SqlDataReader reader3 = cmd3.ExecuteReader();
             while (reader3.Read())
             {
@@ -138,8 +133,7 @@ namespace AppForEmployees
 
             }
 
-            SqlConnection con4 = MainWindow.connectionOpen();
-            SqlCommand cmd4 = new SqlCommand($"select IdRole from Role where RoleName='{Convert.ToString(selectedRow["ЗаявкаДля"])}'", con4);
+             var cmd4 = DataBaseClass.connectionOpen($"select IdRole from Role where RoleName='{Convert.ToString(selectedRow["ЗаявкаДля"])}'");
             SqlDataReader reader4 = cmd4.ExecuteReader();
             while (reader4.Read())
             {
@@ -189,8 +183,7 @@ namespace AppForEmployees
         {
             string RoleName = "";
             Button editRequestButton = (Button)sender;
-            SqlConnection con2 = MainWindow.connectionOpen();
-            SqlCommand cmd2 = new SqlCommand($"select a.IdRole, r.RoleName from Role r, AuthorizationAcc a where r.IdRole=a.IdRole and a.IdAuth={AuthorizationPage.UserAuthId}", con2);
+            var cmd2 = DataBaseClass.connectionOpen($"select a.IdRole, r.RoleName from Role r, AuthorizationAcc a where r.IdRole=a.IdRole and a.IdAuth={AuthorizationPage.UserAuthId}");
             SqlDataReader reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
@@ -210,8 +203,8 @@ namespace AppForEmployees
 
         private void Search_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var connectionString = MainWindow.connectionOpen();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", connectionString);
+            var con = DataBaseClass.Connection();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", con);
             DataTable dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
             ListOfRequestsDT.ItemsSource = dataTable.DefaultView;

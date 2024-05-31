@@ -34,8 +34,7 @@ namespace AppForEmployees
             MainWindow.GoBackBTN.Visibility = Visibility.Collapsed;
             if (text == "NewAcc")
             {
-                SqlConnection con = MainWindow.connectionOpen();
-                SqlCommand cmd = new SqlCommand($"select AuthPassword, AuthLogin from AuthorizationAcc where IdAuth={RegistrationPage._IdUser}", con);
+                var cmd = DataBaseClass.connectionOpen($"select AuthPassword, AuthLogin from AuthorizationAcc where IdAuth={RegistrationPage._IdUser}");
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -61,8 +60,7 @@ namespace AppForEmployees
                 if (MainMenuPage.CheckDataToEmpty(textToCheck))
                     return;
 
-                SqlConnection con = MainWindow.connectionOpen();
-                SqlCommand cmd = new SqlCommand($"select AA.IdAuth from AuthorizationAcc AA, Employee em where AA.IdAuth=em.IdAuth", con);
+                var cmd = DataBaseClass.connectionOpen($"select AA.IdAuth from AuthorizationAcc AA, Employee em where AA.IdAuth=em.IdAuth");
                 SqlDataReader reader = cmd.ExecuteReader();
                 bool temp = false;
             
