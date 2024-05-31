@@ -42,7 +42,7 @@
         <DataGrid Grid.Column="1" x:Name="ListOfRequestsDT2" FontSize="16"  IsReadOnly="True" MaxColumnWidth="200" Grid.Row="1" Visibility="Hidden">
 
         </DataGrid>
-        <DataGrid Grid.Column="1" Margin="10,0,0,0" x:Name="ListOfRequestsDT" FontSize="16"  IsReadOnly="True"  Grid.Row="1">
+        <DataGrid Grid.Column="1" Margin="10,0,10,0" x:Name="ListOfRequestsDT" FontSize="16"  IsReadOnly="True"  Grid.Row="1">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
