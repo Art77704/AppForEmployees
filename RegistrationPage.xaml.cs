@@ -30,21 +30,16 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Регистрация";
-
             AppConnect.modelOdb = new RCCEntities();
             Role_CMB.FontSize = 18;
             Role_CMB.ItemsSource = AppConnect.modelOdb.Role.Where(r => r.RoleName != "Администратор").ToList();
-
-
             _IdUser = IdUser;
             MainWindow.GoBackBTN.Visibility = Visibility.Visible;
             DataContext = _newUser;
-            
             if (text == "AddEmployee")
             {
                 FIO_STP.Visibility = Visibility.Visible;
                 Continue_BTN.Visibility = Visibility.Visible;
-
                 Registration_BTN.Visibility = Visibility.Collapsed;
                 Registration_STP.Visibility = Visibility.Collapsed;
             }
@@ -52,29 +47,29 @@ namespace AppForEmployees
             {
                 FIO_STP.Visibility = Visibility.Collapsed;
                 Continue_BTN.Visibility = Visibility.Collapsed;
-
                 Registration_BTN.Visibility = Visibility.Visible;
                 Registration_STP.Visibility = Visibility.Visible;
             }
-            
         }
 
+        void TestMet()
+        {
+            int a = 0;
+            int b = a;
+        }
 
         void AddEmployee(int IdUser)
         {
             AppConnect.modelOdb = new RCCEntities();
-
             Employee emp = new Employee();
                {
                    emp.FirstName = FirstName_TXB.Text;
                    emp.Surname = Surname_TXB.Text;
                    emp.Patronymic=Patronymic_TXB.Text;
                    emp.IdAuth = IdUser;
-
                }
-               AppConnect.modelOdb.Employee.Add(emp);
-
-               MainWindow.SaveToBD();
+            AppConnect.modelOdb.Employee.Add(emp);
+            MainWindow.SaveToBD();
             Manager.MainFrame.Navigate(new AuthorizationPage("NewAcc"));
             Manager.MainFrame.Navigate(new MainMenuPage());
             MessageBox.Show($"{FirstName_TXB.Text} {Surname_TXB.Text} {Patronymic_TXB.Text}, добро пожаловать!", "Успешная регистрация", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -99,7 +94,6 @@ namespace AppForEmployees
 
                 if (PersonalAccountPage.CheckInput(Login_TXB, Password_PWB) == false)
                     return;
-               
 
                 AuthorizationAcc UA = new AuthorizationAcc();
                 {
@@ -124,7 +118,6 @@ namespace AppForEmployees
         private void Continue_BTN_Click(object sender, RoutedEventArgs e)
         {
             string[] textToCheck = { FirstName_TXB.Text , Surname_TXB.Text };
-
 
             if (!MainMenuPage.CheckDataToEmpty(textToCheck))
             {
