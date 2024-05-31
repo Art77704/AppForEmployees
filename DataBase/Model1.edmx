@@ -1,0 +1,826 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище RCCModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Archive">
+          <Key>
+            <PropertyRef Name="IdArchive" />
+          </Key>
+          <Property Name="IdArchive" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkAllData" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuthorizationAcc">
+          <Key>
+            <PropertyRef Name="IdAuth" />
+          </Key>
+          <Property Name="IdAuth" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AuthLogin" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="AuthPassword" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="AccIsValid" Type="bit" Nullable="false" />
+          <Property Name="IdRole" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="IdCity" />
+          </Key>
+          <Property Name="IdCity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameCity" Type="nvarchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="IdClient" />
+          </Key>
+          <Property Name="IdClient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientSurname" Type="nvarchar" MaxLength="99" Nullable="false" />
+          <Property Name="ClientFirstName" Type="nvarchar" MaxLength="99" Nullable="false" />
+          <Property Name="ClientPatronymic" Type="nvarchar" MaxLength="99" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="SeriyaNumber" Type="bigint" Nullable="false" />
+          <Property Name="WhoIssued" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DepartmentCode" Type="int" Nullable="false" />
+          <Property Name="DateOfIssue" Type="date" Nullable="false" />
+          <Property Name="IdPlaceOfBirth" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="IdCountry" />
+          </Key>
+          <Property Name="IdCountry" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameCountry" Type="nvarchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="IdEmployee" />
+          </Key>
+          <Property Name="IdEmployee" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="99" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="99" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="99" />
+          <Property Name="IdAuth" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeWorking">
+          <Key>
+            <PropertyRef Name="IdWork" />
+          </Key>
+          <Property Name="IdWork" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkInProcess" Type="bit" Nullable="false" />
+          <Property Name="WorkFinished" Type="bit" Nullable="false" />
+          <Property Name="IdEmployee" Type="int" Nullable="false" />
+          <Property Name="IdRequest" Type="int" Nullable="false" />
+          <Property Name="Report" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="EstateAddress">
+          <Key>
+            <PropertyRef Name="IdAddress" />
+          </Key>
+          <Property Name="IdAddress" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCity" Type="int" Nullable="false" />
+          <Property Name="EstateStreet" Type="nvarchar" MaxLength="99" Nullable="false" />
+          <Property Name="EstateHouse" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="EstateFlat" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Kray">
+          <Key>
+            <PropertyRef Name="IdKray" />
+          </Key>
+          <Property Name="IdKray" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameKray" Type="nvarchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlaceOfBirth">
+          <Key>
+            <PropertyRef Name="IdPlaceOfBirth" />
+          </Key>
+          <Property Name="IdPlaceOfBirth" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCountry" Type="int" Nullable="false" />
+          <Property Name="IdCity" Type="int" Nullable="false" />
+          <Property Name="IdKray" Type="int" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="IdRequest" />
+          </Key>
+          <Property Name="IdRequest" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdClient" Type="int" Nullable="false" />
+          <Property Name="IdRole" Type="int" Nullable="false" />
+          <Property Name="WorkDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CadastralNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumberCapitalConstruction" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdAddress" Type="int" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="IdRole" />
+          </Key>
+          <Property Name="IdRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="89" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Authoriza__IdRol__398D8EEE">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="IdRole" />
+            </Principal>
+            <Dependent Role="AuthorizationAcc">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Client__IdPlaceO__47DBAE45">
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceOfBirth">
+              <PropertyRef Name="IdPlaceOfBirth" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="IdPlaceOfBirth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__IdAuth__3A81B327">
+          <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuthorizationAcc">
+              <PropertyRef Name="IdAuth" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdAuth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeW__IdEmp__3B75D760">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IdEmployee" />
+            </Principal>
+            <Dependent Role="EmployeeWorking">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeW__IdReq__3C69FB99">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="IdRequest" />
+            </Principal>
+            <Dependent Role="EmployeeWorking">
+              <PropertyRef Name="IdRequest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EstateAdd__IdCit__3D5E1FD2">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="EstateAddress" Type="Self.EstateAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IdCity" />
+            </Principal>
+            <Dependent Role="EstateAddress">
+              <PropertyRef Name="IdCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlaceOfBi__IdCit__3E52440B">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IdCity" />
+            </Principal>
+            <Dependent Role="PlaceOfBirth">
+              <PropertyRef Name="IdCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlaceOfBi__IdCou__403A8C7D">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="IdCountry" />
+            </Principal>
+            <Dependent Role="PlaceOfBirth">
+              <PropertyRef Name="IdCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlaceOfBi__IdKra__412EB0B6">
+          <End Role="Kray" Type="Self.Kray" Multiplicity="0..1" />
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kray">
+              <PropertyRef Name="IdKray" />
+            </Principal>
+            <Dependent Role="PlaceOfBirth">
+              <PropertyRef Name="IdKray" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__IdAddre__4222D4EF">
+          <End Role="EstateAddress" Type="Self.EstateAddress" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstateAddress">
+              <PropertyRef Name="IdAddress" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdAddress" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__IdClien__4316F928">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="IdClient" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__IdRole__440B1D61">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="IdRole" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище RCCModelContainer">
+          <EntitySet Name="Archive" EntityType="Self.Archive" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuthorizationAcc" EntityType="Self.AuthorizationAcc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeWorking" EntityType="Self.EmployeeWorking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstateAddress" EntityType="Self.EstateAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kray" EntityType="Self.Kray" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlaceOfBirth" EntityType="Self.PlaceOfBirth" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Authoriza__IdRol__398D8EEE" Association="Self.FK__Authoriza__IdRol__398D8EEE">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Client__IdPlaceO__47DBAE45" Association="Self.FK__Client__IdPlaceO__47DBAE45">
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__IdAuth__3A81B327" Association="Self.FK__Employee__IdAuth__3A81B327">
+            <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeW__IdEmp__3B75D760" Association="Self.FK__EmployeeW__IdEmp__3B75D760">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeW__IdReq__3C69FB99" Association="Self.FK__EmployeeW__IdReq__3C69FB99">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EstateAdd__IdCit__3D5E1FD2" Association="Self.FK__EstateAdd__IdCit__3D5E1FD2">
+            <End Role="City" EntitySet="City" />
+            <End Role="EstateAddress" EntitySet="EstateAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlaceOfBi__IdCit__3E52440B" Association="Self.FK__PlaceOfBi__IdCit__3E52440B">
+            <End Role="City" EntitySet="City" />
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlaceOfBi__IdCou__403A8C7D" Association="Self.FK__PlaceOfBi__IdCou__403A8C7D">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlaceOfBi__IdKra__412EB0B6" Association="Self.FK__PlaceOfBi__IdKra__412EB0B6">
+            <End Role="Kray" EntitySet="Kray" />
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdAddre__4222D4EF" Association="Self.FK__Request__IdAddre__4222D4EF">
+            <End Role="EstateAddress" EntitySet="EstateAddress" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdClien__4316F928" Association="Self.FK__Request__IdClien__4316F928">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdRole__440B1D61" Association="Self.FK__Request__IdRole__440B1D61">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RCCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Archive">
+          <Key>
+            <PropertyRef Name="IdArchive" />
+          </Key>
+          <Property Name="IdArchive" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkAllData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuthorizationAcc">
+          <Key>
+            <PropertyRef Name="IdAuth" />
+          </Key>
+          <Property Name="IdAuth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AuthLogin" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AuthPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccIsValid" Type="Boolean" Nullable="false" />
+          <Property Name="IdRole" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Authoriza__IdRol__398D8EEE" FromRole="AuthorizationAcc" ToRole="Role" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Employee__IdAuth__3A81B327" FromRole="AuthorizationAcc" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="IdCity" />
+          </Key>
+          <Property Name="IdCity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameCity" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EstateAddress" Relationship="Self.FK__EstateAdd__IdCit__3D5E1FD2" FromRole="City" ToRole="EstateAddress" />
+          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__PlaceOfBi__IdCit__3E52440B" FromRole="City" ToRole="PlaceOfBirth" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="IdClient" />
+          </Key>
+          <Property Name="IdClient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientSurname" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientFirstName" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientPatronymic" Type="String" MaxLength="99" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SeriyaNumber" Type="Int64" Nullable="false" />
+          <Property Name="WhoIssued" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentCode" Type="Int32" Nullable="false" />
+          <Property Name="DateOfIssue" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdPlaceOfBirth" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__Client__IdPlaceO__47DBAE45" FromRole="Client" ToRole="PlaceOfBirth" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdClien__4316F928" FromRole="Client" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="IdCountry" />
+          </Key>
+          <Property Name="IdCountry" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameCountry" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__PlaceOfBi__IdCou__403A8C7D" FromRole="Country" ToRole="PlaceOfBirth" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="IdEmployee" />
+          </Key>
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="99" FixedLength="false" Unicode="true" />
+          <Property Name="IdAuth" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Employee__IdAuth__3A81B327" FromRole="Employee" ToRole="AuthorizationAcc" />
+          <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdEmp__3B75D760" FromRole="Employee" ToRole="EmployeeWorking" />
+        </EntityType>
+        <EntityType Name="EmployeeWorking">
+          <Key>
+            <PropertyRef Name="IdWork" />
+          </Key>
+          <Property Name="IdWork" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkInProcess" Type="Boolean" Nullable="false" />
+          <Property Name="WorkFinished" Type="Boolean" Nullable="false" />
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+          <Property Name="IdRequest" Type="Int32" Nullable="false" />
+          <Property Name="Report" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__EmployeeW__IdEmp__3B75D760" FromRole="EmployeeWorking" ToRole="Employee" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__EmployeeW__IdReq__3C69FB99" FromRole="EmployeeWorking" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="EstateAddress">
+          <Key>
+            <PropertyRef Name="IdAddress" />
+          </Key>
+          <Property Name="IdAddress" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCity" Type="Int32" Nullable="false" />
+          <Property Name="EstateStreet" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EstateHouse" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EstateFlat" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="City" Relationship="Self.FK__EstateAdd__IdCit__3D5E1FD2" FromRole="EstateAddress" ToRole="City" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdAddre__4222D4EF" FromRole="EstateAddress" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="Kray">
+          <Key>
+            <PropertyRef Name="IdKray" />
+          </Key>
+          <Property Name="IdKray" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameKray" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__PlaceOfBi__IdKra__412EB0B6" FromRole="Kray" ToRole="PlaceOfBirth" />
+        </EntityType>
+        <EntityType Name="PlaceOfBirth">
+          <Key>
+            <PropertyRef Name="IdPlaceOfBirth" />
+          </Key>
+          <Property Name="IdPlaceOfBirth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCountry" Type="Int32" Nullable="false" />
+          <Property Name="IdCity" Type="Int32" Nullable="false" />
+          <Property Name="IdKray" Type="Int32" />
+          <NavigationProperty Name="City" Relationship="Self.FK__PlaceOfBi__IdCit__3E52440B" FromRole="PlaceOfBirth" ToRole="City" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__Client__IdPlaceO__47DBAE45" FromRole="PlaceOfBirth" ToRole="Client" />
+          <NavigationProperty Name="Country" Relationship="Self.FK__PlaceOfBi__IdCou__403A8C7D" FromRole="PlaceOfBirth" ToRole="Country" />
+          <NavigationProperty Name="Kray" Relationship="Self.FK__PlaceOfBi__IdKra__412EB0B6" FromRole="PlaceOfBirth" ToRole="Kray" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="IdRequest" />
+          </Key>
+          <Property Name="IdRequest" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdClient" Type="Int32" Nullable="false" />
+          <Property Name="IdRole" Type="Int32" Nullable="false" />
+          <Property Name="WorkDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CadastralNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumberCapitalConstruction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdAddress" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__Request__IdClien__4316F928" FromRole="Request" ToRole="Client" />
+          <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdReq__3C69FB99" FromRole="Request" ToRole="EmployeeWorking" />
+          <NavigationProperty Name="EstateAddress" Relationship="Self.FK__Request__IdAddre__4222D4EF" FromRole="Request" ToRole="EstateAddress" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Request__IdRole__440B1D61" FromRole="Request" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="IdRole" />
+          </Key>
+          <Property Name="IdRole" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="89" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Authoriza__IdRol__398D8EEE" FromRole="Role" ToRole="AuthorizationAcc" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdRole__440B1D61" FromRole="Role" ToRole="Request" />
+        </EntityType>
+        <Association Name="FK__Authoriza__IdRol__398D8EEE">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="IdRole" />
+            </Principal>
+            <Dependent Role="AuthorizationAcc">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__IdAuth__3A81B327">
+          <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuthorizationAcc">
+              <PropertyRef Name="IdAuth" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdAuth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EstateAdd__IdCit__3D5E1FD2">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="EstateAddress" Type="Self.EstateAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IdCity" />
+            </Principal>
+            <Dependent Role="EstateAddress">
+              <PropertyRef Name="IdCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlaceOfBi__IdCit__3E52440B">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="IdCity" />
+            </Principal>
+            <Dependent Role="PlaceOfBirth">
+              <PropertyRef Name="IdCity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Client__IdPlaceO__47DBAE45">
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceOfBirth">
+              <PropertyRef Name="IdPlaceOfBirth" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="IdPlaceOfBirth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__IdClien__4316F928">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="IdClient" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlaceOfBi__IdCou__403A8C7D">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="IdCountry" />
+            </Principal>
+            <Dependent Role="PlaceOfBirth">
+              <PropertyRef Name="IdCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeW__IdEmp__3B75D760">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IdEmployee" />
+            </Principal>
+            <Dependent Role="EmployeeWorking">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeW__IdReq__3C69FB99">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="IdRequest" />
+            </Principal>
+            <Dependent Role="EmployeeWorking">
+              <PropertyRef Name="IdRequest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__IdAddre__4222D4EF">
+          <End Role="EstateAddress" Type="Self.EstateAddress" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstateAddress">
+              <PropertyRef Name="IdAddress" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdAddress" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlaceOfBi__IdKra__412EB0B6">
+          <End Role="Kray" Type="Self.Kray" Multiplicity="0..1" />
+          <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kray">
+              <PropertyRef Name="IdKray" />
+            </Principal>
+            <Dependent Role="PlaceOfBirth">
+              <PropertyRef Name="IdKray" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__IdRole__440B1D61">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="IdRole" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RCCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Archive" EntityType="Self.Archive" />
+          <EntitySet Name="AuthorizationAcc" EntityType="Self.AuthorizationAcc" />
+          <EntitySet Name="City" EntityType="Self.City" />
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="Country" EntityType="Self.Country" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeeWorking" EntityType="Self.EmployeeWorking" />
+          <EntitySet Name="EstateAddress" EntityType="Self.EstateAddress" />
+          <EntitySet Name="Kray" EntityType="Self.Kray" />
+          <EntitySet Name="PlaceOfBirth" EntityType="Self.PlaceOfBirth" />
+          <EntitySet Name="Request" EntityType="Self.Request" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <AssociationSet Name="FK__Authoriza__IdRol__398D8EEE" Association="Self.FK__Authoriza__IdRol__398D8EEE">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__IdAuth__3A81B327" Association="Self.FK__Employee__IdAuth__3A81B327">
+            <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EstateAdd__IdCit__3D5E1FD2" Association="Self.FK__EstateAdd__IdCit__3D5E1FD2">
+            <End Role="City" EntitySet="City" />
+            <End Role="EstateAddress" EntitySet="EstateAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlaceOfBi__IdCit__3E52440B" Association="Self.FK__PlaceOfBi__IdCit__3E52440B">
+            <End Role="City" EntitySet="City" />
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Client__IdPlaceO__47DBAE45" Association="Self.FK__Client__IdPlaceO__47DBAE45">
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdClien__4316F928" Association="Self.FK__Request__IdClien__4316F928">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlaceOfBi__IdCou__403A8C7D" Association="Self.FK__PlaceOfBi__IdCou__403A8C7D">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeW__IdEmp__3B75D760" Association="Self.FK__EmployeeW__IdEmp__3B75D760">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeW__IdReq__3C69FB99" Association="Self.FK__EmployeeW__IdReq__3C69FB99">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdAddre__4222D4EF" Association="Self.FK__Request__IdAddre__4222D4EF">
+            <End Role="EstateAddress" EntitySet="EstateAddress" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlaceOfBi__IdKra__412EB0B6" Association="Self.FK__PlaceOfBi__IdKra__412EB0B6">
+            <End Role="Kray" EntitySet="Kray" />
+            <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdRole__440B1D61" Association="Self.FK__Request__IdRole__440B1D61">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище RCCModelContainer" CdmEntityContainer="RCCEntities">
+          <EntitySetMapping Name="Archive">
+            <EntityTypeMapping TypeName="RCCModel.Archive">
+              <MappingFragment StoreEntitySet="Archive">
+                <ScalarProperty Name="IdArchive" ColumnName="IdArchive" />
+                <ScalarProperty Name="WorkAllData" ColumnName="WorkAllData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuthorizationAcc">
+            <EntityTypeMapping TypeName="RCCModel.AuthorizationAcc">
+              <MappingFragment StoreEntitySet="AuthorizationAcc">
+                <ScalarProperty Name="IdAuth" ColumnName="IdAuth" />
+                <ScalarProperty Name="AuthLogin" ColumnName="AuthLogin" />
+                <ScalarProperty Name="AuthPassword" ColumnName="AuthPassword" />
+                <ScalarProperty Name="AccIsValid" ColumnName="AccIsValid" />
+                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="RCCModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="IdCity" ColumnName="IdCity" />
+                <ScalarProperty Name="NameCity" ColumnName="NameCity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="RCCModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="ClientSurname" ColumnName="ClientSurname" />
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientPatronymic" ColumnName="ClientPatronymic" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="SeriyaNumber" ColumnName="SeriyaNumber" />
+                <ScalarProperty Name="WhoIssued" ColumnName="WhoIssued" />
+                <ScalarProperty Name="DepartmentCode" ColumnName="DepartmentCode" />
+                <ScalarProperty Name="DateOfIssue" ColumnName="DateOfIssue" />
+                <ScalarProperty Name="IdPlaceOfBirth" ColumnName="IdPlaceOfBirth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="RCCModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="IdCountry" ColumnName="IdCountry" />
+                <ScalarProperty Name="NameCountry" ColumnName="NameCountry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="RCCModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="IdAuth" ColumnName="IdAuth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeWorking">
+            <EntityTypeMapping TypeName="RCCModel.EmployeeWorking">
+              <MappingFragment StoreEntitySet="EmployeeWorking">
+                <ScalarProperty Name="IdWork" ColumnName="IdWork" />
+                <ScalarProperty Name="WorkInProcess" ColumnName="WorkInProcess" />
+                <ScalarProperty Name="WorkFinished" ColumnName="WorkFinished" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="IdRequest" ColumnName="IdRequest" />
+                <ScalarProperty Name="Report" ColumnName="Report" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstateAddress">
+            <EntityTypeMapping TypeName="RCCModel.EstateAddress">
+              <MappingFragment StoreEntitySet="EstateAddress">
+                <ScalarProperty Name="IdAddress" ColumnName="IdAddress" />
+                <ScalarProperty Name="IdCity" ColumnName="IdCity" />
+                <ScalarProperty Name="EstateStreet" ColumnName="EstateStreet" />
+                <ScalarProperty Name="EstateHouse" ColumnName="EstateHouse" />
+                <ScalarProperty Name="EstateFlat" ColumnName="EstateFlat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kray">
+            <EntityTypeMapping TypeName="RCCModel.Kray">
+              <MappingFragment StoreEntitySet="Kray">
+                <ScalarProperty Name="IdKray" ColumnName="IdKray" />
+                <ScalarProperty Name="NameKray" ColumnName="NameKray" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlaceOfBirth">
+            <EntityTypeMapping TypeName="RCCModel.PlaceOfBirth">
+              <MappingFragment StoreEntitySet="PlaceOfBirth">
+                <ScalarProperty Name="IdPlaceOfBirth" ColumnName="IdPlaceOfBirth" />
+                <ScalarProperty Name="IdCountry" ColumnName="IdCountry" />
+                <ScalarProperty Name="IdCity" ColumnName="IdCity" />
+                <ScalarProperty Name="IdKray" ColumnName="IdKray" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request">
+            <EntityTypeMapping TypeName="RCCModel.Request">
+              <MappingFragment StoreEntitySet="Request">
+                <ScalarProperty Name="IdRequest" ColumnName="IdRequest" />
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+                <ScalarProperty Name="WorkDescription" ColumnName="WorkDescription" />
+                <ScalarProperty Name="CadastralNumber" ColumnName="CadastralNumber" />
+                <ScalarProperty Name="NumberCapitalConstruction" ColumnName="NumberCapitalConstruction" />
+                <ScalarProperty Name="IdAddress" ColumnName="IdAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="RCCModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

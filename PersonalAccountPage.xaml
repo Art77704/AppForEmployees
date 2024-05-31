@@ -1,0 +1,144 @@
+﻿<Page x:Class="AppForEmployees.PersonalAccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AppForEmployees" xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="950"
+      Title="PersonalAccountPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Width="350" Grid.Row="1" VerticalAlignment="Center">
+                <WrapPanel>
+                    <TextBlock Text="Фамилия:  "  FontSize="18"/>
+                    <TextBlock x:Name="Surname_TB" FontSize="18"/>
+                </WrapPanel>
+
+                <WrapPanel>
+                    <TextBlock Text="Имя:  " FontSize="18"/>
+                    <TextBlock x:Name="FirstName_TB"  FontSize="18"/>
+                </WrapPanel>
+
+                <WrapPanel>
+                    <TextBlock Text="Отчество:  "  x:Name="Patronymic_TB_Text" FontSize="18"/>
+                    <TextBlock x:Name="Patronymic_TB" FontSize="18"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Text="Должность:  "  FontSize="18"/>
+                    <TextBlock x:Name="Role_TB" FontSize="18"/>
+                </WrapPanel>
+
+                <WrapPanel>
+                    <TextBlock Text="Логин:  " FontSize="18" />
+                    <TextBlock x:Name="Login_TB" Text="testlogin" FontSize="18"/>
+                    <Button Background="Transparent" x:Name="ChangeLogin_BTN" Width="25" Click="ChangeLogin_BTN_Click" ToolTip="Изменить логин" BorderThickness="0">
+                        <svgc:SvgViewbox Source="/Icons/change_password_icon.svg"/>
+
+                    </Button>
+                </WrapPanel>
+
+                <WrapPanel>
+                    <TextBlock Text="Пароль:  "  FontSize="18"/>
+                    <TextBlock x:Name="Password_TB"   FontSize="18"/>
+                    <Label/>
+                    <Button Background="Transparent" x:Name="ShowPassword_BTN" ToolTip="Показать пароль" Width="25" Click="ShowPassword_BTN_Click" BorderThickness="0">
+                        <svgc:SvgViewbox Source="/Icons/show_password_icon.svg"/>
+
+                    </Button>
+                    <Button Background="Transparent" x:Name="ChangePassword_BTN" Click="ChangePassword_BTN_Click" Margin="5,0,0,0"  Width="25" ToolTip="Изменить пароль" BorderThickness="0">
+                        <svgc:SvgViewbox Source="/Icons/change_password_icon.svg"/>
+
+                    </Button>
+                </WrapPanel>
+
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" x:Name="ShowForManagAdm2_STP" Margin="0,0,5,0">
+            <Button x:Name="Refresh_BTN" ToolTip="Обновить данные" Click="Refresh_BTN_Click" Background="Transparent" BorderThickness="0" Width="35" Height="35">
+                 <svgc:SvgViewbox Source="/Icons/refresh_icon.svg"/>
+
+                </Button>
+            <Button x:Name="AddEmployee_BTN" Click="AddEmployee_BTN_Click" ToolTip="Добавить сотрудника" Background="Transparent" BorderThickness="0" Grid.Row="1" Width="40" Height="40">
+                  <svgc:SvgViewbox Source="/Icons/add_user_icon.svg"/>
+
+                </Button>
+            
+            </StackPanel>
+
+            <StackPanel x:Name="ShowForManagAdm_STP">
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1">
+                    <TextBlock Text="Список выполненных работ" HorizontalAlignment="Center" FontSize="18" Margin="10"/>
+
+                    <DataGrid x:Name="FinishWork_DT" Grid.Row="1" MaxWidth="500" MaxHeight="200" VerticalScrollBarVisibility="Auto" IsReadOnly="True" VerticalAlignment="Top" ColumnWidth="100" MouseDoubleClick="FinishWork_DT_MouseDoubleClick" HorizontalAlignment="Right" >
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="DenyWork_BTN" Click="DenyWork_BTN_Click"  ToolTip="Отклонить выполненную работу"  Background="Transparent" Width="30">
+                                            <svgc:SvgViewbox Source="/Icons/archive_icon.svg"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="ConfirmWork_BTN" Click="ConfirmWork_BTN_Click"  ToolTip="Принять выполненную работу" Background="Transparent" Width="30">
+                                            <svgc:SvgViewbox Source="/Icons/add_icon.svg"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+                
+                <StackPanel x:Name="ForManagerAdm_STP" MaxWidth="490" Visibility="Visible">
+                    <TextBlock Text="Заявки на регистрацию аккаунта" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                    <DataGrid x:Name="forManagerAdm_DT"  IsReadOnly="True" MaxHeight="300" VerticalScrollBarVisibility="Auto"  >
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="DeleteRequest_BTN" Click="DeleteRequest_BTN_Click" ToolTip="Отклонить заявку на регистрацию аккаунта"  Background="Transparent" Width="30">
+                                            <svgc:SvgViewbox Source="/Icons/archive_icon.svg"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="Confirm_BTN" Click="Confirm_BTN_Click" ToolTip="Принять заявку на регистрацию аккаунта" Background="Transparent" Width="30">
+                                            <svgc:SvgViewbox Source="/Icons/add_icon.svg"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel x:Name="ForEmployee_STP" Height="280" MaxWidth="450">
+                <TextBlock Text="Список выполненных работ:" FontSize="18" HorizontalAlignment="Center"/>
+                <DataGrid MaxHeight="200" MaxWidth="200"  Width="200" Height="175" x:Name="Archive_DT" IsReadOnly="True" FontSize="14" MouseDoubleClick="Row_DoubleClick" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+                <TextBox x:Name="WorkInfo_TXB" IsReadOnly="True" Style="{StaticResource Textbox1}" FontSize="16" Visibility="Collapsed" TextWrapping="Wrap" Height="200" Width="450"/>
+                <Button Height="50" Width="40"  Visibility="Collapsed" ToolTip="К списку выполненных работ" Background="Transparent"  BorderBrush="Transparent" x:Name="Back_BTN" Click="Back_BTN_Click">
+                    <svgc:SvgViewbox Source="\Icons\back_icon.svg"/>
+                </Button>
+            </StackPanel>
+        </WrapPanel>
+
+       
+    </Grid>
+</Page>

@@ -1,0 +1,63 @@
+﻿<Window x:Class="AppForEmployees.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:local="clr-namespace:AppForEmployees" xmlns:svgc1="http://sharpvectors.codeplex.com/svgc/"
+        mc:Ignorable="d"
+        Icon="Resources/iconRKC.png"
+        Title="Региональный Кадастровый Центр" Height="550" WindowStyle="None" AllowsTransparency="True" MouseDown="MovingWin" Background="Transparent" Width="960" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <Border CornerRadius="10"  Background="#D3D3D3">
+
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+
+            <Label Background="#DCDCDC" Width="950" Style="{StaticResource ModernLabel}" Height="100"></Label>
+
+            <TextBlock Grid.ColumnSpan="2" Text="Авторизация" FontSize="25" HorizontalAlignment="Center" Visibility="Visible" x:Name="PageText_TB" FontWeight="Bold"  VerticalAlignment="Center" />
+
+            <Frame x:Name="MainFrame" Grid.Column="1" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="00,10,20,00">
+                <Button x:Name="Wrap_BTN" Click="Wrap_BTN_Click" ToolTip="Свернуть" Background="Transparent" BorderThickness="0" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <svgc:SvgViewbox Source="\Icons\minus_icon.svg"/>
+                </Button>
+                <Label/>
+                <Button x:Name="CloseWin_BTN" Click="CloseWin_BTN_Click" ToolTip="Закрыть" Background="Transparent" BorderThickness="0" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" >
+                    <svgc:SvgViewbox Source="\Icons\close_icon.svg"/>
+                </Button>
+            </WrapPanel>
+            <WrapPanel Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button Height="50" Width="40"  Visibility="Hidden" ToolTip="Назад"  Margin="10,0,0,0" Background="Transparent" IsCancel="True" BorderBrush="Transparent" x:Name="GoBack_BTN" Click="GoBack_BTN_Click">
+                    <svgc:SvgViewbox Source="\Icons\back_icon.svg"/>
+                </Button>
+                <Menu DockPanel.Dock="Top" x:Name="MenuRCC_Menu" Background="#DCDCDC" Grid.Column="1" Width="55">
+                    <MenuItem Height="50" Width="55">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/iconRKC.png" Width="70" Margin="0,-16,-30,-14" />
+                        </MenuItem.Icon>
+                        <MenuItem Header="Список заявок" x:Name="Request_BTN" Click="Request_BTN_Click"/>
+                        <MenuItem Header="Список клиентов" x:Name="AllClient_BTN" Click="AllClient_BTN_Click"/>
+                        <MenuItem Header="Добавление сотрудника" x:Name="AddEmployee_BTN" Click="AddEmployee_BTN_Click"/>
+                        <MenuItem Header="Список сотрудников" x:Name="AllEmployee_BTN" Click="AllEmployee_BTN_Click"/>
+                        <MenuItem Header="Личный кабинет" x:Name="PersonalAcc_BTN" Click="PersonalAcc_BTN_Click"/>
+
+                        <Separator />
+                        <MenuItem Header="Выход" x:Name="Exit_BTN" Click="Exit_BTN_Click"/>
+                    </MenuItem>
+                </Menu>
+
+
+            </WrapPanel>
+
+        </Grid>
+    </Border>
+
+</Window>

@@ -1,0 +1,70 @@
+﻿<Page x:Class="AppForEmployees.AddClientPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AppForEmployees"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddClientPage">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+       
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+            <StackPanel Margin="20" VerticalAlignment="Center" Width="280">
+
+                <TextBlock Text="Введите фамилию:" FontSize="16"></TextBlock>
+                <TextBox x:Name="Surname_TXB" MaxLength="45" Text="{Binding ClientSurname}" Style="{StaticResource Textbox1}" PreviewKeyDown="CheckSpace" FontSize="14"></TextBox>
+                <TextBlock Text="Введите имя:" FontSize="16" PreviewKeyDown="CheckSpace"></TextBlock>
+                <TextBox x:Name="FirstName_TXB" MaxLength="45" Text="{Binding ClientFirstName}"  Style="{StaticResource Textbox1}"  FontSize="14"></TextBox>
+                <TextBlock Text="Введите отчество (N):" FontSize="16" PreviewKeyDown="CheckSpace"></TextBlock>
+                <TextBox x:Name="Patronymic_TXB" Text="{Binding ClientPatronymic}" MaxLength="45" Style="{StaticResource Textbox1}" FontSize="14" ></TextBox>
+
+                <TextBlock Text="Введите дату рождения:" FontSize="16"></TextBlock>
+                <DatePicker x:Name="DateOfBirth_DP" SelectedDate="{Binding DateOfBirth}" FontSize="14" ></DatePicker>
+                <TextBlock Text="Введите дату выдачи паспорта:" FontSize="16"></TextBlock>
+                <DatePicker x:Name="DateOfIssue_DP" SelectedDate="{Binding DateOfIssue}" FontSize="14" ></DatePicker>
+                <TextBlock Text="Введите серию и номер паспорта:"  FontSize="16"></TextBlock>
+                <TextBox x:Name="SeriyaNumber_TXB" MaxLength="10" Text="{Binding SeriyaNumber}" Style="{StaticResource Textbox1}" PreviewTextInput="CheckText_PreviewTextInput" PreviewKeyDown="CheckSpace" FontSize="14" ></TextBox>
+
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Center" Margin="20" Width="285">
+                
+                <TextBlock Text="Введите кем выдан паспорт:" FontSize="16"></TextBlock>
+                <TextBox x:Name="WhoIssued_TXB" MaxLength="150" Text="{Binding WhoIssued}" Width="250" HorizontalAlignment="Left" Style="{StaticResource Textbox1}" FontSize="14"></TextBox>
+                <TextBlock Text="Введите код подразделения:" FontSize="16" PreviewTextInput="CheckText_PreviewTextInput" PreviewKeyDown="CheckSpace"></TextBlock>
+                <TextBox FontSize="14" x:Name="DepartmentCode_TXB" Text="{Binding DepartmentCode}" Width="250" HorizontalAlignment="Left" Style="{StaticResource Textbox1}" MaxLength="6"></TextBox>
+
+                
+                <TextBlock Text="Выберите страну рождения:"  FontSize="16"></TextBlock>
+                <WrapPanel>
+                    <ComboBox  x:Name="SelectCountry_CMB" Style="{StaticResource ComboBoxStyle1}" Text="{Binding Country}" DisplayMemberPath="NameCountry" Width="250"  FontSize="14"></ComboBox>
+                    <Button Background="Transparent"  FontSize="14" x:Name="AddCountry_BTN" Click="AddCountry_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
+                </WrapPanel>
+               
+                <TextBlock Text="Выберите город рождения:"  FontSize="16"></TextBlock>
+                <WrapPanel>
+                    <ComboBox x:Name="SelectCity_CMB" Width="250" Text="{Binding City}" DisplayMemberPath="NameCity" Style="{StaticResource ComboBoxStyle1}" FontSize="14"></ComboBox>
+                    <Button Background="Transparent"  FontSize="14" x:Name="AddCity_BTN" Click="AddCity_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
+                </WrapPanel>
+                <TextBlock Text="Выберите край рождения (n):"  FontSize="16"></TextBlock>
+                <WrapPanel>
+                    <ComboBox x:Name="SelectKray_CMB" Width="250" Text="{Binding Kray}"  DisplayMemberPath="NameKray" Style="{StaticResource ComboBoxStyle1}"  FontSize="14"></ComboBox>
+                    <Button Background="Transparent"  FontSize="14" x:Name="AddKray_BTN" Click="AddKray_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
+                </WrapPanel>
+
+
+            </StackPanel>
+        </WrapPanel>
+
+
+        <Button x:Name="AddClient_BTN" Click="AddClient_BTN_Click" Width="220" Content="Добавить" VerticalAlignment="Center" HorizontalAlignment="Center" Height="35" Grid.Row="2" Style="{StaticResource MyButtonStyle}"></Button>
+    </Grid>
+</Page>
