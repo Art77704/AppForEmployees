@@ -52,12 +52,6 @@ namespace AppForEmployees
             }
         }
 
-        void TestMet()
-        {
-            int a = 0;
-            int b = a;
-        }
-
         void AddEmployee(int IdUser)
         {
             AppConnect.modelOdb = new RCCEntities();
