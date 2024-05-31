@@ -37,8 +37,7 @@ namespace AppForEmployees
 
         void AddCityToCMB()
         {
-            var connection = MainWindow.connectionOpen();
-            SqlCommand cmd = new SqlCommand("select NameCity from City", connection);
+            var cmd = ConToBD.connectionOpen("select NameCity from City");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {

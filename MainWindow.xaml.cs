@@ -137,27 +137,20 @@ namespace AppForEmployees
            
         }
 
-        public static void ShowOrUpdateDT(string querry, DataGrid datagr)
-        {
-            var con = connectionOpen();
-
-            SqlCommand cmd = new SqlCommand(querry, con);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            datagr.ItemsSource = dt.DefaultView;
-        }
+       
 
       
 
-        public static SqlConnection connectionOpen()
+        /*public static SqlConnection connectionOpen()
         {
             SqlConnection connection =
                 new SqlConnection("data source=ARTEM-PK;initial catalog=RCC;integrated security=True;trustservercertificate=True");
             connection.Open();
             return connection;
 
-        }
+        }*/
+
+        
       
 
         public static bool CheckBD(AuthorizationAcc userObj, string errorMessage, bool inversion = false)
