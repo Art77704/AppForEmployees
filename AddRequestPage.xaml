@@ -7,44 +7,86 @@
       mc:Ignorable="d" 
       d:DesignHeight="550" d:DesignWidth="900"
       Title="AddRequestPage"
-    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
-
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" Background="#D3D3D3">
 
     <Grid>
         <Grid.RowDefinitions>
-            
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        
 
-       
-            <StackPanel VerticalAlignment="Center" Width="400" Grid.Row="0">
-                <TextBlock Text="Выберите клиента:"  FontSize="18"></TextBlock>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center">
                 <WrapPanel>
-                    <ComboBox Style="{StaticResource ComboBoxStyle1}" Width="370" x:Name="SelectClient_CMB"  FontSize="16"></ComboBox>
+                    <TextBlock Text="Выберите клиента:"  FontSize="18"></TextBlock>
+                    <Label/>
+                    <TextBox x:Name="SearchClient_TXB" Text="Введите фамилию" FontSize="16" GotFocus="Search_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" SelectionChanged="SearchClient_TXB_SelectionChanged" Width="205" MaxWidth="205"/>
+                </WrapPanel>
+                <Label/>
+                <WrapPanel>
+                    <ComboBox Visibility="Collapsed" Style="{StaticResource ComboBoxStyle1}" Width="370" x:Name="SelectClient_CMB"  FontSize="16"></ComboBox>
+                    <DataGrid Width="370" x:Name="SelectClient_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding Client}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Фамилия">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ClientSurname}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Имя">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ClientFirstName}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Отчество">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ClientPatronymic}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <Button Background="Transparent" FontSize="16"  x:Name="AddClient_BTN" Click="AddClient_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
                 </WrapPanel>
-                <TextBlock Text="Работа для:"  FontSize="18"></TextBlock>
+                <Label/>
                 <WrapPanel>
-                <ComboBox Width="370" Style="{StaticResource ComboBoxStyle1}" SelectionChanged="SelectRole_CMB_SelectionChanged" x:Name="SelectRole_CMB"  FontSize="16">
-                    <TextBlock FontSize="16" Text="Кадастровый инженер"/>
-                    <TextBlock FontSize="16" Text="Геодезист"/>
-                </ComboBox>
-                  
+                    <TextBlock Text="Выберите адрес:" x:Name="SelectAddress_TB"  FontSize="18"></TextBlock>
+                    <Label/>
+                    <TextBox x:Name="SearchAddress_TXB" Text="Введите улицу" FontSize="16" GotFocus="Search_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" SelectionChanged="SearchAddress_TXB_SelectionChanged" Width="205"/>
                 </WrapPanel>
-                <TextBlock Text="Описание работы:" FontSize="18"></TextBlock>
-            <TextBox x:Name="WorkDescription_TXB" TextWrapping="Wrap" FontSize="16" Width="370" HorizontalAlignment="Left" Height="100" Style="{StaticResource Textbox1}"></TextBox>
-                <TextBlock Text="Кадастровый номер:" FontSize="18"></TextBlock>
-            <TextBox x:Name="CadastralNumber_TXB"  MaxLength="20" FontSize="16" Width="370" HorizontalAlignment="Left"  Style="{StaticResource Textbox1}"></TextBox>
-                <TextBlock Text="Номер объекта капитального строительства:" x:Name="NumberOKS_TB" FontSize="18"></TextBlock>
-            <TextBox x:Name="NumberOKS_TXB" MaxLength="20" FontSize="16" Width="370" HorizontalAlignment="Left"   Style="{StaticResource Textbox1}"></TextBox>
-                <TextBlock Text="Выберите адрес:" x:Name="SelectAddress_TB"  FontSize="18"></TextBlock>
+                <Label/>
                 <WrapPanel x:Name="SelectAddress_WP">
-                <ComboBox Width="370" x:Name="SelectAddress_CMB" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
+                    <ComboBox Width="370" x:Name="SelectAddress_CMB" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
                     <Button Background="Transparent"  FontSize="16"  x:Name="AddAddress_BTN" Click="AddAddress_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
                 </WrapPanel>
             </StackPanel>
+            <Label/>
+            <StackPanel VerticalAlignment="Center" Width="400" Grid.Row="0">
+               
+                <TextBlock Text="Работа для:"  FontSize="18"></TextBlock>
+                <WrapPanel>
+                    <ComboBox Width="370" Style="{StaticResource ComboBoxStyle1}" SelectionChanged="SelectRole_CMB_SelectionChanged" x:Name="SelectRole_CMB"  FontSize="16">
+                        <TextBlock FontSize="16" Text="Кадастровый инженер"/>
+                        <TextBlock FontSize="16" Text="Геодезист"/>
+                    </ComboBox>
+
+                </WrapPanel>
+                <TextBlock Text="Описание работы:" FontSize="18"></TextBlock>
+                <TextBox x:Name="WorkDescription_TXB" TextWrapping="Wrap" FontSize="16" Width="370" HorizontalAlignment="Left" Height="100" Style="{StaticResource Textbox1}"></TextBox>
+                <TextBlock Text="Кадастровый номер:" FontSize="18"></TextBlock>
+                <TextBox x:Name="CadastralNumber_TXB"  MaxLength="20" FontSize="16" Width="370" HorizontalAlignment="Left"  Style="{StaticResource Textbox1}"></TextBox>
+                <TextBlock Text="Номер объекта капитального строительства:" x:Name="NumberOKS_TB" FontSize="18"></TextBlock>
+                <TextBox x:Name="NumberOKS_TXB" MaxLength="20" FontSize="16" Width="370" HorizontalAlignment="Left"   Style="{StaticResource Textbox1}"></TextBox>
+               
+            </StackPanel>
+        </WrapPanel>
+            
 
         <Button  Width="220" Content="Добавить" x:Name="AddRequest_BTN" Click="AddRequest_BTN_Click" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Height="35" Grid.Row="2"  Style="{StaticResource MyButtonStyle}"></Button>
     </Grid>

@@ -41,7 +41,7 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление заявки";
-
+            SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
             _AddOrEdit = AddOrEdit;
             AddClientToCMB();
             AddAddressToCMB();
@@ -366,6 +366,36 @@ namespace AppForEmployees
 
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
+        }
+
+        private void SearchClient_TXB_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchAddress_TXB_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            /*if (SearchAddress_TXB.Text == "")
+                SearchAddress_TXB.Text = "test";*/
+        }
+
+
+        private void SearchAddress_TXB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Text = "Введите адрес";
+        }
+
+        private void Search_TXB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Text = string.Empty;
+
+        }
+        
+
+        private void SearchClient_TXB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Text = "Введите фамилию";
+
         }
     }
 }
