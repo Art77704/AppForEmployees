@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Runtime.InteropServices;
 
 namespace AppForEmployees.DataBase
 {
@@ -38,6 +39,29 @@ namespace AppForEmployees.DataBase
                 cmb.Items.Add($"{NameCmb}");
             }
         }
+        public static string[] GetData(string querry)
+        {
+            string[] data = new string[5];
+            int countdata = 0;
+            var cmd = connectionOpen(querry);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                countdata++;
+            }
+
+            cmd = connectionOpen(querry);
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < countdata; i++)
+                {
+                    data[i] = reader.GetValue(i).ToString();
+                }
+            }
+            return data.ToArray();
+        }
+
         public static void AddEditDel(string querry)
         {
             var cmd = connectionOpen(querry);
