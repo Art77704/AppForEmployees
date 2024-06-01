@@ -108,13 +108,9 @@ namespace AppForEmployees
             }
             AddRequestPage.NumberRequest = IdRequest;
 
-
-            var cmd = DataBaseClass.connectionOpen($"select cl.IdClient from Client cl where cl.ClientFirstName='{Convert.ToString(selectedRow["ИмяКлиента"])}' and cl.ClientSurname='{Convert.ToString(selectedRow["ФамилияКлиента"])}' and cl.ClientPatronymic='{Convert.ToString(selectedRow["ОтчествоКлиента"])}'");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                AddRequestPage.ClientIndex = int.Parse(reader.GetValue(0).ToString());
-            }
+            string[] indexcl = DataBaseClass.GetData($"select cl.IdClient from Client cl where cl.ClientFirstName='{Convert.ToString(selectedRow["ИмяКлиента"])}' and cl.ClientSurname='{Convert.ToString(selectedRow["ФамилияКлиента"])}' and cl.ClientPatronymic='{Convert.ToString(selectedRow["ОтчествоКлиента"])}'");
+            AddRequestPage.ClientIndex = int.Parse(indexcl[0]);
+           
             int IdCity = 0;
             
             var cmd2 = DataBaseClass.connectionOpen($"select IdCity from City where NameCity='{City}'");
