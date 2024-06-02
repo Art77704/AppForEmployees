@@ -382,19 +382,28 @@ namespace AppForEmployees
 
         private void SearchAddress_TXB_LostFocus(object sender, RoutedEventArgs e)
         {
-            (sender as TextBox).Text = "Введите адрес";
+            if ((sender as TextBox).Text == string.Empty )
+                (sender as TextBox).Text = "Введите адрес";
         }
 
-        private void Search_TXB_GotFocus(object sender, RoutedEventArgs e)
+        private void SearchClient_TXB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            
+            (sender as TextBox).Text = string.Empty;
+
+        }
+
+        private void SearchAddress_TXB_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as TextBox).Text = string.Empty;
 
         }
-        
+
 
         private void SearchClient_TXB_LostFocus(object sender, RoutedEventArgs e)
         {
-            (sender as TextBox).Text = "Введите фамилию";
+            if ((sender as TextBox).Text == string.Empty)
+                (sender as TextBox).Text = "Введите фамилию";
 
         }
     }

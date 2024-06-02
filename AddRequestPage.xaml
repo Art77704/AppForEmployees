@@ -20,7 +20,7 @@
                 <WrapPanel>
                     <TextBlock Text="Выберите клиента:"  FontSize="18"></TextBlock>
                     <Label/>
-                    <TextBox x:Name="SearchClient_TXB" Text="Введите фамилию" FontSize="16" GotFocus="Search_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" SelectionChanged="SearchClient_TXB_SelectionChanged" Width="205" MaxWidth="205"/>
+                    <TextBox x:Name="SearchClient_TXB" Text="Введите фамилию" FontSize="16" GotFocus="SearchClient_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" SelectionChanged="SearchClient_TXB_SelectionChanged" Width="205" MaxWidth="205"/>
                 </WrapPanel>
                 <Label/>
                 <WrapPanel>
@@ -58,7 +58,7 @@
                 <WrapPanel>
                     <TextBlock Text="Выберите адрес:" x:Name="SelectAddress_TB"  FontSize="18"></TextBlock>
                     <Label/>
-                    <TextBox x:Name="SearchAddress_TXB" Text="Введите улицу" FontSize="16" GotFocus="Search_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" SelectionChanged="SearchAddress_TXB_SelectionChanged" Width="205"/>
+                    <TextBox x:Name="SearchAddress_TXB" Text="Введите улицу" FontSize="16" GotFocus="SearchAddress_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" SelectionChanged="SearchAddress_TXB_SelectionChanged" Width="205"/>
                 </WrapPanel>
                 <Label/>
                 <WrapPanel x:Name="SelectAddress_WP">
