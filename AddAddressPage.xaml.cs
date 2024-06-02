@@ -27,6 +27,7 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление адреса";
+            Address_DT.ItemsSource=AppConnect.modelOdb.EstateAddress.ToList();
             EstateAddress ea = new EstateAddress();
             DataContext = ea;
             _ea = ea;
@@ -60,6 +61,42 @@ namespace AppForEmployees
                 MessageBox.Show("Ошибка ввода данных!");
             }
             
+        }
+
+        private void Delete_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var res = MessageBox.Show("Вы действительно хотите удалить данные?", "Удаление адрес(ов)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    if (Address_DT.SelectedItem != null)
+                    {
+                        var selectedRow = Address_DT.SelectedItems.Cast<EstateAddress>().ToList();
+
+                        if (selectedRow != null)
+                        {
+                            AppConnect.modelOdb.EstateAddress.RemoveRange(selectedRow);
+                            AppConnect.modelOdb.SaveChanges();
+                            Address_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Вы не выбрали адрес(а) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Вы не выбрали адрес(а) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Данный адрес используется!", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

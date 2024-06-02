@@ -20,7 +20,7 @@
                 <WrapPanel>
                     <TextBlock Text="Выберите клиента:"  FontSize="18"></TextBlock>
                     <Label/>
-                    <TextBox x:Name="SearchClient_TXB" Text="Введите фамилию" FontSize="16" GotFocus="SearchClient_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" SelectionChanged="SearchClient_TXB_SelectionChanged" Width="205" MaxWidth="205"/>
+                    <TextBox x:Name="SearchClient_TXB" Text="Введите фамилию" Style="{StaticResource Textbox1}" FontSize="16" GotFocus="SearchClient_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" TextChanged="SearchClient_TXB_TextChanged" Width="205" MaxWidth="205"/>
                 </WrapPanel>
                 <Label/>
                 <WrapPanel>
@@ -58,11 +58,46 @@
                 <WrapPanel>
                     <TextBlock Text="Выберите адрес:" x:Name="SelectAddress_TB"  FontSize="18"></TextBlock>
                     <Label/>
-                    <TextBox x:Name="SearchAddress_TXB" Text="Введите улицу" FontSize="16" GotFocus="SearchAddress_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" SelectionChanged="SearchAddress_TXB_SelectionChanged" Width="205"/>
+                    <TextBox x:Name="SearchAddress_TXB" Text="Введите улицу" Style="{StaticResource Textbox1}" FontSize="16" GotFocus="SearchAddress_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" TextChanged="SearchAddress_TXB_TextChanged" Width="205"/>
                 </WrapPanel>
                 <Label/>
                 <WrapPanel x:Name="SelectAddress_WP">
-                    <ComboBox Width="370" x:Name="SelectAddress_CMB" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
+                    <ComboBox Width="370" x:Name="SelectAddress_CMB" Visibility="Collapsed" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
+                    <DataGrid Width="370" x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Город">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding City.NameCity}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Улица">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EstateStreet}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Дом">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EstateHouse}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Квартира">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EstateFlat}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <Button Background="Transparent"  FontSize="16"  x:Name="AddAddress_BTN" Click="AddAddress_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
                 </WrapPanel>
             </StackPanel>

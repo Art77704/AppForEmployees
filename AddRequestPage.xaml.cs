@@ -41,7 +41,9 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление заявки";
+           
             SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
+            SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
             _AddOrEdit = AddOrEdit;
             AddClientToCMB();
             AddAddressToCMB();
@@ -118,13 +120,18 @@ namespace AppForEmployees
                 NumberOKS_TXB.Visibility = Visibility.Collapsed;
 
                 SelectAddress_TB.Visibility = Visibility.Visible;
-                SelectAddress_CMB.Visibility = Visibility.Visible;
+                SelectAddress_DT.Visibility = Visibility.Visible;
+                SearchAddress_TXB.Visibility = Visibility.Visible;
+
+                //SelectAddress_CMB.Visibility = Visibility.Visible;
                 AddAddress_BTN.Visibility = Visibility.Visible;
             }
             else
             {
                 SelectAddress_TB.Visibility = Visibility.Collapsed;
-                SelectAddress_CMB.Visibility = Visibility.Collapsed;
+                SelectAddress_DT.Visibility = Visibility.Collapsed;
+                SearchAddress_TXB.Visibility = Visibility.Collapsed;
+                //SelectAddress_CMB.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility= Visibility.Collapsed;
 
                 NumberOKS_TB.Visibility = Visibility.Visible;
@@ -177,30 +184,16 @@ namespace AppForEmployees
         int ShowIdClient()
         {
             int IdClient = 1;
-            byte Count = 0;
-            string Surname = "";
-            string FirstName = "";
-            string Patronymic = "";
-            string FIO_Client = SelectClient_CMB.Text;
+            
+            Client selectedCl=null;
+            if (SelectClient_DT.SelectedItem != null)
+                selectedCl = SelectClient_DT.SelectedItem as Client;
 
-            FIO_Client.ToCharArray();
-            for (int i = 0; i < FIO_Client.Length; i++)
-            {
-                if (FIO_Client[i] != ' ' && Count == 0)
-                {
-                    FirstName += FIO_Client[i];
-                }
-                else if (FIO_Client[i] != ' ' && Count == 1)
-                {
-                    Surname += FIO_Client[i];
-                }
-                else if (FIO_Client[i] != ' ' && Count == 2)
-                {
-                    Patronymic += FIO_Client[i];
-                }
-                else
-                    Count++;
-            }
+            string Surname = selectedCl.ClientSurname;
+            string FirstName = selectedCl.ClientFirstName;
+            string Patronymic = selectedCl.ClientPatronymic;
+
+
             var cmd = DataBaseClass.connectionOpen($"select IdClient from Client where ClientSurname='{Surname}' and ClientFirstName='{FirstName}' and ClientPatronymic='{Patronymic}'");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -313,24 +306,37 @@ namespace AppForEmployees
 
         private void AddRequest_BTN_Click(object sender, RoutedEventArgs e)
         {
-            
+            string checkToNull = "";
+            string checkToNull2 = "";
+            Client cl = null;
+            EstateAddress ea = null;
+            if (SelectClient_DT.SelectedItem != null)
+                cl = SelectClient_DT.SelectedItem as Client;
+            if (SelectAddress_DT.SelectedItem != null)
+                ea = SelectAddress_DT.SelectedItem as EstateAddress;
+            if (cl != null)
+                checkToNull = cl.ClientFirstName;
+            if (ea != null)
+                checkToNull2 = ea.EstateHouse;
 
             if (SelectRole_CMB.SelectedIndex == 1)
             {
-                string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, SelectClient_CMB.Text, SelectRole_CMB.Text, SelectAddress_CMB.Text };
+                string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, checkToNull, SelectRole_CMB.Text, checkToNull2 };
 
                 if (MainMenuPage.CheckDataToEmpty(textToCheck))
                     return;
             }
             else
             {
-                string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, SelectClient_CMB.Text, SelectRole_CMB.Text, NumberOKS_TXB.Text };
+                string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, checkToNull, SelectRole_CMB.Text, NumberOKS_TXB.Text };
 
                 if (MainMenuPage.CheckDataToEmpty(textToCheck))
                     return;
             }
-            int IdClient = ShowIdClient();
-            int IdAddress = ShowIdAddress();
+           
+
+            int IdClient = cl.IdClient;
+            int IdAddress = ea.IdAddress;
             int IdRole = ShowIdRole();
 
             if (_AddOrEdit == "Edit")
@@ -338,8 +344,7 @@ namespace AppForEmployees
                 string sql;
 
                 if (SelectRole_CMB.SelectedIndex == 1)
-                    sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress={SelectAddress_CMB.SelectedIndex + 1}, WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction=NULL where IdRequest={NumberRequest}";
-
+                    sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress={IdAddress}, WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction=NULL where IdRequest={NumberRequest}";
                 else
                     sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress=NULL,  WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction='{NumberOKS_TXB.Text}' where IdRequest={NumberRequest}";
 
@@ -350,10 +355,8 @@ namespace AppForEmployees
             }
             else
             {
-
                 // 0 без адреса
                 // 1 с адресом
-
 
                 string sql7;
                 if (SelectRole_CMB.SelectedIndex == 0)
@@ -368,17 +371,7 @@ namespace AppForEmployees
             }
         }
 
-        private void SearchClient_TXB_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void SearchAddress_TXB_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            /*if (SearchAddress_TXB.Text == "")
-                SearchAddress_TXB.Text = "test";*/
-        }
-
+       
 
         private void SearchAddress_TXB_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -404,6 +397,21 @@ namespace AppForEmployees
         {
             if ((sender as TextBox).Text == string.Empty)
                 (sender as TextBox).Text = "Введите фамилию";
+
+        }
+
+        private void SearchClient_TXB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Получаем текст из TextBox
+           /* string searchText = SearchClient_TXB.Text;
+            // Фильтруем данные в DataGrid
+            var filteredData = AppConnect.modelOdb.Client.Where(x => x.ClientSurname.Contains(searchText)).ToList();
+            // Обновляем ItemsSource DataGrid
+            SelectClient_DT.ItemsSource = filteredData;*/
+        }
+
+        private void SearchAddress_TXB_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
         }
     }
