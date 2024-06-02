@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /App.config
 /DataBase/DataBase.cs
+/DataBase/DataBaseClass.cs
