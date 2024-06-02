@@ -32,6 +32,7 @@ namespace AppForEmployees
         public static object _currentpage;
         public static int IdRequest;
         public static string _RoleName;
+        public static string Street ;
 
         public MainMenuPage()
         {
@@ -88,7 +89,6 @@ namespace AppForEmployees
         private void EditRequest_BTN_Click(object sender, RoutedEventArgs e)
         {
             string City = "";
-            string Street = "";
             string House = "";
             string Flat = "";
             

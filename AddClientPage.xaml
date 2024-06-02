@@ -11,12 +11,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
        
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0">
             <StackPanel Margin="20" VerticalAlignment="Center" Width="280">
 
                 <TextBlock Text="Введите фамилию:" FontSize="16"></TextBlock>

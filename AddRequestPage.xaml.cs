@@ -56,7 +56,7 @@ namespace AppForEmployees
             {
                 EditData();
                 MainWindow.PageText.Text = "Изменение заявки";
-
+                SelectAddress_DT.SelectedItem = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet == MainMenuPage.Street);
                 AddRequest_BTN.Content = "Изменить";
                 AddClient_BTN.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility = Visibility.Collapsed;
@@ -423,6 +423,27 @@ namespace AppForEmployees
                 var filteredData = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet.Contains(searchText)).ToList();
                 SelectAddress_DT.ItemsSource = filteredData;
             }
+        }
+      
+        private void SelectAddress_DT_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+
+
+
+            /*var selectedItem = SelectAddress_DT.SelectedItem as EstateAddress; // YourDataItemType - это тип данных, который используется в DataGrid
+            
+            if (selectedItem != null)
+            {
+                // Получаем строку, соответствующую выбранному элементу
+                var row = SelectAddress_DT.ItemContainerGenerator.ContainerFromItem(selectedItem) as DataGridRow;
+
+                if (row != null)
+                {
+                    // Устанавливаем новый цвет фона для строки
+                    row.Background = new SolidColorBrush(Colors.Beige);
+                }
+            }*/
         }
     }
 }

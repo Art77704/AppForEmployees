@@ -8,7 +8,16 @@
       d:DesignHeight="550" d:DesignWidth="900"
       Title="AddRequestPage"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" Background="#D3D3D3">
-
+    <Page.Resources>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -63,7 +72,7 @@
                 <Label/>
                 <WrapPanel x:Name="SelectAddress_WP">
                     <ComboBox Width="370" x:Name="SelectAddress_CMB" Visibility="Collapsed" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
-                    <DataGrid Width="370" CanUserAddRows="False" x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
+                    <DataGrid Width="370" CanUserAddRows="False" SelectionChanged="SelectAddress_DT_SelectionChanged" x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Город">
                                 <DataGridTemplateColumn.CellTemplate>

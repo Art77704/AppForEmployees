@@ -35,7 +35,17 @@ namespace AppForEmployees
                 var alldata = AppConnect.modelOdb.PlaceOfBirth.FirstOrDefault(c => c.IdPlaceOfBirth == cl.IdPlaceOfBirth);
                 var cityy = AppConnect.modelOdb.City.FirstOrDefault(c => c.NameCity == alldata.City.NameCity);
                 var country = AppConnect.modelOdb.Country.FirstOrDefault(c => c.NameCountry == alldata.Country.NameCountry);
-                var kray = AppConnect.modelOdb.Kray.FirstOrDefault(c => c.NameKray == alldata.Kray.NameKray);
+                Kray kray = null;
+                try
+                {
+                    kray = AppConnect.modelOdb.Kray.FirstOrDefault(c => c.NameKray == alldata.Kray.NameKray);
+
+                }
+                catch
+                {
+                    SelectKray_CMB.SelectedItem = kray;
+
+                }
                 if (alldata != null)
                 {
                     SelectCity_CMB.UpdateLayout();
