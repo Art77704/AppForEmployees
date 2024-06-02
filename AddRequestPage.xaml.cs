@@ -44,6 +44,9 @@ namespace AppForEmployees
            
             SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
             SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
+            SearchClient_TXB.Text = "Введите фамилию";
+            SearchAddress_TXB.Text = "Введите улицу";
+
             _AddOrEdit = AddOrEdit;
             AddClientToCMB();
             AddAddressToCMB();
@@ -156,7 +159,7 @@ namespace AppForEmployees
                 fullName = FirstName + " " + Surname + " " + Patronymic;
             }
             SelectClient_CMB.SelectedItem = SelectClient_CMB.Items.Cast<object>().FirstOrDefault(item => ((string)item).Equals(fullName));
-
+            //SelectAddress_DT.DataContext = 
             cmd = DataBaseClass.connectionOpen($"select c.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City c where ea.IdAddress={AddressIndex} and c.IdCity=ea.IdCity");
             reader = cmd.ExecuteReader();
             string fullAddress = "";
@@ -376,7 +379,7 @@ namespace AppForEmployees
         private void SearchAddress_TXB_LostFocus(object sender, RoutedEventArgs e)
         {
             if ((sender as TextBox).Text == string.Empty )
-                (sender as TextBox).Text = "Введите адрес";
+                (sender as TextBox).Text = "Введите улицу";
         }
 
         private void SearchClient_TXB_GotFocus(object sender, RoutedEventArgs e)
@@ -403,16 +406,23 @@ namespace AppForEmployees
         private void SearchClient_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Получаем текст из TextBox
-           /* string searchText = SearchClient_TXB.Text;
-            // Фильтруем данные в DataGrid
-            var filteredData = AppConnect.modelOdb.Client.Where(x => x.ClientSurname.Contains(searchText)).ToList();
-            // Обновляем ItemsSource DataGrid
-            SelectClient_DT.ItemsSource = filteredData;*/
+            
+            string searchText = SearchClient_TXB.Text;
+            if (searchText != "Введите фамилию")
+            {
+                var filteredData = AppConnect.modelOdb.Client.Where(x => x.ClientSurname.Contains(searchText)).ToList();
+                SelectClient_DT.ItemsSource = filteredData;
+            }
         }
 
         private void SearchAddress_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string searchText = SearchAddress_TXB.Text;
+            if (searchText != "Введите улицу")
+            {
+                var filteredData = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet.Contains(searchText)).ToList();
+                SelectAddress_DT.ItemsSource = filteredData;
+            }
         }
     }
 }

@@ -20,12 +20,12 @@
                 <WrapPanel>
                     <TextBlock Text="Выберите клиента:"  FontSize="18"></TextBlock>
                     <Label/>
-                    <TextBox x:Name="SearchClient_TXB" Text="Введите фамилию" Style="{StaticResource Textbox1}" FontSize="16" GotFocus="SearchClient_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" TextChanged="SearchClient_TXB_TextChanged" Width="205" MaxWidth="205"/>
+                    <TextBox x:Name="SearchClient_TXB"  Style="{StaticResource Textbox1}" FontSize="16" GotFocus="SearchClient_TXB_GotFocus" LostFocus="SearchClient_TXB_LostFocus" TextChanged="SearchClient_TXB_TextChanged" Width="205" MaxWidth="205"/>
                 </WrapPanel>
                 <Label/>
                 <WrapPanel>
                     <ComboBox Visibility="Collapsed" Style="{StaticResource ComboBoxStyle1}" Width="370" x:Name="SelectClient_CMB"  FontSize="16"></ComboBox>
-                    <DataGrid Width="370" x:Name="SelectClient_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding Client}">
+                    <DataGrid Width="370" CanUserAddRows="False" x:Name="SelectClient_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding Client}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Фамилия">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -58,12 +58,12 @@
                 <WrapPanel>
                     <TextBlock Text="Выберите адрес:" x:Name="SelectAddress_TB"  FontSize="18"></TextBlock>
                     <Label/>
-                    <TextBox x:Name="SearchAddress_TXB" Text="Введите улицу" Style="{StaticResource Textbox1}" FontSize="16" GotFocus="SearchAddress_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" TextChanged="SearchAddress_TXB_TextChanged" Width="205"/>
+                    <TextBox x:Name="SearchAddress_TXB"  Style="{StaticResource Textbox1}" FontSize="16" GotFocus="SearchAddress_TXB_GotFocus" LostFocus="SearchAddress_TXB_LostFocus" TextChanged="SearchAddress_TXB_TextChanged" Width="205"/>
                 </WrapPanel>
                 <Label/>
                 <WrapPanel x:Name="SelectAddress_WP">
                     <ComboBox Width="370" x:Name="SelectAddress_CMB" Visibility="Collapsed" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
-                    <DataGrid Width="370" x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
+                    <DataGrid Width="370" CanUserAddRows="False" x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Город">
                                 <DataGridTemplateColumn.CellTemplate>

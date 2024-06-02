@@ -26,7 +26,7 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <DataGrid x:Name="Address_DT" AutoGenerateColumns="False" ItemsSource="{Binding EstateAddress}" Width="350" MaxWidth="350" FontSize="16">
+            <DataGrid x:Name="Address_DT" CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding EstateAddress}" Width="350" MaxWidth="350" FontSize="16">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
