@@ -312,7 +312,7 @@ namespace AppForEmployees
             string checkToNull = "";
             string checkToNull2 = "";
             Client cl = null;
-            EstateAddress ea = null;
+            EstateAddress ea = new EstateAddress();
             if (SelectClient_DT.SelectedItem != null)
                 cl = SelectClient_DT.SelectedItem as Client;
             if (SelectAddress_DT.SelectedItem != null)

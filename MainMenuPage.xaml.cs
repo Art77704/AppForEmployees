@@ -38,10 +38,10 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow._MenuRCC.Visibility = Visibility.Visible;
-            
+            ListOfRequestsDT.ItemsSource = AppConnect.modelOdb.Request.ToList();
             MainWindow.PageText.Text = "Список активных заявок";
             MainWindow.GoBackBTN.Visibility = Visibility.Visible;
-            DataBaseClass.ShowOrUpdateDT("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", ListOfRequestsDT);
+           // DataBaseClass.ShowOrUpdateDT("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", ListOfRequestsDT);
             
             ShowIdEmployee();
             _currentpage = Manager.MainFrame.Content;
@@ -92,8 +92,9 @@ namespace AppForEmployees
             string House = "";
             string Flat = "";
             
-            DataRowView selectedRow = (DataRowView)ListOfRequestsDT.SelectedItem;
-            IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
+            //DataRowView selectedRow = (DataRowView)ListOfRequestsDT.SelectedItem;
+            var selitem = ListOfRequestsDT.SelectedItem as Request;
+            IdRequest = selitem.IdRequest;
             var cmd10 = DataBaseClass.connectionOpen($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})");
             SqlDataReader reader10 = cmd10.ExecuteReader();
             while (reader10.Read())
@@ -108,8 +109,8 @@ namespace AppForEmployees
             }
             AddRequestPage.NumberRequest = IdRequest;
 
-            string[] indexcl = DataBaseClass.GetData($"select cl.IdClient from Client cl where cl.ClientFirstName='{Convert.ToString(selectedRow["ИмяКлиента"])}' and cl.ClientSurname='{Convert.ToString(selectedRow["ФамилияКлиента"])}' and cl.ClientPatronymic='{Convert.ToString(selectedRow["ОтчествоКлиента"])}'");
-            AddRequestPage.ClientIndex = int.Parse(indexcl[0]);
+            //string[] indexcl = DataBaseClass.GetData($"select cl.IdClient from Client cl where cl.ClientFirstName='{selitem.Client.ClientFirstName}' and cl.ClientSurname='{Convert.ToString(selectedRow["ФамилияКлиента"])}' and cl.ClientPatronymic='{Convert.ToString(selectedRow["ОтчествоКлиента"])}'");
+            AddRequestPage.ClientIndex = selitem.IdClient;
            
             int IdCity = 0;
             
@@ -125,17 +126,13 @@ namespace AppForEmployees
             SqlDataReader reader3 = cmd3.ExecuteReader();
             while (reader3.Read())
             {
-                AddRequestPage.AddressIndex = int.Parse(reader3.GetValue(0).ToString());
+                //AddRequestPage.AddressIndex = int.Parse(reader3.GetValue(0).ToString());
 
             }
-
-             var cmd4 = DataBaseClass.connectionOpen($"select IdRole from Role where RoleName='{Convert.ToString(selectedRow["ЗаявкаДля"])}'");
-            SqlDataReader reader4 = cmd4.ExecuteReader();
-            while (reader4.Read())
-            {
-                AddRequestPage.RoleIndex = int.Parse(reader4.GetValue(0).ToString());
-
-            }
+            if (selitem.IdAddress != null)
+            AddRequestPage.AddressIndex= (int)selitem.IdAddress;
+            AddRequestPage.RoleIndex = selitem.IdRole;
+          
 
 
             if (ListOfRequestsDT.SelectedItems.Count > 1) { MessageBox.Show("Нельзя изменить несколько заявок сразу!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information); return; }
@@ -169,10 +166,12 @@ namespace AppForEmployees
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DataRowView selectedRow = (DataRowView)ListOfRequestsDT.SelectedItem;
+            /*DataRowView selectedRow = (DataRowView)ListOfRequestsDT.SelectedItem;
             IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
 
-            DataGridRow row = sender as DataGridRow;
+            DataGridRow row = sender as DataGridRow;*/
+            var selItem=ListOfRequestsDT.SelectedItem as Request;
+            IdRequest=selItem.IdRequest;
             Manager.MainFrame.Navigate(new RequestPage());
         }
         private void EditRequestButton_Loaded(object sender, RoutedEventArgs e)
