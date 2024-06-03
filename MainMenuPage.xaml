@@ -88,7 +88,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Описание работы" MinWidth="100" Width="295" MaxWidth="295">
+                <DataGridTemplateColumn Header="Описание работы" MinWidth="100" Width="350" MaxWidth="400">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding WorkDescription}" TextWrapping="Wrap"/>

@@ -36,7 +36,7 @@ namespace AppForEmployees
             InitializeComponent();
             
             Window = this;
-            menuItems = new MenuItem[]{ AddEmployee_BTN, AllClient_BTN};
+            menuItems = new MenuItem[]{ AllEmployee_BTN, AllClient_BTN};
 
             _MenuRCC = MenuRCC_Menu;
             Manager.MainFrame = MainFrame;
@@ -218,7 +218,7 @@ namespace AppForEmployees
 
         private void AllEmployee_BTN_Click(object sender, RoutedEventArgs e)
         {
-            //Manager.MainFrame.Navigate(new All);
+            Manager.MainFrame.Navigate(new AddEmployeePage());
 
         }
 
