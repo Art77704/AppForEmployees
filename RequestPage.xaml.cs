@@ -39,7 +39,6 @@ namespace AppForEmployees
         void CheckNameBTN()
         {
             var cmd = DataBaseClass.connectionOpen($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
-            //SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdEmployee={IdEmployee} and e.IdEmployee=ew.IdEmployee", con);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -51,7 +50,6 @@ namespace AppForEmployees
                 }
                 else if (Convert.ToBoolean(reader.GetValue(1).ToString()) == true)
                     GetWork_BTN.Visibility = Visibility.Hidden;
-
 
             }
         }
@@ -110,24 +108,20 @@ namespace AppForEmployees
         private void GetWork_BTN_Click(object sender, RoutedEventArgs e)
         {
             string tempRoleName = "";
-           var cmd7 = DataBaseClass.connectionOpen($"select r.RoleName from Role r, AuthorizationAcc aa where aa.IdRole = r.IdRole and aa.IdAuth = {AuthorizationPage.UserAuthId}");
-            //SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdEmployee={IdEmployee} and e.IdEmployee=ew.IdEmployee", con);
+            var cmd7 = DataBaseClass.connectionOpen($"select r.RoleName from Role r, AuthorizationAcc aa where aa.IdRole = r.IdRole and aa.IdAuth = {AuthorizationPage.UserAuthId}");
             SqlDataReader reader7 = cmd7.ExecuteReader();
             while (reader7.Read())
             {
                 tempRoleName = reader7.GetValue(0).ToString();
             }
-            
             if (Role_TXB.Text != tempRoleName) { MessageBox.Show("Данная работа предназначена не для Вас!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); return; }
 
             int _idemp = 0;
 
             AppConnect.modelOdb = new RCCEntities();
-
             bool WorkStatus = false;
             bool WorkFinished = false;
             var cmd = DataBaseClass.connectionOpen($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
-            //SqlCommand cmd = new SqlCommand($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdEmployee={IdEmployee} and e.IdEmployee=ew.IdEmployee", con);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -144,32 +138,22 @@ namespace AppForEmployees
 
             if (!WorkStatus && !WorkFinished)
             {
-
-
                 EmployeeWorking ew = new EmployeeWorking();
                 {
                     ew.WorkInProcess = true;
                     ew.WorkFinished = false;
                     ew.IdEmployee = MainMenuPage.IdEmployee;
                     ew.IdRequest = IdRequest;
-
                 }; // Добавляет в БД  данные
                 AppConnect.modelOdb.EmployeeWorking.Add(ew);
                 AppConnect.modelOdb.SaveChanges();
-                //MainWindow.SaveToBD();
                 MessageBox.Show("Вы успешно взялись за работу по данной заявке!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new RequestPage());
             }
             else if (WorkStatus && _idemp != MainMenuPage.IdEmployee)
-            {
                 MessageBox.Show("По данной заявке уже работает другой сотрудник!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            }
             else if (WorkFinished && MainMenuPage.IdEmployee != _idemp)
-            {
                 MessageBox.Show("Работу по данной заявке уже завершил другой сотрудник!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            }
             if (WorkStatus && MainMenuPage.IdEmployee == _idemp)
             {
                 try
@@ -189,21 +173,20 @@ namespace AppForEmployees
 
                         sql5 = $"UPDATE EmployeeWorking SET Report = BulkColumn FROM OPENROWSET(BULK '{filePath}', SINGLE_BLOB) AS Document WHERE IdRequest={IdRequest}";
                         DataBaseClass.AddEditDel(sql5);
-
                         MessageBox.Show("Вы успешно сдали работу! Ожидайте, пожалуйста, подтверждение выполненной работы от Менеджера!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
+                    else
+                        MessageBox.Show("Работа не сдана. Вы не выбрали файл с отчётом.\nДля сдачи работы повторно нажмите \"Завершить работу\" и выберите файл с отчётом!", "Файл не выбран", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 }
                 catch
                 {
-                    
+                    MessageBox.Show("Работа не сдана. Вы не выбрали файл с отчётом!", "Файл не выбран", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 
             }
             else if (WorkFinished && MainMenuPage.IdEmployee == _idemp)
-            {
                 MessageBox.Show("Вы уже выполнили данную работу! Пожалуйста, ожидайте проверку вашей работы от Менеджера!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
 
         }
     }

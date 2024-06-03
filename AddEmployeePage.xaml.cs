@@ -1,6 +1,7 @@
 ﻿using AppForEmployees.DataBase;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -93,37 +94,53 @@ namespace AppForEmployees
             Manager.MainFrame.Navigate(new PersonalAccountPage());
         }
 
+        void DelData()
+        {
+            var res = MessageBox.Show("Вы действительно хотите удалить сотрудника(ов)?", "Удаление сотрудника(ов)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.Yes)
+            {
+                if (Employee_DT.SelectedItem != null)
+                {
+                    var selectedRow = Employee_DT.SelectedItems.Cast<Employee>().ToList();
+                    var empl = Employee_DT.SelectedItem as Employee;
+
+                    if (selectedRow != null)
+                    {
+                        DataBaseClass.AddEditDel($"delete EmployeeWorking where IdEmployee={empl.IdEmployee}");
+                        AppConnect.modelOdb.Employee.RemoveRange(selectedRow);
+                        AppConnect.modelOdb.SaveChanges();
+                        Employee_DT.ItemsSource = AppConnect.modelOdb.Employee.ToList();
+                        MessageBox.Show("Успешно!");
+                    }
+                    else
+                        MessageBox.Show("Вы не выбрали сотрудника(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+                else
+                    MessageBox.Show("Вы не выбрали сотрудника(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void Delete_BTN_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var res = MessageBox.Show("Вы действительно хотите удалить сотрудника(ов)?", "Удаление сотрудника(ов)", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (res == MessageBoxResult.Yes)
+                var selempl = Employee_DT.SelectedItem as Employee;
+
+                string[] RoleNameForDel=DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, Role where AuthorizationAcc.IdAuth={selempl.IdAuth} and AuthorizationAcc.IdRole=Role.IdRole");
+                string[] UserRoleName = DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, Role where AuthorizationAcc.IdAuth={AuthorizationPage.UserAuthId} and AuthorizationAcc.IdRole=Role.IdRole");
+
+                if (RoleNameForDel[0] == "Менеджер" && UserRoleName[0] == "Администратор")
                 {
-                    if (Employee_DT.SelectedItem != null)
-                    {
-                        var selectedRow = Employee_DT.SelectedItems.Cast<Employee>().ToList();
-                        var empl = Employee_DT.SelectedItem as Employee;
-
-                        if (selectedRow != null)
-                        {
-                            DataBaseClass.AddEditDel($"delete EmployeeWorking where IdEmployee={empl.IdEmployee}");
-                            AppConnect.modelOdb.Employee.RemoveRange(selectedRow);
-                            AppConnect.modelOdb.SaveChanges();
-                            Employee_DT.ItemsSource = AppConnect.modelOdb.Employee.ToList();
-                            MessageBox.Show("Успешно!");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Вы не выбрали сотрудника(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                        }
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Вы не выбрали сотрудника(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    DelData();
+                }
+                else if (RoleNameForDel[0] == "Администратор" || RoleNameForDel[0] == "Менеджер")
+                {
+                    MessageBox.Show("Нет прав на удаление", "Нет прав", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else 
+                {
+                    DelData();
                 }
             }
             catch

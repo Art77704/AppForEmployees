@@ -46,7 +46,6 @@ namespace AppForEmployees
             forManagerAdm_DT.Columns[1].Width = DataGridLength.Auto;
             GetDataAcc();
             GetUserRole(ShowForManagAdm2_STP, ShowForManagAdm_STP, ForEmployee_STP);
-
         }
 
         void GetDataAcc()
@@ -64,11 +63,8 @@ namespace AppForEmployees
             }
             _HidePass = String.Concat(Enumerable.Repeat("*", Pasw.Length - 1));
             Password_TB.Text = _HidePass;
-
-
             //Отображение списка выполненных работ у работника
             DataBaseClass.ShowOrUpdateDT($"select WorkAllData as ВыполненнаяРабота from Archive where WorkAllData like '%{Surname_TB.Text} {FirstName_TB.Text} {Patronymic_TB.Text}%'", Archive_DT);
-
         }
 
         
@@ -85,10 +81,8 @@ namespace AppForEmployees
                 Back_BTN.Visibility = Visibility.Visible;
                 Archive_DT.Visibility = Visibility.Collapsed;
             }
-
         }
 
-        
         private void Back_BTN_Click(object sender, RoutedEventArgs e)
         {
             Back_BTN.Visibility=Visibility.Collapsed;
@@ -96,8 +90,6 @@ namespace AppForEmployees
             Archive_DT.Visibility=Visibility.Visible;
             GetDataAcc();
         }
-
-
 
 
         public static void GetUserRole(StackPanel stp, StackPanel stp2, StackPanel stp3)
@@ -111,7 +103,6 @@ namespace AppForEmployees
 
             if (RoleName == "Менеджер" || RoleName == "Администратор")
             {
-
                 stp.Visibility = Visibility.Visible;
                 stp2.Visibility = Visibility.Visible;
                 stp3.Visibility = Visibility.Collapsed;
@@ -122,7 +113,6 @@ namespace AppForEmployees
                 stp2.Visibility = Visibility.Collapsed;
                 stp3.Visibility = Visibility.Visible;
             }
-
         }
 
         public static bool CheckInput(TextBox Login_TXB, PasswordBox Password_TXB)
@@ -164,20 +154,14 @@ namespace AppForEmployees
             }
         }
 
-
         private void Confirm_BTN_Click(object sender, RoutedEventArgs e)
         {
-
             DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
             IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
-
             string sql = $"update AuthorizationAcc set AccIsValid=1 where IdAuth={IdNewUser}";
             DataBaseClass.AddEditDel(sql);
-
             MessageBox.Show("Пользователь добавлен в систему!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
             Manager.MainFrame.Navigate(new PersonalAccountPage());
-
-            //MainWindow.SaveToBD();
         }
 
         private void DeleteRequest_BTN_Click(object sender, RoutedEventArgs e)
@@ -185,14 +169,10 @@ namespace AppForEmployees
             var res = MessageBox.Show("Вы действительно хотите отклонить заявку на регистрацию аккаунта?", "Отклонение регистрации", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.Yes)
             {
-
                 DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
                 IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
 
                 DataBaseClass.AddEditDel($"DELETE AuthorizationAcc where IdAuth={IdNewUser}");
-
-                //SqlCommand command = new SqlCommand(sql, con);
-                //command.ExecuteNonQuery();
                 MessageBox.Show("Запрос на регистрацию аккаунта был отклонён!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new PersonalAccountPage());
             }
@@ -202,7 +182,6 @@ namespace AppForEmployees
         {
             DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
             DataBaseClass.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
-
         }
 
         private void AddEmployee_BTN_Click(object sender, RoutedEventArgs e)
@@ -213,7 +192,6 @@ namespace AppForEmployees
 
         private void ConfirmWork_BTN_Click(object sender, RoutedEventArgs e)
         {
-
             string Surname = "";
             string FirstName = "";
             string Patronymic = "";
@@ -224,7 +202,6 @@ namespace AppForEmployees
             string WorkDescription = "";
             string WorkerFIO = "";
             AppConnect.modelOdb = new RCCEntities();
-            
 
             DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
             int IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
@@ -232,7 +209,6 @@ namespace AppForEmployees
             string sql = $"update EmployeeWorking set WorkFinished=1, WorkInProcess=0 where IdRequest={IdRequest}";
             DataBaseClass.AddEditDel(sql);
            
-
             var cm = DataBaseClass.connectionOpen($"select e.Surname, e.FirstName, E.Patronymic from EmployeeWorking ew, Employee e where e.IdEmployee=ew.IdEmployee and ew.IdRequest={IdRequest}");
             SqlDataReader readr = cm.ExecuteReader();
             while (readr.Read()) 
@@ -264,20 +240,15 @@ namespace AppForEmployees
             else
                 RequestToArchiveResult = $"Номер заявки: {IdRequest}. ФИО заказчика: {Surname} {FirstName} {Patronymic}. Работу выполнил: {WorkerFIO}, с должностью: {RoleWork}. Кадастровый номер: {CadastrN}. Номер ОКС: {NumberOKS}. Описание работы: {WorkDescription}";
 
-
             Archive ar = new Archive();
             {
-               
                 ar.WorkAllData = RequestToArchiveResult;
-
             }; // Добавляет в БД  данные
             AppConnect.modelOdb.Archive.Add(ar);
             MainWindow.SaveToBD();
 
             string sql7 = $"delete EmployeeWorking where IdRequest={IdRequest}\r\ndelete Request where IdRequest={IdRequest}";
             DataBaseClass.AddEditDel(sql7);
-
-
 
             MessageBox.Show("Заявка изменена на статус 'Выполнена' и была перемещена в архив!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
             Manager.MainFrame.Navigate(new PersonalAccountPage());
@@ -289,27 +260,18 @@ namespace AppForEmployees
             var res = MessageBox.Show("Вы действительно хотите отклонить данную работу?", "Отклонение работы", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.Yes)
             {
-
                 DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
-
                 string sql = $"delete EmployeeWorking where IdRequest={Convert.ToInt32(selectedRow["НомерЗаявки"])}";
                 DataBaseClass.AddEditDel(sql);
-
                 MessageBox.Show("Заявка по данной работе отклонена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new PersonalAccountPage());
             }
-        }
-
-        private void Archive_DT_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void FinishWork_DT_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("Выберите путь для сохранения файла, а также задайте название сохраняемому файлу", "Выберите путь", MessageBoxButton.OK, MessageBoxImage.Information);
             string filePath="";
-
             try
             {
                 if (FinishWork_DT.SelectedItem != null)
@@ -345,7 +307,7 @@ namespace AppForEmployees
             }
             catch
             {
-
+                MessageBox.Show("Вы не выбрали путь для сохранения!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }

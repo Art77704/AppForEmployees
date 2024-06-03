@@ -42,7 +42,6 @@ namespace AppForEmployees
                     LogIn_TXB.Text = reader.GetValue(1).ToString();
                 }
                 Auth();
-                // MainWindow.GoBackBTN.Visibility = Visibility.Hidden;
             }
         }
 
@@ -51,7 +50,6 @@ namespace AppForEmployees
             private void Reg_BTN_Click(object sender, RoutedEventArgs e)
             {
                 Manager.MainFrame.Navigate(new RegistrationPage(""));
-
             }
 
             void Auth()
@@ -63,9 +61,8 @@ namespace AppForEmployees
                 var cmd = DataBaseClass.connectionOpen($"select AA.IdAuth from AuthorizationAcc AA, Employee em where AA.IdAuth=em.IdAuth");
                 SqlDataReader reader = cmd.ExecuteReader();
                 bool temp = false;
-            
 
-                 AppConnect.modelOdb = new RCCEntities();
+                AppConnect.modelOdb = new RCCEntities();
                 try
                 { // Сверяет введённые данные с теми, которые имеются в БД
                     userObj = AppConnect.modelOdb.AuthorizationAcc.FirstOrDefault(x => x.AuthLogin == LogIn_TXB.Text && x.AuthPassword == Password_PWB.Password);
@@ -77,27 +74,22 @@ namespace AppForEmployees
                         {
                             while (reader.Read())
                             {
-
                                 if (userObj.IdAuth == int.Parse(reader.GetValue(0).ToString()))
                                 {
                                     UserAuthId = userObj.IdAuth;
-
-                                Manager.MainFrame.Navigate(new MainMenuPage());
-
+                                    Manager.MainFrame.Navigate(new MainMenuPage());
                                     temp = true;
                                 }
                             }
                             if (!temp)
                             {
-
-                            MessageBox.Show("Для продолжения, пожалуйста, введите свои данные ФИО", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show("Для продолжения, пожалуйста, введите свои данные ФИО", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                                 Manager.MainFrame.Navigate(new RegistrationPage("AddEmployee", userObj.IdAuth));
                             }
-
                         }
                     }
                
-            }
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);

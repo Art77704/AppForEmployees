@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="139813e61f824645847aa8566c75d875" Name="Diagram1">
+      <Diagram DiagramId="fc1c1f7516fb4fb0b3f3d3ca738dc35f" Name="Diagram1">
         <EntityTypeShape EntityType="RCCModel.Archive" Width="1.5" PointX="5.75" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="RCCModel.AuthorizationAcc" Width="1.5" PointX="3" PointY="13.875" IsExpanded="true" />
         <EntityTypeShape EntityType="RCCModel.City" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
@@ -17,15 +17,16 @@
         <EntityTypeShape EntityType="RCCModel.PlaceOfBirth" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RCCModel.Request" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RCCModel.Role" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCCModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
         <AssociationConnector Association="RCCModel.FK__Authoriza__IdRol__398D8EEE" ManuallyRouted="false" />
-        <AssociationConnector Association="RCCModel.FK__Employee__IdAuth__3A81B327" ManuallyRouted="false" />
-        <AssociationConnector Association="RCCModel.FK__EstateAdd__IdCit__3D5E1FD2" ManuallyRouted="false" />
-        <AssociationConnector Association="RCCModel.FK__PlaceOfBi__IdCit__3E52440B" ManuallyRouted="false" />
-        <AssociationConnector Association="RCCModel.FK__Client__IdPlaceO__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="RCCModel.FK__Employee__IdAuth__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="RCCModel.FK__EstateAdd__IdCit__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="RCCModel.FK__PlaceOfBi__IdCit__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="RCCModel.FK__Client__IdPlaceO__3A81B327" ManuallyRouted="false" />
         <AssociationConnector Association="RCCModel.FK__Request__IdClien__4316F928" ManuallyRouted="false" />
         <AssociationConnector Association="RCCModel.FK__PlaceOfBi__IdCou__403A8C7D" ManuallyRouted="false" />
-        <AssociationConnector Association="RCCModel.FK__EmployeeW__IdEmp__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="RCCModel.FK__EmployeeW__IdReq__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="RCCModel.FK__EmployeeW__IdEmp__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="RCCModel.FK__EmployeeW__IdReq__3D5E1FD2" ManuallyRouted="false" />
         <AssociationConnector Association="RCCModel.FK__Request__IdAddre__4222D4EF" ManuallyRouted="false" />
         <AssociationConnector Association="RCCModel.FK__PlaceOfBi__IdKra__412EB0B6" ManuallyRouted="false" />
         <AssociationConnector Association="RCCModel.FK__Request__IdRole__440B1D61" ManuallyRouted="false" />

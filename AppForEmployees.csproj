@@ -154,6 +154,9 @@
     <Compile Include="DataBase\Role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataBase\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="PersonalAccountPage.xaml.cs">
       <DependentUpon>PersonalAccountPage.xaml</DependentUpon>
     </Compile>

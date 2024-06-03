@@ -16,7 +16,6 @@
             <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
 
-      
 
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2">
             <Button x:Name="ArchiveBTN" ToolTip="Открыть архив зявков" FontSize="16" Height="50" Width="50" Background="Transparent" BorderThickness="0" Grid.Row="2" HorizontalAlignment="Left" Margin="30,0,0,0" Click="ArchiveBTN_Click">
@@ -29,6 +28,7 @@
             <Button x:Name="AddClient_BTN" Visibility="Collapsed" ToolTip="Добавить клиента" FontSize="16" Grid.Row="2" Height="50" Width="50" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="30,0,0,0" Click="AddClient_BTN_Click">
                 <svgc:SvgViewbox Source="/Icons/add_user_icon.svg"/>
             </Button>
+            
 
         </WrapPanel>
         <WrapPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -47,11 +47,9 @@ namespace AppForEmployees
             this.Title = "Добавление города";
             _CityCountryKray = "Город добавлен!";
 
-
             var cmd = DataBaseClass.connectionOpen($"INSERT INTO City (NameCity) VALUES ('{CityCountryKray_TXB.Text}')");
 
             return cmd;
-
         }
 
         SqlCommand _Country()
@@ -60,11 +58,9 @@ namespace AppForEmployees
             this.Title = "Добавление страны";
             _CityCountryKray = "Страна добавлена!";
 
-
             var cmd = DataBaseClass.connectionOpen($"INSERT INTO Country (NameCountry) VALUES ('{CityCountryKray_TXB.Text}')");
 
             return cmd;
-
         }
 
         SqlCommand _Kray()
@@ -76,7 +72,6 @@ namespace AppForEmployees
             var cmd = DataBaseClass.connectionOpen($"INSERT INTO Kray (NameKray) VALUES ('{CityCountryKray_TXB.Text}')");
 
             return cmd;
-
         }
 
         bool CheckRepeat()
@@ -141,14 +136,11 @@ namespace AppForEmployees
                 _City();
                 command = _City();
             }
-          
-             command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 
-            //MainWindow.SaveToBD();
             MessageBox.Show($"{_CityCountryKray}", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             Manager.MainFrame.Navigate(new AddClientPage(AddClientPage._cl));
-
         }
     }
 }

@@ -30,18 +30,14 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Список клиентов";
-
             Clients_DT.ItemsSource = null;
             GoToAddRequestPage=AddRequest;
             Clients_DT.ItemsSource= AppConnect.modelOdb.Client.ToList();
         }
 
-      
-
         private void AddClient_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddClientPage());
-
         }
 
         private void Edit_BTN_Click(object sender, RoutedEventArgs e)
@@ -68,16 +64,11 @@ namespace AppForEmployees
                             Clients_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
                         }
                         else
-                        {
                             MessageBox.Show("Вы не выбрали клиента(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                        }
 
                     }
                     else
-                    {
                         MessageBox.Show("Вы не выбрали клиента(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
             }
             catch

@@ -46,7 +46,6 @@ namespace AppForEmployees
 
             SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
             SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
-            
            
             _AddOrEdit = AddOrEdit;
             _currentpage = Manager.MainFrame.Content;
@@ -55,12 +54,10 @@ namespace AppForEmployees
             {
                 EditData();
                 MainWindow.PageText.Text = "Изменение заявки";
-                //SelectAddress_DT.SelectedItem = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet == MainMenuPage.Street);
                 AddRequest_BTN.Content = "Изменить";
                 AddClient_BTN.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility = Visibility.Collapsed;
             }
-
         }
 
         private void AddClient_BTN_Click(object sender, RoutedEventArgs e)
@@ -77,7 +74,6 @@ namespace AppForEmployees
 
         private void SelectRole_CMB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             if (SelectRole_CMB.SelectedIndex == 1)
             {
                 NumberOKS_TB.Visibility = Visibility.Collapsed;
@@ -110,7 +106,6 @@ namespace AppForEmployees
                           where Client.IdClient== MainMenuPage.IdClient
                           select Client).FirstOrDefault();
 
-
             SelectClient_DT.SelectedItem = selcl;
             SelectRole_CMB.SelectedIndex  = RoleIndex - 3;
             WorkDescription_TXB.Text = WorkDescription;
@@ -125,7 +120,6 @@ namespace AppForEmployees
         {
             int IdRole = 3;
             string RoleName = SelectRole_CMB.Text;
-        
             var cmd = DataBaseClass.connectionOpen($"select IdRole from Role where RoleName='{RoleName}'");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -153,18 +147,15 @@ namespace AppForEmployees
             if (SelectRole_CMB.SelectedIndex == 1)
             {
                 string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, checkToNull, SelectRole_CMB.Text, checkToNull2 };
-
                 if (MainMenuPage.CheckDataToEmpty(textToCheck))
                     return;
             }
             else
             {
                 string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, checkToNull, SelectRole_CMB.Text, NumberOKS_TXB.Text };
-
                 if (MainMenuPage.CheckDataToEmpty(textToCheck))
                     return;
             }
-           
 
             int IdClient = cl.IdClient;
             int IdAddress = ea.IdAddress;
@@ -173,15 +164,14 @@ namespace AppForEmployees
             if (_AddOrEdit == "Edit")
             {
                 string sql;
-
                 if (SelectRole_CMB.SelectedIndex == 1)
                     sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress={IdAddress}, WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction=NULL where IdRequest={NumberRequest}";
                 else
                     sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress=NULL,  WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction='{NumberOKS_TXB.Text}' where IdRequest={NumberRequest}";
 
                 DataBaseClass.AddEditDel(sql);
-
                 MessageBox.Show("Заявка изменена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+                Manager.MainFrame.Navigate(new ArchivePage());
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
             else
@@ -194,7 +184,7 @@ namespace AppForEmployees
 
                 DataBaseClass.AddEditDel(sql7);
                 MessageBox.Show("Заявка создана!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                Manager.MainFrame.Navigate(new ArchivePage());
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
         }
@@ -226,7 +216,6 @@ namespace AppForEmployees
         private void SearchClient_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Получаем текст из TextBox
-            
             string searchText = SearchClient_TXB.Text;
             if (searchText != "Введите фамилию")
             {

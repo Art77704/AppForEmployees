@@ -34,20 +34,13 @@ namespace AppForEmployees
         public MainWindow()
         {
             InitializeComponent();
-            
             Window = this;
-            menuItems = new MenuItem[]{ AllEmployee_BTN, AllClient_BTN};
-
+            menuItems = new MenuItem[]{ AllEmployee_BTN, AllClient_BTN, AllAddress_BTN};
             _MenuRCC = MenuRCC_Menu;
             Manager.MainFrame = MainFrame;
             PageText = PageText_TB;
             GoBackBTN = GoBack_BTN;
-            //HideButton();
-
             MainFrame.Content = new AuthorizationPage();
-
-           
-
         }
         private void MovingWin(object sender, RoutedEventArgs e)
         {
@@ -71,9 +64,7 @@ namespace AppForEmployees
         {
             try
             {
-
                 var currentpage = Manager.MainFrame.Content;
-
                 if (MainMenuPage._currentpage == null && currentpage.ToString() == "AppForEmployees.AddClientPage")
                 {
                     Manager.MainFrame.Navigate(new AddRequestPage());
@@ -106,13 +97,11 @@ namespace AppForEmployees
                         Manager.MainFrame.Navigate(new AddRequestPage());
                     else
                         Manager.MainFrame.Navigate(new MainMenuPage());
-
                 }
                 else if (currentpage.ToString() == "AppForEmployees.RegistrationPage")
                 {
                     Manager.MainFrame.Navigate(new AuthorizationPage());
                     GoBack_BTN.Visibility = Visibility.Hidden;
-
                 }
                 else if (currentpage.ToString() == "AppForEmployees.AddEmployeePage")
                 {
@@ -124,7 +113,6 @@ namespace AppForEmployees
                     MainMenuPage._currentpage = null;
                     Manager.MainFrame.Navigate(new AuthorizationPage());
                     GoBack_BTN.Visibility = Visibility.Hidden;
-
                 }
                 else
                     Manager.MainFrame.GoBack();
@@ -133,7 +121,6 @@ namespace AppForEmployees
             {
                 GoBackBTN.Visibility = Visibility.Hidden;
             }
-
            
         }
 
@@ -177,15 +164,15 @@ namespace AppForEmployees
 
         public static void SaveToBD(string resultMessage="")
         {//Сохранение проделанных действий в БД
-            /*try
-            {*/
+            try
+            {
                 AppConnect.modelOdb.SaveChanges();
                 //MessageBox.Show(resultMessage, "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-            //}
-            //catch (Exception ex)
-            //{
-              //  MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void CloseWin_BTN_Click(object sender, RoutedEventArgs e)
@@ -201,25 +188,21 @@ namespace AppForEmployees
         private void Request_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new MainMenuPage());
-
         }
 
         private void AllClient_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AllClientsPage());
-
         }
 
         private void AddEmployee_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEmployeePage());
-
         }
 
         private void AllEmployee_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEmployeePage());
-
         }
 
         private void PersonalAcc_BTN_Click(object sender, RoutedEventArgs e)
@@ -235,7 +218,13 @@ namespace AppForEmployees
         private void AllAddress_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddAddressPage());
+        }
+
+        private void Archive_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new ArchivePage());
 
         }
+       
     }
 }

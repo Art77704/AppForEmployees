@@ -30,12 +30,8 @@ namespace AppForEmployees
             Search_TXB.Text = "Поиск по любым параметрам";
             AppConnect.modelOdb = new RCCEntities();
             ArchiveRequests_DT.ItemsSource = AppConnect.modelOdb.Archive.ToList();
-
         }
-
-
         
-
         private void Search_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = Search_TXB.Text;
@@ -45,20 +41,17 @@ namespace AppForEmployees
                 var filteredData = AppConnect.modelOdb.Archive.Where(x => x.WorkAllData.Contains(searchText)).ToList();
                 ArchiveRequests_DT.ItemsSource = filteredData;
             }
-           
         }
 
         private void ArchiveRequests_DT_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var selectedItem = ArchiveRequests_DT.SelectedItem as Archive;
-            //DataRowView row = ArchiveRequests_DT.SelectedItem as DataRowView;
             if (selectedItem != null)
             {
                 ArchiveRequest_TXB.Visibility = Visibility.Visible;
                 ArchiveRequest_TXB.Text = selectedItem.WorkAllData;
                 ArchiveRequests_DT.Visibility = Visibility.Collapsed;
                 Back_BTN.Visibility = Visibility.Visible;
-
             }
         }
         private void Back_BTN_Click(object sender, RoutedEventArgs e)
@@ -77,7 +70,6 @@ namespace AppForEmployees
         private void Search_TXB_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as TextBox).Text = string.Empty;
-
         }
     }
 }

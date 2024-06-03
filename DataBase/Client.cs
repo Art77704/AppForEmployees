@@ -25,7 +25,7 @@ namespace AppForEmployees.DataBase
         public string ClientFirstName { get; set; }
         public string ClientPatronymic { get; set; }
         public System.DateTime DateOfBirth { get; set; }
-        public long SeriyaNumber { get; set; }
+        public string SeriyaNumber { get; set; }
         public string WhoIssued { get; set; }
         public int DepartmentCode { get; set; }
         public System.DateTime DateOfIssue { get; set; }

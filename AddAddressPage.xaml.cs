@@ -31,7 +31,6 @@ namespace AppForEmployees
             EstateAddress ea = new EstateAddress();
             DataContext = ea;
             _ea = ea;
-            //DataBaseClass.AddToCMB("select NameCity from City", City_CMB);
             City_CMB.ItemsSource = AppConnect.modelOdb.City.ToList();
         }
 
@@ -60,7 +59,6 @@ namespace AppForEmployees
             {
                 MessageBox.Show("Ошибка ввода данных!");
             }
-            
         }
 
         private void Delete_BTN_Click(object sender, RoutedEventArgs e)
@@ -81,16 +79,10 @@ namespace AppForEmployees
                             Address_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
                         }
                         else
-                        {
                             MessageBox.Show("Вы не выбрали адрес(а) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                        }
-
                     }
                     else
-                    {
                         MessageBox.Show("Вы не выбрали адрес(а) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
             }
             catch

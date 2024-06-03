@@ -20,7 +20,6 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление клиента";
-
             SelectCity_CMB.ItemsSource = AppConnect.modelOdb.City.ToList();
             SelectCountry_CMB.ItemsSource = AppConnect.modelOdb.Country.ToList();
             SelectKray_CMB.ItemsSource = AppConnect.modelOdb.Kray.ToList();
@@ -31,7 +30,6 @@ namespace AppForEmployees
                 _cl = cl;
                 edit = true;
                 MainWindow.PageText.Text = "Изменение данных о клиенте";
-
                 var alldata = AppConnect.modelOdb.PlaceOfBirth.FirstOrDefault(c => c.IdPlaceOfBirth == cl.IdPlaceOfBirth);
                 var cityy = AppConnect.modelOdb.City.FirstOrDefault(c => c.NameCity == alldata.City.NameCity);
                 var country = AppConnect.modelOdb.Country.FirstOrDefault(c => c.NameCountry == alldata.Country.NameCountry);
@@ -39,12 +37,10 @@ namespace AppForEmployees
                 try
                 {
                     kray = AppConnect.modelOdb.Kray.FirstOrDefault(c => c.NameKray == alldata.Kray.NameKray);
-
                 }
                 catch
                 {
                     SelectKray_CMB.SelectedItem = kray;
-
                 }
                 if (alldata != null)
                 {
@@ -65,7 +61,6 @@ namespace AppForEmployees
             AppConnect.modelOdb.SaveChanges();
 
             MessageBox.Show("Данные изменены!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-
 
             Manager.MainFrame.Navigate(new MainMenuPage());
             Manager.MainFrame.Navigate(new ArchivePage());
@@ -136,8 +131,6 @@ namespace AppForEmployees
                         pl.IdKray = null;
                     else
                         pl.IdKray = idKray;
-
-
                 }
 
                 AppConnect.modelOdb.PlaceOfBirth.Add(pl);
@@ -149,7 +142,6 @@ namespace AppForEmployees
                 {
                     IdPlaceOfBirth = int.Parse(reader2.GetValue(0).ToString());
                 }
-
             }
 
             if (edit)
@@ -158,7 +150,6 @@ namespace AppForEmployees
                 return;
             }
 
-
             Client cl = new Client();
             {
                 cl.ClientSurname = Surname_TXB.Text;
@@ -166,7 +157,7 @@ namespace AppForEmployees
                 cl.ClientPatronymic= Patronymic_TXB.Text;
                 cl.DateOfBirth = (DateTime)DateOfBirth_DP.SelectedDate;
                 cl.WhoIssued = WhoIssued_TXB.Text;
-                cl.SeriyaNumber = long.Parse(SeriyaNumber_TXB.Text);
+                cl.SeriyaNumber =SeriyaNumber_TXB.Text;
                 cl.DepartmentCode = int.Parse(DepartmentCode_TXB.Text);
                 cl.DateOfIssue=(DateTime)DateOfIssue_DP.SelectedDate;
                 cl.IdPlaceOfBirth = IdPlaceOfBirth;
@@ -175,7 +166,6 @@ namespace AppForEmployees
             AppConnect.modelOdb.Client.Add(cl);
             MainWindow.SaveToBD();
 
-
            
             MessageBox.Show("Клиент добавлен в систему!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -183,18 +173,10 @@ namespace AppForEmployees
             {
                 AddRequestPage.CheckPage = false;
             }
-           
             Manager.MainFrame.GoBack();
 
-
         }
 
-        private void AddPlaceOfBirth_BTN_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new PlaceOfBirthPage());
-        }
-
-       
         private void AddKray_BTN_Click(object sender, RoutedEventArgs e)
         {
             AddCityCountryKrayWindow w = new AddCityCountryKrayWindow("Kray");
@@ -206,16 +188,12 @@ namespace AppForEmployees
         {
             AddCityCountryKrayWindow w = new AddCityCountryKrayWindow("City");
             w.ShowDialog();
-
-
         }
 
         private void AddCountry_BTN_Click(object sender, RoutedEventArgs e)
         {
             AddCityCountryKrayWindow w = new AddCityCountryKrayWindow("Country");
             w.ShowDialog();
-
-
         }
 
 
@@ -226,7 +204,6 @@ namespace AppForEmployees
             {
                 e.Handled = true;
                 MessageBox.Show("Разрешен ввод только цифр!", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
         }
 
@@ -235,7 +212,6 @@ namespace AppForEmployees
             if (e.Key == Key.Space)
                 e.Handled = true;//Если пробел, то ввод недопустим
         }
-
 
     }
 }

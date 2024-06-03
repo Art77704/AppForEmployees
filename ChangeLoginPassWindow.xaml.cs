@@ -52,9 +52,6 @@ namespace AppForEmployees
             MessageBox.Show("Введённые данные были успешно обновлены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             Manager.MainFrame.Navigate(new PersonalAccountPage());
-
-
-
         }
 
         void ChangePassword()
@@ -74,7 +71,6 @@ namespace AppForEmployees
             MessageBox.Show("Введённые данные были успешно обновлены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
             Manager.MainFrame.Navigate(new PersonalAccountPage());
-
 
         }
 

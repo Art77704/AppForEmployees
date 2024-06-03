@@ -38,7 +38,7 @@
           <Property Name="ClientFirstName" Type="nvarchar" MaxLength="99" Nullable="false" />
           <Property Name="ClientPatronymic" Type="nvarchar" MaxLength="99" />
           <Property Name="DateOfBirth" Type="date" Nullable="false" />
-          <Property Name="SeriyaNumber" Type="bigint" Nullable="false" />
+          <Property Name="SeriyaNumber" Type="nvarchar" MaxLength="10" />
           <Property Name="WhoIssued" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DepartmentCode" Type="int" Nullable="false" />
           <Property Name="DateOfIssue" Type="date" Nullable="false" />
@@ -117,6 +117,16 @@
           <Property Name="IdRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="89" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <Association Name="FK__Authoriza__IdRol__398D8EEE">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="*" />
@@ -129,7 +139,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Client__IdPlaceO__47DBAE45">
+        <Association Name="FK__Client__IdPlaceO__3A81B327">
           <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
@@ -141,7 +151,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Employee__IdAuth__3A81B327">
+        <Association Name="FK__Employee__IdAuth__3B75D760">
           <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -153,7 +163,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeW__IdEmp__3B75D760">
+        <Association Name="FK__EmployeeW__IdEmp__3C69FB99">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -165,7 +175,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeW__IdReq__3C69FB99">
+        <Association Name="FK__EmployeeW__IdReq__3D5E1FD2">
           <End Role="Request" Type="Self.Request" Multiplicity="1" />
           <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -177,7 +187,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EstateAdd__IdCit__3D5E1FD2">
+        <Association Name="FK__EstateAdd__IdCit__3E52440B">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="EstateAddress" Type="Self.EstateAddress" Multiplicity="*" />
           <ReferentialConstraint>
@@ -189,7 +199,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlaceOfBi__IdCit__3E52440B">
+        <Association Name="FK__PlaceOfBi__IdCit__3F466844">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
           <ReferentialConstraint>
@@ -274,31 +284,32 @@
           <EntitySet Name="PlaceOfBirth" EntityType="Self.PlaceOfBirth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Authoriza__IdRol__398D8EEE" Association="Self.FK__Authoriza__IdRol__398D8EEE">
             <End Role="Role" EntitySet="Role" />
             <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
           </AssociationSet>
-          <AssociationSet Name="FK__Client__IdPlaceO__47DBAE45" Association="Self.FK__Client__IdPlaceO__47DBAE45">
+          <AssociationSet Name="FK__Client__IdPlaceO__3A81B327" Association="Self.FK__Client__IdPlaceO__3A81B327">
             <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
             <End Role="Client" EntitySet="Client" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__IdAuth__3A81B327" Association="Self.FK__Employee__IdAuth__3A81B327">
+          <AssociationSet Name="FK__Employee__IdAuth__3B75D760" Association="Self.FK__Employee__IdAuth__3B75D760">
             <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__EmployeeW__IdEmp__3B75D760" Association="Self.FK__EmployeeW__IdEmp__3B75D760">
+          <AssociationSet Name="FK__EmployeeW__IdEmp__3C69FB99" Association="Self.FK__EmployeeW__IdEmp__3C69FB99">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
           </AssociationSet>
-          <AssociationSet Name="FK__EmployeeW__IdReq__3C69FB99" Association="Self.FK__EmployeeW__IdReq__3C69FB99">
+          <AssociationSet Name="FK__EmployeeW__IdReq__3D5E1FD2" Association="Self.FK__EmployeeW__IdReq__3D5E1FD2">
             <End Role="Request" EntitySet="Request" />
             <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
           </AssociationSet>
-          <AssociationSet Name="FK__EstateAdd__IdCit__3D5E1FD2" Association="Self.FK__EstateAdd__IdCit__3D5E1FD2">
+          <AssociationSet Name="FK__EstateAdd__IdCit__3E52440B" Association="Self.FK__EstateAdd__IdCit__3E52440B">
             <End Role="City" EntitySet="City" />
             <End Role="EstateAddress" EntitySet="EstateAddress" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlaceOfBi__IdCit__3E52440B" Association="Self.FK__PlaceOfBi__IdCit__3E52440B">
+          <AssociationSet Name="FK__PlaceOfBi__IdCit__3F466844" Association="Self.FK__PlaceOfBi__IdCit__3F466844">
             <End Role="City" EntitySet="City" />
             <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
           </AssociationSet>
@@ -345,7 +356,7 @@
           <Property Name="AccIsValid" Type="Boolean" Nullable="false" />
           <Property Name="IdRole" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Authoriza__IdRol__398D8EEE" FromRole="AuthorizationAcc" ToRole="Role" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__Employee__IdAuth__3A81B327" FromRole="AuthorizationAcc" ToRole="Employee" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Employee__IdAuth__3B75D760" FromRole="AuthorizationAcc" ToRole="Employee" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -353,8 +364,8 @@
           </Key>
           <Property Name="IdCity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NameCity" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="EstateAddress" Relationship="Self.FK__EstateAdd__IdCit__3D5E1FD2" FromRole="City" ToRole="EstateAddress" />
-          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__PlaceOfBi__IdCit__3E52440B" FromRole="City" ToRole="PlaceOfBirth" />
+          <NavigationProperty Name="EstateAddress" Relationship="Self.FK__EstateAdd__IdCit__3E52440B" FromRole="City" ToRole="EstateAddress" />
+          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__PlaceOfBi__IdCit__3F466844" FromRole="City" ToRole="PlaceOfBirth" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -365,12 +376,12 @@
           <Property Name="ClientFirstName" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ClientPatronymic" Type="String" MaxLength="99" FixedLength="false" Unicode="true" />
           <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="SeriyaNumber" Type="Int64" Nullable="false" />
+          <Property Name="SeriyaNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="WhoIssued" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DepartmentCode" Type="Int32" Nullable="false" />
           <Property Name="DateOfIssue" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="IdPlaceOfBirth" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__Client__IdPlaceO__47DBAE45" FromRole="Client" ToRole="PlaceOfBirth" />
+          <NavigationProperty Name="PlaceOfBirth" Relationship="Self.FK__Client__IdPlaceO__3A81B327" FromRole="Client" ToRole="PlaceOfBirth" />
           <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdClien__4316F928" FromRole="Client" ToRole="Request" />
         </EntityType>
         <EntityType Name="Country">
@@ -390,8 +401,8 @@
           <Property Name="FirstName" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Patronymic" Type="String" MaxLength="99" FixedLength="false" Unicode="true" />
           <Property Name="IdAuth" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Employee__IdAuth__3A81B327" FromRole="Employee" ToRole="AuthorizationAcc" />
-          <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdEmp__3B75D760" FromRole="Employee" ToRole="EmployeeWorking" />
+          <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Employee__IdAuth__3B75D760" FromRole="Employee" ToRole="AuthorizationAcc" />
+          <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdEmp__3C69FB99" FromRole="Employee" ToRole="EmployeeWorking" />
         </EntityType>
         <EntityType Name="EmployeeWorking">
           <Key>
@@ -403,8 +414,8 @@
           <Property Name="IdEmployee" Type="Int32" Nullable="false" />
           <Property Name="IdRequest" Type="Int32" Nullable="false" />
           <Property Name="Report" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__EmployeeW__IdEmp__3B75D760" FromRole="EmployeeWorking" ToRole="Employee" />
-          <NavigationProperty Name="Request" Relationship="Self.FK__EmployeeW__IdReq__3C69FB99" FromRole="EmployeeWorking" ToRole="Request" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__EmployeeW__IdEmp__3C69FB99" FromRole="EmployeeWorking" ToRole="Employee" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__EmployeeW__IdReq__3D5E1FD2" FromRole="EmployeeWorking" ToRole="Request" />
         </EntityType>
         <EntityType Name="EstateAddress">
           <Key>
@@ -415,7 +426,7 @@
           <Property Name="EstateStreet" Type="String" MaxLength="99" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EstateHouse" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EstateFlat" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="City" Relationship="Self.FK__EstateAdd__IdCit__3D5E1FD2" FromRole="EstateAddress" ToRole="City" />
+          <NavigationProperty Name="City" Relationship="Self.FK__EstateAdd__IdCit__3E52440B" FromRole="EstateAddress" ToRole="City" />
           <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdAddre__4222D4EF" FromRole="EstateAddress" ToRole="Request" />
         </EntityType>
         <EntityType Name="Kray">
@@ -434,8 +445,8 @@
           <Property Name="IdCountry" Type="Int32" Nullable="false" />
           <Property Name="IdCity" Type="Int32" Nullable="false" />
           <Property Name="IdKray" Type="Int32" />
-          <NavigationProperty Name="City" Relationship="Self.FK__PlaceOfBi__IdCit__3E52440B" FromRole="PlaceOfBirth" ToRole="City" />
-          <NavigationProperty Name="Client" Relationship="Self.FK__Client__IdPlaceO__47DBAE45" FromRole="PlaceOfBirth" ToRole="Client" />
+          <NavigationProperty Name="City" Relationship="Self.FK__PlaceOfBi__IdCit__3F466844" FromRole="PlaceOfBirth" ToRole="City" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__Client__IdPlaceO__3A81B327" FromRole="PlaceOfBirth" ToRole="Client" />
           <NavigationProperty Name="Country" Relationship="Self.FK__PlaceOfBi__IdCou__403A8C7D" FromRole="PlaceOfBirth" ToRole="Country" />
           <NavigationProperty Name="Kray" Relationship="Self.FK__PlaceOfBi__IdKra__412EB0B6" FromRole="PlaceOfBirth" ToRole="Kray" />
         </EntityType>
@@ -451,7 +462,7 @@
           <Property Name="NumberCapitalConstruction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IdAddress" Type="Int32" />
           <NavigationProperty Name="Client" Relationship="Self.FK__Request__IdClien__4316F928" FromRole="Request" ToRole="Client" />
-          <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdReq__3C69FB99" FromRole="Request" ToRole="EmployeeWorking" />
+          <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdReq__3D5E1FD2" FromRole="Request" ToRole="EmployeeWorking" />
           <NavigationProperty Name="EstateAddress" Relationship="Self.FK__Request__IdAddre__4222D4EF" FromRole="Request" ToRole="EstateAddress" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Request__IdRole__440B1D61" FromRole="Request" ToRole="Role" />
         </EntityType>
@@ -463,6 +474,16 @@
           <Property Name="RoleName" Type="String" MaxLength="89" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Authoriza__IdRol__398D8EEE" FromRole="Role" ToRole="AuthorizationAcc" />
           <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdRole__440B1D61" FromRole="Role" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK__Authoriza__IdRol__398D8EEE">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
@@ -476,7 +497,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Employee__IdAuth__3A81B327">
+        <Association Name="FK__Employee__IdAuth__3B75D760">
           <End Role="AuthorizationAcc" Type="Self.AuthorizationAcc" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -488,7 +509,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EstateAdd__IdCit__3D5E1FD2">
+        <Association Name="FK__EstateAdd__IdCit__3E52440B">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="EstateAddress" Type="Self.EstateAddress" Multiplicity="*" />
           <ReferentialConstraint>
@@ -500,7 +521,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlaceOfBi__IdCit__3E52440B">
+        <Association Name="FK__PlaceOfBi__IdCit__3F466844">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="*" />
           <ReferentialConstraint>
@@ -512,7 +533,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Client__IdPlaceO__47DBAE45">
+        <Association Name="FK__Client__IdPlaceO__3A81B327">
           <End Role="PlaceOfBirth" Type="Self.PlaceOfBirth" Multiplicity="1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
@@ -548,7 +569,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeW__IdEmp__3B75D760">
+        <Association Name="FK__EmployeeW__IdEmp__3C69FB99">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -560,7 +581,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeW__IdReq__3C69FB99">
+        <Association Name="FK__EmployeeW__IdReq__3D5E1FD2">
           <End Role="Request" Type="Self.Request" Multiplicity="1" />
           <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -621,23 +642,24 @@
           <EntitySet Name="PlaceOfBirth" EntityType="Self.PlaceOfBirth" />
           <EntitySet Name="Request" EntityType="Self.Request" />
           <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <AssociationSet Name="FK__Authoriza__IdRol__398D8EEE" Association="Self.FK__Authoriza__IdRol__398D8EEE">
             <End Role="Role" EntitySet="Role" />
             <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__IdAuth__3A81B327" Association="Self.FK__Employee__IdAuth__3A81B327">
+          <AssociationSet Name="FK__Employee__IdAuth__3B75D760" Association="Self.FK__Employee__IdAuth__3B75D760">
             <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__EstateAdd__IdCit__3D5E1FD2" Association="Self.FK__EstateAdd__IdCit__3D5E1FD2">
+          <AssociationSet Name="FK__EstateAdd__IdCit__3E52440B" Association="Self.FK__EstateAdd__IdCit__3E52440B">
             <End Role="City" EntitySet="City" />
             <End Role="EstateAddress" EntitySet="EstateAddress" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlaceOfBi__IdCit__3E52440B" Association="Self.FK__PlaceOfBi__IdCit__3E52440B">
+          <AssociationSet Name="FK__PlaceOfBi__IdCit__3F466844" Association="Self.FK__PlaceOfBi__IdCit__3F466844">
             <End Role="City" EntitySet="City" />
             <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
           </AssociationSet>
-          <AssociationSet Name="FK__Client__IdPlaceO__47DBAE45" Association="Self.FK__Client__IdPlaceO__47DBAE45">
+          <AssociationSet Name="FK__Client__IdPlaceO__3A81B327" Association="Self.FK__Client__IdPlaceO__3A81B327">
             <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
             <End Role="Client" EntitySet="Client" />
           </AssociationSet>
@@ -649,11 +671,11 @@
             <End Role="Country" EntitySet="Country" />
             <End Role="PlaceOfBirth" EntitySet="PlaceOfBirth" />
           </AssociationSet>
-          <AssociationSet Name="FK__EmployeeW__IdEmp__3B75D760" Association="Self.FK__EmployeeW__IdEmp__3B75D760">
+          <AssociationSet Name="FK__EmployeeW__IdEmp__3C69FB99" Association="Self.FK__EmployeeW__IdEmp__3C69FB99">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
           </AssociationSet>
-          <AssociationSet Name="FK__EmployeeW__IdReq__3C69FB99" Association="Self.FK__EmployeeW__IdReq__3C69FB99">
+          <AssociationSet Name="FK__EmployeeW__IdReq__3D5E1FD2" Association="Self.FK__EmployeeW__IdReq__3D5E1FD2">
             <End Role="Request" EntitySet="Request" />
             <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
           </AssociationSet>
@@ -797,6 +819,17 @@
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="IdRole" ColumnName="IdRole" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RCCModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

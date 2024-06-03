@@ -10,12 +10,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Выберите страну:" FontSize="16"></TextBlock>
             <WrapPanel>
                 <ComboBox x:Name="Country_CMB" FontSize="14" Style="{StaticResource ComboBoxStyle1}" Width="195"></ComboBox>
