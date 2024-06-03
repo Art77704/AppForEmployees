@@ -33,12 +33,16 @@ namespace AppForEmployees
         public static int IdRequest;
         public static string _RoleName;
         public static string Street ;
+        public static int IdAddress ;
+        public static int IdClient ;
 
         public MainMenuPage()
         {
             InitializeComponent();
             MainWindow._MenuRCC.Visibility = Visibility.Visible;
+
             ListOfRequestsDT.ItemsSource = AppConnect.modelOdb.Request.ToList();
+
             MainWindow.PageText.Text = "Список активных заявок";
             MainWindow.GoBackBTN.Visibility = Visibility.Visible;
            // DataBaseClass.ShowOrUpdateDT("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", ListOfRequestsDT);
@@ -95,6 +99,10 @@ namespace AppForEmployees
             //DataRowView selectedRow = (DataRowView)ListOfRequestsDT.SelectedItem;
             var selitem = ListOfRequestsDT.SelectedItem as Request;
             IdRequest = selitem.IdRequest;
+            if (selitem.IdAddress !=null)
+                IdAddress = (int)selitem.IdAddress;
+            IdClient = selitem.IdClient;
+
             var cmd10 = DataBaseClass.connectionOpen($"(Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, EstateAddress.EstateStreet as Улица,  EstateAddress.EstateHouse as Дом,  EstateAddress.EstateFlat as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity=City.IdCity where req.IdAddress is not null and req.IdRequest={IdRequest}) union (Select distinct req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля, req.WorkDescription as ОписаниеРаботы, req.CadastralNumber as КадастровыйНомер, req.NumberCapitalConstruction as НомерОКС, City.NameCity as Город, null as Улица, null as Дом, null as Квартира from Request req inner join Client c on req.IdClient = c.IdClient inner join Role r on req.IdRole = r.IdRole left join EstateAddress on req.IdAddress = EstateAddress.IdAddress left join City on EstateAddress.IdCity = City.IdCity where req.IdAddress is null and req.IdRequest={IdRequest})");
             SqlDataReader reader10 = cmd10.ExecuteReader();
             while (reader10.Read())

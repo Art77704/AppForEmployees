@@ -44,6 +44,7 @@ namespace AppForEmployees
            
             SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
             SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
+            
             SearchClient_TXB.Text = "Введите фамилию";
             SearchAddress_TXB.Text = "Введите улицу";
 
@@ -56,7 +57,7 @@ namespace AppForEmployees
             {
                 EditData();
                 MainWindow.PageText.Text = "Изменение заявки";
-                SelectAddress_DT.SelectedItem = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet == MainMenuPage.Street);
+                //SelectAddress_DT.SelectedItem = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet == MainMenuPage.Street);
                 AddRequest_BTN.Content = "Изменить";
                 AddClient_BTN.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility = Visibility.Collapsed;
@@ -158,139 +159,28 @@ namespace AppForEmployees
                 Patronymic = reader.GetValue(3).ToString();
                 fullName = FirstName + " " + Surname + " " + Patronymic;
             }
-            SelectClient_CMB.SelectedItem = SelectClient_CMB.Items.Cast<object>().FirstOrDefault(item => ((string)item).Equals(fullName));
-            //SelectAddress_DT.DataContext = 
-            cmd = DataBaseClass.connectionOpen($"select c.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City c where ea.IdAddress={AddressIndex} and c.IdCity=ea.IdCity");
-            reader = cmd.ExecuteReader();
-            string fullAddress = "";
-            while (reader.Read())
-            {
-                var City = reader.GetValue(0).ToString();
-                var Street = reader.GetValue(1).ToString();
-                var House = reader.GetValue(2).ToString();
-                var Flat = reader.GetValue(3).ToString();
-                fullAddress = "г. " + City + ", ул. " + Street + ", д. " + House + ", кв. " + Flat;
-            }
+            var seladr = (from EstateAddress in AppConnect.modelOdb.EstateAddress
+                       where EstateAddress.IdAddress== MainMenuPage.IdAddress
+                       select EstateAddress).FirstOrDefault();
+
+            var selcl = (from Client in AppConnect.modelOdb.Client
+                          where Client.IdClient== MainMenuPage.IdClient
+                          select Client).FirstOrDefault();
 
 
-
+            SelectClient_DT.SelectedItem = selcl;
             SelectRole_CMB.SelectedIndex  = RoleIndex - 3;
             WorkDescription_TXB.Text = WorkDescription;
             CadastralNumber_TXB.Text = CadastralNumber;
             if (SelectRole_CMB.SelectedIndex == 1)
-                SelectAddress_CMB.SelectedItem = SelectAddress_CMB.Items.Cast<object>().FirstOrDefault(item => ((string)item).Equals(fullAddress));
+                SelectAddress_DT.SelectedItem = seladr;
             else
                 NumberOKS_TXB.Text = NumberOKS;
         }
 
 
-        int ShowIdClient()
-        {
-            int IdClient = 1;
-            
-            Client selectedCl=null;
-            if (SelectClient_DT.SelectedItem != null)
-                selectedCl = SelectClient_DT.SelectedItem as Client;
-
-            string Surname = selectedCl.ClientSurname;
-            string FirstName = selectedCl.ClientFirstName;
-            string Patronymic = selectedCl.ClientPatronymic;
-
-
-            var cmd = DataBaseClass.connectionOpen($"select IdClient from Client where ClientSurname='{Surname}' and ClientFirstName='{FirstName}' and ClientPatronymic='{Patronymic}'");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                IdClient = int.Parse(reader.GetValue(0).ToString());
-            }
-
-            return IdClient;
-        }
-
-        int ShowIdAddress()
-        {
-            int IdAddress = 1;
-            int Count = 0;
-            int successfull = 0;
-            string City = "";
-            string Street = "";
-            string House = "";
-            string Flat = "";
-            try
-            {
-                if (SelectAddress_CMB.SelectedItem == null)
-                    return 1;
-
-                string FullAddress = SelectAddress_CMB.SelectedItem.ToString();
-
-                FullAddress.ToCharArray();
-                for (int i = 0; i < FullAddress.Length; i++)
-                {
-
-                    if (FullAddress[i] == ' ' && successfull == 0)
-                    {
-                        Count = i + 1;
-                        while (FullAddress[Count] != ',')
-                        {
-                            City += FullAddress[Count];
-                            Count++;
-                        }
-                        successfull++;
-                    }
-                    else if (FullAddress[i] == '.' && successfull == 1)
-                    {
-                        Count = i + 2;
-                        while (FullAddress[Count] != ',')
-                        {
-                            Street += FullAddress[Count];
-                            Count++;
-                        }
-                        successfull++;
-                    }
-                    else if (FullAddress[i] == '.' && successfull == 2)
-                    {
-                        Count = i + 2;
-                        while (FullAddress[Count] != ',')
-                        {
-                            House += FullAddress[Count];
-                            Count++;
-                        }
-                        successfull++;
-                    }
-                    else if (FullAddress[i] == '.' && successfull == 3)
-                    {
-                        Count = i + 2;
-                        try
-                        {
-                            while (FullAddress[Count] != ',')
-                            {
-                                Flat += FullAddress[Count];
-                                Count++;
-                            }
-                            successfull++;
-                        }
-                        catch
-                        {
-                            break;
-                        }
-                    }
-
-                }
-                 var cmd = DataBaseClass.connectionOpen($"select adr.IdAddress from EstateAddress adr, City c where adr.EstateFlat='{Flat}' and EstateHouse='{House}' and EstateStreet='{Street}' and c.NameCity='{City}' and c.IdCity=adr.IdCity");
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    IdAddress = int.Parse(reader.GetValue(0).ToString());
-                }
-
-                return IdAddress;
-            }
-            catch
-            {
-                return 0;
-            }
-
-        }
+       
+        
 
         int ShowIdRole()
         {
@@ -425,25 +315,5 @@ namespace AppForEmployees
             }
         }
       
-        private void SelectAddress_DT_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-
-
-
-            /*var selectedItem = SelectAddress_DT.SelectedItem as EstateAddress; // YourDataItemType - это тип данных, который используется в DataGrid
-            
-            if (selectedItem != null)
-            {
-                // Получаем строку, соответствующую выбранному элементу
-                var row = SelectAddress_DT.ItemContainerGenerator.ContainerFromItem(selectedItem) as DataGridRow;
-
-                if (row != null)
-                {
-                    // Устанавливаем новый цвет фона для строки
-                    row.Background = new SolidColorBrush(Colors.Beige);
-                }
-            }*/
-        }
     }
 }

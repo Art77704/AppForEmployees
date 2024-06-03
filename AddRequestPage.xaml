@@ -72,7 +72,7 @@
                 <Label/>
                 <WrapPanel x:Name="SelectAddress_WP">
                     <ComboBox Width="370" x:Name="SelectAddress_CMB" Visibility="Collapsed" FontSize="16" Style="{StaticResource ComboBoxStyle1}"></ComboBox>
-                    <DataGrid Width="370" CanUserAddRows="False" SelectionChanged="SelectAddress_DT_SelectionChanged" x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
+                    <DataGrid Width="370" CanUserAddRows="False"  x:Name="SelectAddress_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding EstateAddress}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Город">
                                 <DataGridTemplateColumn.CellTemplate>
