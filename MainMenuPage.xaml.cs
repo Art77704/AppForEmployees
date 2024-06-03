@@ -44,6 +44,7 @@ namespace AppForEmployees
             ListOfRequestsDT.ItemsSource = AppConnect.modelOdb.Request.ToList();
 
             MainWindow.PageText.Text = "Список активных заявок";
+            Search_TXB.Text = "Поиск по описанию работы";
             MainWindow.GoBackBTN.Visibility = Visibility.Visible;
            // DataBaseClass.ShowOrUpdateDT("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", ListOfRequestsDT);
             
@@ -206,12 +207,22 @@ namespace AppForEmployees
 
         private void Search_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var con = DataBaseClass.Connection();
+
+
+            string searchText = Search_TXB.Text;
+            if (searchText != "Поиск по описанию работы")
+            {
+                var filteredData = AppConnect.modelOdb.Request.Where(x => x.WorkDescription.Contains(searchText)).ToList();
+                ListOfRequestsDT.ItemsSource = filteredData;
+            }
+
+            /*var con = DataBaseClass.Connection();
             SqlDataAdapter dataAdapter = new SqlDataAdapter("Select req.IdRequest as НомерЗаявки, c.ClientSurname as ФамилияКлиента, c.ClientFirstName as ИмяКлиента, c.ClientPatronymic as ОтчествоКлиента, r.RoleName as ЗаявкаДля from Request req, Role r, Client c where c.IdClient=req.IdClient and r.IdRole=req.IdRole", con);
             DataTable dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
             ListOfRequestsDT.ItemsSource = dataTable.DefaultView;
             string searchText = Search_TXB.Text;
+           
 
             if (string.IsNullOrEmpty(searchText))
             {
@@ -228,9 +239,32 @@ namespace AppForEmployees
                     filteredTable.ImportRow(row); // Копирование найденных записей в новую таблицу
                 }
                 ListOfRequestsDT.ItemsSource = filteredTable.DefaultView;
-            }
+            }*/
+
+            /*private void SearchClient_TXB_TextChanged(object sender, TextChangedEventArgs e)
+            {
+                // Получаем текст из TextBox
+
+                string searchText = SearchClient_TXB.Text;
+                if (searchText != "Введите фамилию")
+                {
+                    var filteredData = AppConnect.modelOdb.Client.Where(x => x.ClientSurname.Contains(searchText)).ToList();
+                    SelectClient_DT.ItemsSource = filteredData;
+                }
+            }*/
         }
 
-        
+
+        private void Search_TXB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Text = string.Empty;
+
+        }
+
+        private void Search_TXB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBox).Text == string.Empty)
+                (sender as TextBox).Text = "Поиск по описанию работы";
+        }
     }
 }

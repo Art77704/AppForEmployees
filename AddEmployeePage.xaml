@@ -3,27 +3,76 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:AppForEmployees"
+      xmlns:local="clr-namespace:AppForEmployees" xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddEmployeePage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-            <StackPanel Width="200" Margin="14">
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <DataGrid ItemsSource="{Binding Employee}" CanUserAddRows="False" x:Name="Employee_DT" AutoGenerateColumns="False" FontSize="15" Width="550" Height="300">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="Delete_BTN" Click="Delete_BTN_Click"  ToolTip="Удалить клиента" Background="Transparent" Width="30">
+                                    <svgc:SvgViewbox Source="/Icons/minus_icon.svg"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="100" MaxWidth="110" MinWidth="70" Header="Фамилия">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Surname}" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="80" MaxWidth="90" Header="Имя">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FirstName}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="90" MaxWidth="100" Header="Отчество">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Patronymic}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="80" MaxWidth="100" Header="Логин">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AuthorizationAcc.AuthLogin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="200" MaxWidth="210" Header="Должность">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AuthorizationAcc.Role.RoleName}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Width="200" Margin="50,0,0,0">
                 <TextBlock Text="Введите фамилию:" FontSize="18"/>
                 <TextBox x:Name="Surname_TXB" Style="{StaticResource Textbox1}" MaxLength="45" FontSize="16"/>
                 <TextBlock Text="Введите имя:"  FontSize="18"/>
                 <TextBox x:Name="FirstName_TXB"  Style="{StaticResource Textbox1}" MaxLength="45" FontSize="16"/>
                 <TextBlock Text="Введите Отчество (N):" FontSize="18"/>
                 <TextBox x:Name="Patronymic_TXB" Style="{StaticResource Textbox1}" MaxLength="45" FontSize="16"/>
-                
-            </StackPanel>
-            <StackPanel Width="200" Margin="10">
                 <TextBlock Text="Назначьте роль:" FontSize="18"/>
                 <ComboBox x:Name="Role_CMB" Style="{StaticResource ComboBoxStyle1}" FontSize="16"/>
                 <TextBlock Text="Введите логин:"  FontSize="18"/>

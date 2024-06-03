@@ -31,9 +31,8 @@
             </Button>
 
         </WrapPanel>
-        <WrapPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,50,0">
-            <Label Content="Поиск по фамилии:" FontSize="16" VerticalAlignment="Center"/>
-                <TextBox x:Name="Search_TXB" FontSize="16" VerticalContentAlignment="Center" TextChanged="Search_TXB_TextChanged" Width="210" Style="{StaticResource Textbox1}" Height="30"/>
+        <WrapPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox x:Name="Search_TXB" FontSize="16" GotFocus="Search_TXB_GotFocus" LostFocus="Search_TXB_LostFocus" TextChanged="Search_TXB_TextChanged" VerticalContentAlignment="Center" Width="220" Style="{StaticResource Textbox1}" Height="30"/>
 
         </WrapPanel>
         <Button Grid.Column="1" x:Name="PersonalAccount_BTN" ToolTip="Личный кабинет" Grid.Row="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="5" Click="PersonalAccount_BTN_Click" Height="50" Width="50">

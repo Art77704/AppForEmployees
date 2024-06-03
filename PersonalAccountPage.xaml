@@ -10,12 +10,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <WrapPanel  VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel HorizontalAlignment="Center" Width="350" Grid.Row="1" VerticalAlignment="Center">
                 <WrapPanel>
                     <TextBlock Text="Фамилия:  "  FontSize="18"/>
@@ -102,7 +101,7 @@
                 
                 <StackPanel x:Name="ForManagerAdm_STP" MaxWidth="490" Visibility="Visible">
                     <TextBlock Text="Заявки на регистрацию аккаунта" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-                    <DataGrid x:Name="forManagerAdm_DT"  IsReadOnly="True" MaxHeight="300" VerticalScrollBarVisibility="Auto"  >
+                    <DataGrid x:Name="forManagerAdm_DT"  IsReadOnly="True" MaxHeight="350" VerticalScrollBarVisibility="Auto"  >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>

@@ -137,22 +137,6 @@ namespace AppForEmployees
            
         }
 
-       
-
-      
-
-        /*public static SqlConnection connectionOpen()
-        {
-            SqlConnection connection =
-                new SqlConnection("data source=ARTEM-PK;initial catalog=RCC;integrated security=True;trustservercertificate=True");
-            connection.Open();
-            return connection;
-
-        }*/
-
-        
-      
-
         public static bool CheckBD(AuthorizationAcc userObj, string errorMessage, bool inversion = false)
         {
             AppConnect.modelOdb = new RCCEntities();
@@ -246,6 +230,12 @@ namespace AppForEmployees
         private void Exit_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AuthorizationPage());
+        }
+
+        private void AllAddress_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddAddressPage());
+
         }
     }
 }

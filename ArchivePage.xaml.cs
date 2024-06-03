@@ -27,7 +27,7 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Архив заявок";
-
+            Search_TXB.Text = "Поиск по любым параметрам";
             AppConnect.modelOdb = new RCCEntities();
             ArchiveRequests_DT.ItemsSource = AppConnect.modelOdb.Archive.ToList();
 
@@ -38,12 +38,14 @@ namespace AppForEmployees
 
         private void Search_TXB_TextChanged(object sender, TextChangedEventArgs e)
         {
-                // Получаем текст из TextBox
             string searchText = Search_TXB.Text;
-            // Фильтруем данные в DataGrid
-            var filteredData = AppConnect.modelOdb.Archive.Where(x => x.WorkAllData.Contains(searchText)).ToList();
-            // Обновляем ItemsSource DataGrid
-            ArchiveRequests_DT.ItemsSource = filteredData;
+
+            if (searchText != "Поиск по любым параметрам")
+            {
+                var filteredData = AppConnect.modelOdb.Archive.Where(x => x.WorkAllData.Contains(searchText)).ToList();
+                ArchiveRequests_DT.ItemsSource = filteredData;
+            }
+           
         }
 
         private void ArchiveRequests_DT_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -64,6 +66,18 @@ namespace AppForEmployees
             Back_BTN.Visibility = Visibility.Collapsed;
             ArchiveRequest_TXB.Visibility = Visibility.Collapsed;
             ArchiveRequests_DT.Visibility = Visibility.Visible;
+        }
+
+        private void Search_TXB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBox).Text == string.Empty)
+                (sender as TextBox).Text = "Поиск по любым параметрам";
+        }
+
+        private void Search_TXB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Text = string.Empty;
+
         }
     }
 }

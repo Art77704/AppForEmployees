@@ -26,6 +26,7 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление сотрудника";
+            Employee_DT.ItemsSource = AppConnect.modelOdb.Employee.ToList();
 
             if (MainMenuPage._RoleName == "Администратор")
             {
@@ -67,7 +68,7 @@ namespace AppForEmployees
                 AA.AuthLogin = Login_TXB.Text;
                 AA.AuthPassword = Password_TXB.Text;
                 AA.AccIsValid = true;
-                AA.IdRole = Role_CMB.SelectedIndex + 1;
+                AA.IdRole = Role_CMB.SelectedIndex + 2;
             }
             AppConnect.modelOdb.AuthorizationAcc.Add(AA);
             MainWindow.SaveToBD();
@@ -90,6 +91,45 @@ namespace AppForEmployees
             MainWindow.SaveToBD();
             MessageBox.Show("Сотрудник добавлен в систему!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
             Manager.MainFrame.Navigate(new PersonalAccountPage());
+        }
+
+        private void Delete_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var res = MessageBox.Show("Вы действительно хотите удалить сотрудника(ов)?", "Удаление сотрудника(ов)", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    if (Employee_DT.SelectedItem != null)
+                    {
+                        var selectedRow = Employee_DT.SelectedItems.Cast<Employee>().ToList();
+                        var empl = Employee_DT.SelectedItem as Employee;
+
+                        if (selectedRow != null)
+                        {
+                            DataBaseClass.AddEditDel($"delete EmployeeWorking where IdEmployee={empl.IdEmployee}");
+                            AppConnect.modelOdb.Employee.RemoveRange(selectedRow);
+                            AppConnect.modelOdb.SaveChanges();
+                            Employee_DT.ItemsSource = AppConnect.modelOdb.Employee.ToList();
+                            MessageBox.Show("Успешно!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Вы не выбрали сотрудника(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Вы не выбрали сотрудника(ов) для удаления!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка :(", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

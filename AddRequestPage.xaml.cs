@@ -41,16 +41,14 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление заявки";
-           
-            SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
-            SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
-            
             SearchClient_TXB.Text = "Введите фамилию";
             SearchAddress_TXB.Text = "Введите улицу";
 
+            SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
+            SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
+            
+           
             _AddOrEdit = AddOrEdit;
-            AddClientToCMB();
-            AddAddressToCMB();
             _currentpage = Manager.MainFrame.Content;
 
             if (AddOrEdit == "Edit")
@@ -62,7 +60,6 @@ namespace AppForEmployees
                 AddClient_BTN.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility = Visibility.Collapsed;
             }
-           
 
         }
 
@@ -72,62 +69,22 @@ namespace AppForEmployees
             Manager.MainFrame.Navigate(new AllClientsPage(true));
         }
 
-      
-       
-
         private void AddAddress_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddAddressPage());
         }
 
 
-        void AddClientToCMB()
-        {
-            var cmd = DataBaseClass.connectionOpen("select ClientFirstName, ClientSurname, ClientPatronymic from Client");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                var ClientFirstName = reader.GetValue(0).ToString();
-                var ClientSurname = reader.GetValue(1).ToString();
-                var ClientPatronymic = reader.GetValue(2).ToString();
-
-                SelectClient_CMB.Items.Add($"{ClientFirstName} {ClientSurname} {ClientPatronymic}");
-            }
-        }
-        void AddAddressToCMB()
-        {
-            var cmd = DataBaseClass.connectionOpen("select ct.NameCity, ea.EstateStreet, ea.EstateHouse, ea.EstateFlat from EstateAddress ea, City ct where ea.IdCity=ct.IdCity");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                var NameCity = reader.GetValue(0).ToString();
-                var EstateStreet = reader.GetValue(1).ToString();
-                var EstateHouse = reader.GetValue(2).ToString();
-                var EstateFlat = reader.GetValue(3).ToString();
-                if (EstateFlat == "0" || EstateFlat == string.Empty)
-                {
-                    EstateFlat = "";
-                }
-                else
-                    EstateFlat = $", кв. {EstateFlat}";
-
-                SelectAddress_CMB.Items.Add($"г. {NameCity}, ул. {EstateStreet}, д. {EstateHouse}{EstateFlat}");
-            }
-        }
-
-
         private void SelectRole_CMB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             if (SelectRole_CMB.SelectedIndex == 1)
             {
                 NumberOKS_TB.Visibility = Visibility.Collapsed;
                 NumberOKS_TXB.Visibility = Visibility.Collapsed;
-
                 SelectAddress_TB.Visibility = Visibility.Visible;
                 SelectAddress_DT.Visibility = Visibility.Visible;
                 SearchAddress_TXB.Visibility = Visibility.Visible;
-
-                //SelectAddress_CMB.Visibility = Visibility.Visible;
                 AddAddress_BTN.Visibility = Visibility.Visible;
             }
             else
@@ -135,30 +92,16 @@ namespace AppForEmployees
                 SelectAddress_TB.Visibility = Visibility.Collapsed;
                 SelectAddress_DT.Visibility = Visibility.Collapsed;
                 SearchAddress_TXB.Visibility = Visibility.Collapsed;
-                //SelectAddress_CMB.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility= Visibility.Collapsed;
-
                 NumberOKS_TB.Visibility = Visibility.Visible;
                 NumberOKS_TXB.Visibility = Visibility.Visible;
-
             }
-
         }
 
 
         void EditData()
         {
-            var cmd = DataBaseClass.connectionOpen($"select * from Client where IdClient = {ClientIndex}");
-            SqlDataReader reader = cmd.ExecuteReader();
-            string Surname = "", FirstName = "", Patronymic = "";
-            string fullName = "";
-            while (reader.Read())
-            {
-                Surname = reader.GetValue(1).ToString();
-                FirstName = reader.GetValue(2).ToString();
-                Patronymic = reader.GetValue(3).ToString();
-                fullName = FirstName + " " + Surname + " " + Patronymic;
-            }
+           
             var seladr = (from EstateAddress in AppConnect.modelOdb.EstateAddress
                        where EstateAddress.IdAddress== MainMenuPage.IdAddress
                        select EstateAddress).FirstOrDefault();
@@ -178,10 +121,6 @@ namespace AppForEmployees
                 NumberOKS_TXB.Text = NumberOKS;
         }
 
-
-       
-        
-
         int ShowIdRole()
         {
             int IdRole = 3;
@@ -193,7 +132,6 @@ namespace AppForEmployees
             {
                 IdRole = int.Parse(reader.GetValue(0).ToString());
             }
-
             return IdRole;
         }
 
@@ -247,10 +185,7 @@ namespace AppForEmployees
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
             else
-            {
-                // 0 без адреса
-                // 1 с адресом
-
+            { // 0 - без адреса, 1 - с адресом
                 string sql7;
                 if (SelectRole_CMB.SelectedIndex == 0)
                     sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, NumberCapitalConstruction) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', '{NumberOKS_TXB.Text}')";
@@ -263,7 +198,6 @@ namespace AppForEmployees
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
         }
-
        
 
         private void SearchAddress_TXB_LostFocus(object sender, RoutedEventArgs e)
@@ -274,15 +208,12 @@ namespace AppForEmployees
 
         private void SearchClient_TXB_GotFocus(object sender, RoutedEventArgs e)
         {
-            
             (sender as TextBox).Text = string.Empty;
-
         }
 
         private void SearchAddress_TXB_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as TextBox).Text = string.Empty;
-
         }
 
 
@@ -290,7 +221,6 @@ namespace AppForEmployees
         {
             if ((sender as TextBox).Text == string.Empty)
                 (sender as TextBox).Text = "Введите фамилию";
-
         }
 
         private void SearchClient_TXB_TextChanged(object sender, TextChangedEventArgs e)
