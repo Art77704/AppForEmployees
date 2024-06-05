@@ -287,12 +287,12 @@ namespace AppForEmployees
 
         private void FinishWork_DT_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
             if (FinishWork_DT.SelectedItem != null)
+            {
                 emplwork = FinishWork_DT.SelectedItem as EmployeeWorking;
-           
-            Manager.MainFrame.Navigate(new RequestPage(emplwork.IdRequest));
 
+                Manager.MainFrame.Navigate(new RequestPage(emplwork.IdRequest));
+            }
         }
 
         void SaveReport()

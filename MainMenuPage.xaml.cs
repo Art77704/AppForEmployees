@@ -112,9 +112,13 @@ namespace AppForEmployees
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selItem=ListOfRequestsDT.SelectedItem as Request;
-            IdRequest=selItem.IdRequest;
-            Manager.MainFrame.Navigate(new RequestPage(selItem.IdRequest));
+            if (ListOfRequestsDT.SelectedItem != null)
+            {
+                var selItem = ListOfRequestsDT.SelectedItem as Request;
+                IdRequest = selItem.IdRequest;
+                Manager.MainFrame.Navigate(new RequestPage(selItem.IdRequest));
+            }
+            
         }
         private void EditRequestButton_Loaded(object sender, RoutedEventArgs e)
         {
