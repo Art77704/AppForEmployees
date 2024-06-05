@@ -144,9 +144,9 @@
                 
                 <StackPanel x:Name="ForManagerAdm_STP" MaxWidth="490" Visibility="Visible">
                     <TextBlock Text="Заявки на регистрацию аккаунта" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-                    <DataGrid x:Name="forManagerAdm_DT"  IsReadOnly="True" MaxHeight="350" VerticalScrollBarVisibility="Auto"  >
+                    <DataGrid x:Name="forManagerAdm_DT" Height="190" ItemsSource="{Binding AuthorizationAcc}" AutoGenerateColumns="False" IsReadOnly="True" MaxHeight="350" VerticalScrollBarVisibility="Auto"  >
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button x:Name="DeleteRequest_BTN" Click="DeleteRequest_BTN_Click" ToolTip="Отклонить заявку на регистрацию аккаунта"  Background="Transparent" Width="30">
@@ -155,12 +155,36 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button x:Name="Confirm_BTN" Click="Confirm_BTN_Click" ToolTip="Принять заявку на регистрацию аккаунта" Background="Transparent" Width="30">
                                             <svgc:SvgViewbox Source="/Icons/add_icon.svg"/>
                                         </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto" Header="№">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding IdAuth}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto" Header="Логин">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AuthLogin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto" Header="Должность">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Role.RoleName}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

@@ -39,8 +39,7 @@ namespace AppForEmployees
             MainWindow.PageText.Text = "Личный кабинет";
             MainWindow._previousPage = Manager.MainFrame.Content;
             RefreshDT();
-            forManagerAdm_DT.Columns[0].Width = DataGridLength.Auto;
-            forManagerAdm_DT.Columns[1].Width = DataGridLength.Auto;
+           
             GetDataAcc();
             GetUserRole(ShowForManagAdm2_STP, ShowForManagAdm_STP, ForEmployee_STP);
         }
@@ -153,9 +152,10 @@ namespace AppForEmployees
 
         private void Confirm_BTN_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
-            IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
-            string NewUserRole = Convert.ToString(selectedRow["Должность"]);
+            var seladm = forManagerAdm_DT.SelectedItem as AuthorizationAcc;
+
+            IdNewUser = seladm.IdAuth;
+            string NewUserRole = seladm.Role.RoleName;
             if (AuthorizationPage.UserRoleName[0] == "Менеджер" && NewUserRole == "Менеджер")
             {
                 MessageBox.Show("Нет прав на добавление данного сотрудника в систему!\nСотрудника с данной должностью может добавить только Администратор.", "Нет прав", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -173,8 +173,8 @@ namespace AppForEmployees
             var res = MessageBox.Show("Вы действительно хотите отклонить заявку на регистрацию аккаунта?", "Отклонение регистрации", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.Yes)
             {
-                DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
-                IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
+                var seladm=forManagerAdm_DT.SelectedItem as AuthorizationAcc;
+                IdNewUser = seladm.IdAuth;
 
                 DataBaseClass.AddEditDel($"DELETE AuthorizationAcc where IdAuth={IdNewUser}");
                 MessageBox.Show("Запрос на регистрацию аккаунта был отклонён!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -183,7 +183,12 @@ namespace AppForEmployees
         }
         void RefreshDT()
         {
-            DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
+            var querryNewUser = from AuthorizationAcc in AppConnect.modelOdb.AuthorizationAcc
+                                where AuthorizationAcc.AccIsValid == false
+                                select AuthorizationAcc;
+
+            forManagerAdm_DT.ItemsSource= querryNewUser.ToList();
+
 
             var querryFinishWork = from EmployeeWorking in AppConnect.modelOdb.EmployeeWorking
                                    where (EmployeeWorking.WorkInProcess == true && EmployeeWorking.WorkFinished == true)
