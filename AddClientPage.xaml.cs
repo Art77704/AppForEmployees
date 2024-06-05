@@ -16,10 +16,15 @@ namespace AppForEmployees
     {
         public static Client _cl;
         bool edit=false;
+        string _text;
+        
         public AddClientPage(Client cl=null)
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление клиента";
+            MainWindow._previousPage = Manager.MainFrame.Content;
+           
+            MainWindow._previousPage = Manager.MainFrame.Content;
             SelectCity_CMB.ItemsSource = AppConnect.modelOdb.City.ToList();
             SelectCountry_CMB.ItemsSource = AppConnect.modelOdb.Country.ToList();
             SelectKray_CMB.ItemsSource = AppConnect.modelOdb.Kray.ToList();
@@ -110,7 +115,9 @@ namespace AppForEmployees
                 return;
 
             AppConnect.modelOdb = new RCCEntities();
+           
 
+           
             int idCity = ShowIdCity();
             int idCountry = ShowIdCountry();
             int idKray = ShowIdKray();
@@ -186,12 +193,14 @@ namespace AppForEmployees
 
         private void AddCity_BTN_Click(object sender, RoutedEventArgs e)
         {
+           
             AddCityCountryKrayWindow w = new AddCityCountryKrayWindow("City");
             w.ShowDialog();
         }
 
         private void AddCountry_BTN_Click(object sender, RoutedEventArgs e)
         {
+         
             AddCityCountryKrayWindow w = new AddCityCountryKrayWindow("Country");
             w.ShowDialog();
         }
@@ -212,6 +221,8 @@ namespace AppForEmployees
             if (e.Key == Key.Space)
                 e.Handled = true;//Если пробел, то ввод недопустим
         }
+
+        
 
     }
 }

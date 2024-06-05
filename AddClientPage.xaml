@@ -14,7 +14,8 @@
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-       
+      
+
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0">
             <StackPanel Margin="20" VerticalAlignment="Center" Width="280">
 
@@ -51,6 +52,7 @@
                 <TextBlock Text="Выберите город рождения:"  FontSize="16"></TextBlock>
                 <WrapPanel>
                     <ComboBox x:Name="SelectCity_CMB" Width="250" Text="{Binding City}" DisplayMemberPath="NameCity" Style="{StaticResource ComboBoxStyle1}" FontSize="14"></ComboBox>
+
                     <Button Background="Transparent"  FontSize="14" x:Name="AddCity_BTN" Click="AddCity_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
                 </WrapPanel>
                 <TextBlock Text="Выберите край рождения (n):"  FontSize="16"></TextBlock>

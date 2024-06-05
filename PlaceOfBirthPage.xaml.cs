@@ -26,6 +26,7 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление места рождения";
+            MainWindow._previousPage = Manager.MainFrame.Content;
 
             DataBaseClass.AddToCMB("select NameCountry from Country", Country_CMB);
             DataBaseClass.AddToCMB("select NameCity from City", City_CMB);

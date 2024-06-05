@@ -27,6 +27,8 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление адреса";
+            MainWindow._previousPage = Manager.MainFrame.Content;
+
             Address_DT.ItemsSource=AppConnect.modelOdb.EstateAddress.ToList();
             EstateAddress ea = new EstateAddress();
             DataContext = ea;

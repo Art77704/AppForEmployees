@@ -72,9 +72,10 @@
                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1">
                     <TextBlock Text="Список выполненных работ" HorizontalAlignment="Center" FontSize="18" Margin="10"/>
 
-                    <DataGrid x:Name="FinishWork_DT" Grid.Row="1" MaxWidth="500" MaxHeight="200" VerticalScrollBarVisibility="Auto" IsReadOnly="True" VerticalAlignment="Top" ColumnWidth="100" MouseDoubleClick="FinishWork_DT_MouseDoubleClick" HorizontalAlignment="Right" >
+                    <DataGrid x:Name="FinishWork_DT" AutoGenerateColumns="False" Grid.Row="1" MinWidth="480" MaxWidth="500" MaxHeight="200" VerticalScrollBarVisibility="Auto" IsReadOnly="True" VerticalAlignment="Top" ColumnWidth="100" MouseDoubleClick="FinishWork_DT_MouseDoubleClick" HorizontalAlignment="Right" >
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button x:Name="DenyWork_BTN" Click="DenyWork_BTN_Click"  ToolTip="Отклонить выполненную работу"  Background="Transparent" Width="30">
@@ -83,7 +84,8 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button x:Name="ConfirmWork_BTN" Click="ConfirmWork_BTN_Click"  ToolTip="Принять выполненную работу" Background="Transparent" Width="30">
@@ -92,6 +94,50 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="CheckReport_BTN" Click="CheckReport_BTN_Click" ToolTip="Скачать отчёт" Background="Transparent" Width="30">
+                                            <svgc:SvgViewbox Source="/Icons/report.svg"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="№" Width="35" MaxWidth="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding IdRequest}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto" Header="Фамилия">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Employee.Surname}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto" Header="Имя">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Employee.FirstName}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="auto" Header="Отчество">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Employee.Patronymic}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+ 
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

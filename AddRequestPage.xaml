@@ -23,6 +23,7 @@
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
+        <TextBlock x:Name="IdRequest_TB" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Margin="0,30,0,0"/>
 
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel VerticalAlignment="Center">

@@ -25,6 +25,8 @@ namespace AppForEmployees
     {
         public static AuthorizationAcc userObj;
         public static int UserAuthId;
+        public static string[] UserRoleName;
+
         public static int IdEmployee;
         public AuthorizationPage(string text = "5")
         {
@@ -77,7 +79,8 @@ namespace AppForEmployees
                                 if (userObj.IdAuth == int.Parse(reader.GetValue(0).ToString()))
                                 {
                                     UserAuthId = userObj.IdAuth;
-                                    Manager.MainFrame.Navigate(new MainMenuPage());
+                                    UserRoleName = DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, Role where AuthorizationAcc.IdAuth={AuthorizationPage.UserAuthId} and AuthorizationAcc.IdRole=Role.IdRole");
+                                Manager.MainFrame.Navigate(new MainMenuPage());
                                     temp = true;
                                 }
                             }

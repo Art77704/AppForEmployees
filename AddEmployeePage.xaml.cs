@@ -27,6 +27,8 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление сотрудника";
+            MainWindow._previousPage = Manager.MainFrame.Content;
+
             Employee_DT.ItemsSource = AppConnect.modelOdb.Employee.ToList();
 
             if (MainMenuPage._RoleName == "Администратор")
@@ -43,7 +45,7 @@ namespace AppForEmployees
             }
             else
             {
-                var cmd = DataBaseClass.connectionOpen("select RoleName from Role where RoleName!='Администратор'");
+                var cmd = DataBaseClass.connectionOpen("select RoleName from Role where RoleName!='Администратор' and RoleName!='Менеджер'");
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -63,13 +65,18 @@ namespace AppForEmployees
                 return;
 
             int idnewauth = 0;
+            int IdRoleWithoutManager= Role_CMB.SelectedIndex + 3;
+            int IdRole  =Role_CMB.SelectedIndex+2;
             AppConnect.modelOdb = new RCCEntities();
             AuthorizationAcc AA = new AuthorizationAcc();
             {
                 AA.AuthLogin = Login_TXB.Text;
                 AA.AuthPassword = Password_TXB.Text;
                 AA.AccIsValid = true;
-                AA.IdRole = Role_CMB.SelectedIndex + 2;
+                if (AuthorizationPage.UserRoleName[0] == "Менеджер")
+                    AA.IdRole = IdRoleWithoutManager;
+                else
+                    AA.IdRole = IdRole;
             }
             AppConnect.modelOdb.AuthorizationAcc.Add(AA);
             MainWindow.SaveToBD();
@@ -128,13 +135,12 @@ namespace AppForEmployees
                 var selempl = Employee_DT.SelectedItem as Employee;
 
                 string[] RoleNameForDel=DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, Role where AuthorizationAcc.IdAuth={selempl.IdAuth} and AuthorizationAcc.IdRole=Role.IdRole");
-                string[] UserRoleName = DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, Role where AuthorizationAcc.IdAuth={AuthorizationPage.UserAuthId} and AuthorizationAcc.IdRole=Role.IdRole");
 
-                if (RoleNameForDel[0] == "Менеджер" && UserRoleName[0] == "Администратор")
+                if (RoleNameForDel[0] == "Менеджер" && AuthorizationPage.UserRoleName[0] == "Администратор")
                 {
                     DelData();
                 }
-                else if (RoleNameForDel[0] == "Администратор" || RoleNameForDel[0] == "Менеджер")
+                else if ((RoleNameForDel[0] == "Администратор" && AuthorizationPage.UserRoleName[0] == "Администратор") || (AuthorizationPage.UserRoleName[0] == "Менеджер"))
                 {
                     MessageBox.Show("Нет прав на удаление", "Нет прав", MessageBoxButton.OK, MessageBoxImage.Information);
                 }

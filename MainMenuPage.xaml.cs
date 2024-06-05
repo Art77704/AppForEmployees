@@ -40,6 +40,8 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow._MenuRCC.Visibility = Visibility.Visible;
+            MainWindow._previousPage = Manager.MainFrame.Content;
+
             ListOfRequestsDT.ItemsSource = AppConnect.modelOdb.Request.ToList();
             MainWindow.PageText.Text = "Список активных заявок";
             Search_TXB.Text = "Поиск по описанию работы";
@@ -112,7 +114,7 @@ namespace AppForEmployees
         {
             var selItem=ListOfRequestsDT.SelectedItem as Request;
             IdRequest=selItem.IdRequest;
-            Manager.MainFrame.Navigate(new RequestPage());
+            Manager.MainFrame.Navigate(new RequestPage(selItem.IdRequest));
         }
         private void EditRequestButton_Loaded(object sender, RoutedEventArgs e)
         {

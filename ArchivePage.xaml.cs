@@ -28,6 +28,8 @@ namespace AppForEmployees
             InitializeComponent();
             MainWindow.PageText.Text = "Архив заявок";
             Search_TXB.Text = "Поиск по любым параметрам";
+            MainWindow._previousPage = Manager.MainFrame.Content;
+
             AppConnect.modelOdb = new RCCEntities();
             ArchiveRequests_DT.ItemsSource = AppConnect.modelOdb.Archive.ToList();
         }

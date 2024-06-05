@@ -30,7 +30,9 @@ namespace AppForEmployees
         public static TextBlock PageText;
         public static Menu _MenuRCC;
         public static MenuItem[] menuItems ;
-        
+        public static object _previousPage=null;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -82,7 +84,12 @@ namespace AppForEmployees
                     Manager.MainFrame.Navigate(new AddRequestPage());
                 }
                 else if (currentpage.ToString() == "AppForEmployees.RequestPage")
-                    Manager.MainFrame.Navigate(new MainMenuPage());
+                {
+                    if (_previousPage.ToString() == "AppForEmployees.PersonalAccountPage")
+                        Manager.MainFrame.Navigate(new PersonalAccountPage());
+                    else
+                        Manager.MainFrame.Navigate(new MainMenuPage());
+                }
                 else if (currentpage.ToString() == "AppForEmployees.AddClientPage")
                 {
                     Manager.MainFrame.Navigate(new AddRequestPage());

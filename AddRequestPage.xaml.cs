@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
@@ -36,6 +37,8 @@ namespace AppForEmployees
         public static string NumberOKS;
         public static bool CheckPage = false;
         string _AddOrEdit;
+        string SearchAddressText = "Введите улицу";
+        string SearchClientText = "Введите улицу";
 
         public AddRequestPage(string AddOrEdit="")
         {
@@ -43,6 +46,8 @@ namespace AppForEmployees
             MainWindow.PageText.Text = "Добавление заявки";
             SearchClient_TXB.Text = "Введите фамилию";
             SearchAddress_TXB.Text = "Введите улицу";
+            
+            MainWindow._previousPage = Manager.MainFrame.Content;
 
             SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
             SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
@@ -54,6 +59,8 @@ namespace AppForEmployees
             {
                 EditData();
                 MainWindow.PageText.Text = "Изменение заявки";
+                IdRequest_TB.Text = "Заявка №";
+                IdRequest_TB.Text += NumberRequest.ToString();
                 AddRequest_BTN.Content = "Изменить";
                 AddClient_BTN.Visibility = Visibility.Collapsed;
                 AddAddress_BTN.Visibility = Visibility.Collapsed;
@@ -188,7 +195,7 @@ namespace AppForEmployees
                 Manager.MainFrame.Navigate(new MainMenuPage());
             }
         }
-       
+
 
         private void SearchAddress_TXB_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -230,6 +237,7 @@ namespace AppForEmployees
             if (searchText != "Введите улицу")
             {
                 var filteredData = AppConnect.modelOdb.EstateAddress.Where(x => x.EstateStreet.Contains(searchText)).ToList();
+               
                 SelectAddress_DT.ItemsSource = filteredData;
             }
         }

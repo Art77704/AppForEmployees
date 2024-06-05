@@ -30,6 +30,8 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Регистрация";
+            MainWindow._previousPage = Manager.MainFrame.Content;
+
             AppConnect.modelOdb = new RCCEntities();
             Role_CMB.FontSize = 18;
             Role_CMB.ItemsSource = AppConnect.modelOdb.Role.Where(r => r.RoleName != "Администратор").ToList();

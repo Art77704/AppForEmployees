@@ -37,11 +37,8 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Личный кабинет";
-
-            DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
-            DataBaseClass.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
-            FinishWork_DT.Columns[0].Width = DataGridLength.Auto;
-            FinishWork_DT.Columns[1].Width = DataGridLength.Auto;
+            MainWindow._previousPage = Manager.MainFrame.Content;
+            RefreshDT();
             forManagerAdm_DT.Columns[0].Width = DataGridLength.Auto;
             forManagerAdm_DT.Columns[1].Width = DataGridLength.Auto;
             GetDataAcc();
@@ -158,6 +155,13 @@ namespace AppForEmployees
         {
             DataRowView selectedRow = (DataRowView)forManagerAdm_DT.SelectedItem;
             IdNewUser = Convert.ToInt32(selectedRow["НомерАккаунта"]);
+            string NewUserRole = Convert.ToString(selectedRow["Должность"]);
+            if (AuthorizationPage.UserRoleName[0] == "Менеджер" && NewUserRole == "Менеджер")
+            {
+                MessageBox.Show("Нет прав на добавление данного сотрудника в систему!\nСотрудника с данной должностью может добавить только Администратор.", "Нет прав", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             string sql = $"update AuthorizationAcc set AccIsValid=1 where IdAuth={IdNewUser}";
             DataBaseClass.AddEditDel(sql);
             MessageBox.Show("Пользователь добавлен в систему!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -177,18 +181,26 @@ namespace AppForEmployees
                 Manager.MainFrame.Navigate(new PersonalAccountPage());
             }
         }
+        void RefreshDT()
+        {
+            DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
+
+            var querryFinishWork = from EmployeeWorking in AppConnect.modelOdb.EmployeeWorking
+                                   where (EmployeeWorking.WorkInProcess == true && EmployeeWorking.WorkFinished == true)
+                                   select EmployeeWorking;
+            FinishWork_DT.ItemsSource = querryFinishWork.ToList();
+        }
 
         private void Refresh_BTN_Click(object sender, RoutedEventArgs e)
         {
-            DataBaseClass.ShowOrUpdateDT("Select IdAuth as НомерАккаунта, AA.AuthLogin as Логин, r.RoleName as Должность from AuthorizationAcc AA, Role r where AA.AccIsValid=0 and AA.IdRole=r.IdRole", forManagerAdm_DT);
-            DataBaseClass.ShowOrUpdateDT("select ew.IdRequest as НомерЗаявки, e.Surname as Фамилия, e.FirstName as Имя, e.Patronymic as Отчество from EmployeeWorking ew, Employee e where ew.WorkFinished=1 and ew.WorkInProcess=1 and e.IdEmployee=ew.IdEmployee", FinishWork_DT);
+            RefreshDT();
         }
 
         private void AddEmployee_BTN_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEmployeePage());
         }
-
+        EmployeeWorking emplwork;
 
         private void ConfirmWork_BTN_Click(object sender, RoutedEventArgs e)
         {
@@ -203,8 +215,10 @@ namespace AppForEmployees
             string WorkerFIO = "";
             AppConnect.modelOdb = new RCCEntities();
 
-            DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
-            int IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
+            if (FinishWork_DT.SelectedItem!= null)
+                emplwork = FinishWork_DT.SelectedItem as EmployeeWorking;
+            
+            int IdRequest = emplwork.IdRequest;
 
             string sql = $"update EmployeeWorking set WorkFinished=1, WorkInProcess=0 where IdRequest={IdRequest}";
             DataBaseClass.AddEditDel(sql);
@@ -260,8 +274,11 @@ namespace AppForEmployees
             var res = MessageBox.Show("Вы действительно хотите отклонить данную работу?", "Отклонение работы", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.Yes)
             {
-                DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
-                string sql = $"delete EmployeeWorking where IdRequest={Convert.ToInt32(selectedRow["НомерЗаявки"])}";
+
+                if (FinishWork_DT.SelectedItem != null)
+                    emplwork = FinishWork_DT.SelectedItem as EmployeeWorking;
+
+                string sql = $"delete EmployeeWorking where IdRequest={emplwork.IdRequest}";
                 DataBaseClass.AddEditDel(sql);
                 MessageBox.Show("Заявка по данной работе отклонена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new PersonalAccountPage());
@@ -270,8 +287,20 @@ namespace AppForEmployees
 
         private void FinishWork_DT_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Выберите путь для сохранения файла, а также задайте название сохраняемому файлу", "Выберите путь", MessageBoxButton.OK, MessageBoxImage.Information);
-            string filePath="";
+
+            if (FinishWork_DT.SelectedItem != null)
+                emplwork = FinishWork_DT.SelectedItem as EmployeeWorking;
+           
+            Manager.MainFrame.Navigate(new RequestPage(emplwork.IdRequest));
+
+        }
+
+        void SaveReport()
+        {
+            var res2 = MessageBox.Show("Выберите путь для сохранения файла, а также задайте название сохраняемому файлу", "Выберите путь", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            if (res2 == MessageBoxResult.Cancel)
+                return;
+            string filePath = "";
             try
             {
                 if (FinishWork_DT.SelectedItem != null)
@@ -283,12 +312,14 @@ namespace AppForEmployees
                         if (saveFileDialog.ShowDialog() == true)
                         {
                             filePath = saveFileDialog.FileName;
-                            
-                        }
-                        DataRowView selectedRow = (DataRowView)FinishWork_DT.SelectedItem;
-                        int IdRequest = Convert.ToInt32(selectedRow["НомерЗаявки"]);
 
-                       var command = DataBaseClass.connectionOpen($"select Report from EmployeeWorking where IdRequest={IdRequest}");
+                        }
+                        if (FinishWork_DT.SelectedItem != null)
+                            emplwork = FinishWork_DT.SelectedItem as EmployeeWorking;
+
+                        int IdRequest = emplwork.IdRequest;
+
+                        var command = DataBaseClass.connectionOpen($"select Report from EmployeeWorking where IdRequest={IdRequest}");
                         SqlDataReader reader = command.ExecuteReader();
                         if (reader.Read())
                         {
@@ -309,7 +340,11 @@ namespace AppForEmployees
             {
                 MessageBox.Show("Вы не выбрали путь для сохранения!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
+        }
+
+        private void CheckReport_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            SaveReport();
         }
     }
 }

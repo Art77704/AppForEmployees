@@ -25,13 +25,16 @@ namespace AppForEmployees
     public partial class RequestPage : Page
     {
         int IdRequest;
-        public RequestPage()
+        public RequestPage(int IdReq=-1)
         {
             InitializeComponent();
             MainWindow._MenuRCC.Visibility = Visibility.Collapsed;
             MainWindow.PageText.Text = "Информация о заявке";
-
-            IdRequest = MainMenuPage.IdRequest;
+            MainWindow._previousPage = Manager.MainFrame.Content;
+            IdRequest_TB.Text = "Заявка №";
+            IdRequest_TB.Text += IdReq.ToString();
+            IdRequest = IdReq;
+            //IdRequest = MainMenuPage.IdRequest;
             ShowData();
             CheckNameBTN();
         }

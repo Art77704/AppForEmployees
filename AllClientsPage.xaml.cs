@@ -30,6 +30,8 @@ namespace AppForEmployees
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Список клиентов";
+            MainWindow._previousPage = Manager.MainFrame.Content;
+
             Clients_DT.ItemsSource = null;
             GoToAddRequestPage=AddRequest;
             Clients_DT.ItemsSource= AppConnect.modelOdb.Client.ToList();
@@ -45,8 +47,7 @@ namespace AppForEmployees
             var selectedRow = Clients_DT.SelectedItem as Client;
             Manager.MainFrame.Navigate(new AddClientPage(selectedRow));
         }
-
-        private void Delete_BTN_Click(object sender, RoutedEventArgs e)
+        void DeleteClient()
         {
             try
             {
@@ -55,7 +56,7 @@ namespace AppForEmployees
                 {
                     if (Clients_DT.SelectedItem != null)
                     {
-                            var selectedRow = Clients_DT.SelectedItems.Cast<Client>().ToList();
+                        var selectedRow = Clients_DT.SelectedItems.Cast<Client>().ToList();
 
                         if (selectedRow != null)
                         {
@@ -75,6 +76,19 @@ namespace AppForEmployees
             {
                 MessageBox.Show("Для этого клиента есть активная заявка!", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Delete_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            if (AuthorizationPage.UserRoleName[0] == "Менеджер")
+            {
+                MessageBox.Show("Нет прав на удаление клиента!", "Нет прав", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                DeleteClient();
+            }
+               
         }
     }
 }
