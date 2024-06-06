@@ -18,6 +18,7 @@ namespace AppForEmployees.DataBase
         public Employee()
         {
             this.EmployeeWorking = new HashSet<EmployeeWorking>();
+            this.Request = new HashSet<Request>();
         }
     
         public int IdEmployee { get; set; }
@@ -29,5 +30,7 @@ namespace AppForEmployees.DataBase
         public virtual AuthorizationAcc AuthorizationAcc { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeWorking> EmployeeWorking { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Request> Request { get; set; }
     }
 }

@@ -154,9 +154,6 @@
     <Compile Include="DataBase\Role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataBase\sysdiagrams.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="PersonalAccountPage.xaml.cs">
       <DependentUpon>PersonalAccountPage.xaml</DependentUpon>
     </Compile>
@@ -348,6 +345,9 @@
     <Resource Include="Resources\office.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icons\report.svg" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DataBase\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -358,7 +358,6 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
-    <Resource Include="Icons\report.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

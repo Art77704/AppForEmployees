@@ -25,13 +25,21 @@ namespace AppForEmployees
     public partial class RequestPage : Page
     {
         int IdRequest;
-        public RequestPage(int IdReq=-1)
+        int IdEmployeeInRequest;
+        public RequestPage(int IdReq=-1, Request req=null)
         {
             InitializeComponent();
             MainWindow._MenuRCC.Visibility = Visibility.Collapsed;
             MainWindow.PageText.Text = "Информация о заявке";
             MainWindow._previousPage = Manager.MainFrame.Content;
-            IdRequest_TB.Text = "Заявка №";
+            if (req != null)
+            {
+                if (req.Employee != null)
+                    Employee_TXB.Text = $"{req.Employee.Surname} {req.Employee.FirstName} {req.Employee.Patronymic}";
+                IdEmployeeInRequest = req.Employee.IdEmployee;
+            }
+
+            IdRequest_TB.Text = "Заявка - №";
             IdRequest_TB.Text += IdReq.ToString();
             IdRequest = IdReq;
             //IdRequest = MainMenuPage.IdRequest;
@@ -46,10 +54,10 @@ namespace AppForEmployees
             while (reader.Read())
             {
                 if (Convert.ToBoolean(reader.GetValue(0).ToString()) == false)
-                    GetWork_BTN.Content = "Начать работу";
+                    GetWork_BTN.Content = "Начать работу по заявке";
                 else if (Convert.ToBoolean(reader.GetValue(0).ToString()) == true)
                 {
-                    GetWork_BTN.Content = "Завершить работу";
+                    GetWork_BTN.Content = "Завершить работу по заявке";
                 }
                 else if (Convert.ToBoolean(reader.GetValue(1).ToString()) == true)
                     GetWork_BTN.Visibility = Visibility.Hidden;
@@ -117,7 +125,6 @@ namespace AppForEmployees
             {
                 tempRoleName = reader7.GetValue(0).ToString();
             }
-            if (Role_TXB.Text != tempRoleName) { MessageBox.Show("Данная работа предназначена не для Вас!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); return; }
 
             int _idemp = 0;
 
@@ -138,26 +145,17 @@ namespace AppForEmployees
             {
                 _idemp = Convert.ToInt32(reader2.GetValue(0).ToString());
             }
-
-            if (!WorkStatus && !WorkFinished)
+            int _IdEmp=-1;
+            var cmd55=DataBaseClass.connectionOpen($"select e.IdEmployee from Employee e, AuthorizationAcc aa where aa.IdAuth=e.IdAuth and e.IdAuth={AuthorizationPage.UserAuthId}");
+            SqlDataReader readr = cmd55.ExecuteReader();
+            while (readr.Read())
             {
-                EmployeeWorking ew = new EmployeeWorking();
-                {
-                    ew.WorkInProcess = true;
-                    ew.WorkFinished = false;
-                    ew.IdEmployee = MainMenuPage.IdEmployee;
-                    ew.IdRequest = IdRequest;
-                }; // Добавляет в БД  данные
-                AppConnect.modelOdb.EmployeeWorking.Add(ew);
-                AppConnect.modelOdb.SaveChanges();
-                MessageBox.Show("Вы успешно взялись за работу по данной заявке!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-                Manager.MainFrame.Navigate(new RequestPage());
+                _IdEmp=Convert.ToInt32(readr.GetValue(0).ToString());
             }
-            else if (WorkStatus && _idemp != MainMenuPage.IdEmployee)
-                MessageBox.Show("По данной заявке уже работает другой сотрудник!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-            else if (WorkFinished && MainMenuPage.IdEmployee != _idemp)
-                MessageBox.Show("Работу по данной заявке уже завершил другой сотрудник!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-            if (WorkStatus && MainMenuPage.IdEmployee == _idemp)
+           
+            if (WorkStatus && IdEmployeeInRequest != _IdEmp)
+                MessageBox.Show("Данная заявка предназначена не для вас!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+            else if (WorkStatus && IdEmployeeInRequest == _idemp)
             {
                 try
                 {

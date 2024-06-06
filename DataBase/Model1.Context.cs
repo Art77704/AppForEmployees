@@ -37,6 +37,5 @@ namespace AppForEmployees.DataBase
         public virtual DbSet<PlaceOfBirth> PlaceOfBirth { get; set; }
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

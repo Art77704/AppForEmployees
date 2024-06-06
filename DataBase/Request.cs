@@ -27,8 +27,10 @@ namespace AppForEmployees.DataBase
         public string CadastralNumber { get; set; }
         public string NumberCapitalConstruction { get; set; }
         public Nullable<int> IdAddress { get; set; }
+        public Nullable<int> IdEmployee { get; set; }
     
         public virtual Client Client { get; set; }
+        public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeWorking> EmployeeWorking { get; set; }
         public virtual EstateAddress EstateAddress { get; set; }

@@ -110,7 +110,41 @@
                     </DataGrid>
                     <Button Background="Transparent"  FontSize="16"  x:Name="AddAddress_BTN" Click="AddAddress_BTN_Click" BorderBrush="Transparent" Foreground="#F5FFFA" Content="➕"></Button>
                 </WrapPanel>
+                <Label/>
+                    <TextBlock HorizontalAlignment="Center" Text="Исполняющий:" x:Name="SelectAaddress_TB"  FontSize="18"></TextBlock>
+                <Label/>
+                <WrapPanel>
+                <DataGrid Width="370" CanUserAddRows="False" x:Name="Employee_DT" AutoGenerateColumns="False" MaxHeight="80" Height="80" FontSize="16" ItemsSource="{Binding Employee}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Фамилия">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Surname}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Имя">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FirstName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Отчество">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Patronymic}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                </WrapPanel>
+
             </StackPanel>
+            
             <Label/>
             <StackPanel VerticalAlignment="Center" Width="400" Grid.Row="0">
                

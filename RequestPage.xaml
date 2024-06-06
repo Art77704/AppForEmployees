@@ -13,36 +13,36 @@
             <RowDefinition/>
             <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="IdRequest_TB" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="18"></TextBlock>
 
-        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Center" >
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <StackPanel Margin="20" Width="330">
-                <TextBlock Text="Фамилия клиента:" FontSize="18"></TextBlock>
-                <TextBox x:Name="Surname_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="35" FontSize="16"></TextBox>
-                <TextBlock Text="Имя клиента:" FontSize="18"></TextBlock>
-                <TextBox x:Name="FirstName_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="35"  FontSize="17"></TextBox>
-                <TextBlock Text="Отчество клиента:" FontSize="18"></TextBlock>
-                <TextBox x:Name="Patronymic_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="35" FontSize="17" ></TextBox>
+                <TextBlock x:Name="IdRequest_TB" HorizontalAlignment="Left"  FontSize="16"></TextBlock>
+
+                <TextBlock Text="Фамилия клиента:" FontSize="16"></TextBlock>
+                <TextBox x:Name="Surname_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="35" FontSize="14"></TextBox>
+                <TextBlock Text="Имя клиента:" FontSize="16"></TextBlock>
+                <TextBox x:Name="FirstName_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="35"  FontSize="14"></TextBox>
+                <TextBlock Text="Отчество клиента:" FontSize="16"></TextBlock>
+                <TextBox x:Name="Patronymic_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="35" FontSize="14" ></TextBox>
 
             </StackPanel>
 
             <StackPanel Margin="20" Width="330">
-                <TextBlock Text="Заявка для:"  FontSize="18"></TextBlock>
-                <TextBox x:Name="Role_TXB" Style="{StaticResource Textbox1}" MaxLength="45" IsReadOnly="True" FontSize="16"  ></TextBox>
-                <TextBlock Text="Кадастровый номер:" FontSize="18"></TextBlock>
-                <TextBox x:Name="CadastralNumber_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="45" FontSize="16"></TextBox>
+                <TextBlock Text="Исполняющий:"  FontSize="16"/>
+                <TextBox x:Name="Employee_TXB" Text="Отсутствует" Style="{StaticResource Textbox1}"  IsReadOnly="True" FontSize="14"/>
+                <TextBlock Text="Заявка для:"  FontSize="16"></TextBlock>
+                <TextBox x:Name="Role_TXB" Style="{StaticResource Textbox1}" MaxLength="45" IsReadOnly="True" FontSize="14"  ></TextBox>
+                <TextBlock Text="Кадастровый номер:" FontSize="16"></TextBlock>
+                <TextBox x:Name="CadastralNumber_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" MaxLength="45" FontSize="14"></TextBox>
 
-                <TextBlock Text="Номер объекта капитального строительства:" x:Name="NumberOKS_TB" FontSize="18"></TextBlock>
-                <TextBox x:Name="NumberOKS_TXB" Style="{StaticResource Textbox1}" MaxLength="45" IsReadOnly="True" FontSize="16"  ></TextBox>
+                <TextBlock Text="Номер объекта капитального строительства:" x:Name="NumberOKS_TB" FontSize="16"></TextBlock>
+                <TextBox x:Name="NumberOKS_TXB" Style="{StaticResource Textbox1}" MaxLength="45" IsReadOnly="True" FontSize="14"  ></TextBox>
 
-                <TextBlock Text="Адрес:" x:Name="Address_TB" FontSize="18"></TextBlock>
-                <TextBox x:Name="Address_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" FontSize="16"  ></TextBox>
+                <TextBlock Text="Адрес:" x:Name="Address_TB" FontSize="16"></TextBlock>
+                <TextBox x:Name="Address_TXB" Style="{StaticResource Textbox1}" IsReadOnly="True" FontSize="14"  ></TextBox>
 
             </StackPanel>
         </WrapPanel>
-        
-
-
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
             <TextBlock Text="Описание работы:" HorizontalAlignment="Center" FontSize="18" Margin="5"></TextBlock>
@@ -52,7 +52,7 @@
         </StackPanel>
 
 
-        <Button Grid.Row="2" Width="220" Height="50" FontSize="20" x:Name="GetWork_BTN" Click="GetWork_BTN_Click"  Content="Начать работу" Style="{StaticResource MyButtonStyle}" Margin="10" VerticalAlignment="Bottom"/>
+        <Button Grid.Row="2" Width="270" Height="50" FontSize="20" x:Name="GetWork_BTN" Click="GetWork_BTN_Click"  Content="Начать работу по заявке" Style="{StaticResource MyButtonStyle}" Margin="10" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Page>

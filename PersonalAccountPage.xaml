@@ -70,7 +70,7 @@
 
             <StackPanel x:Name="ShowForManagAdm_STP" MaxHeight="420">
                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1">
-                    <TextBlock Text="Список выполненных работ" HorizontalAlignment="Center" FontSize="18" Margin="10"/>
+                    <TextBlock Text="Список выполненных работ по заявке" HorizontalAlignment="Center" FontSize="18" Margin="10"/>
 
                     <DataGrid x:Name="FinishWork_DT" AutoGenerateColumns="False" Grid.Row="1" MinWidth="480" MaxWidth="500" MaxHeight="200" VerticalScrollBarVisibility="Auto" IsReadOnly="True" VerticalAlignment="Top" ColumnWidth="100" MouseDoubleClick="FinishWork_DT_MouseDoubleClick" HorizontalAlignment="Right" >
                         <DataGrid.Columns>
@@ -196,8 +196,9 @@
             </StackPanel>
 
             <StackPanel x:Name="ForEmployee_STP" Height="280" MaxWidth="450">
-                <TextBlock Text="Список выполненных работ:" FontSize="18" HorizontalAlignment="Center"/>
-                <DataGrid MaxHeight="200" MaxWidth="200"  Width="200" Height="175" x:Name="Archive_DT" IsReadOnly="True" FontSize="14" MouseDoubleClick="Row_DoubleClick" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+                <TextBlock Text="Список выполненных работ по заявке" FontSize="18" HorizontalAlignment="Center"/>
+                <Label/>
+                <DataGrid MaxHeight="200" MaxWidth="310"  Width="310" Height="175" x:Name="Archive_DT" IsReadOnly="True" FontSize="14" MouseDoubleClick="Row_DoubleClick" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
                 <TextBox x:Name="WorkInfo_TXB" IsReadOnly="True" Style="{StaticResource Textbox1}" FontSize="16" Visibility="Collapsed" TextWrapping="Wrap" Height="200" Width="450"/>
                 <Button Height="50" Width="40"  Visibility="Collapsed" ToolTip="К списку выполненных работ" Background="Transparent"  BorderBrush="Transparent" x:Name="Back_BTN" Click="Back_BTN_Click">
                     <svgc:SvgViewbox Source="\Icons\back_icon.svg"/>

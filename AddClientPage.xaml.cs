@@ -16,7 +16,6 @@ namespace AppForEmployees
     {
         public static Client _cl;
         bool edit=false;
-        string _text;
         
         public AddClientPage(Client cl=null)
         {

@@ -30,6 +30,7 @@ namespace AppForEmployees
     public partial class MainMenuPage : Page
     {
         public static int IdEmployee;
+        public static int _IdEmployee;
         public static object _currentpage;
         public static int IdRequest;
         public static string _RoleName;
@@ -67,6 +68,10 @@ namespace AppForEmployees
         {
             var selitem = ListOfRequestsDT.SelectedItem as Request;
             IdRequest = selitem.IdRequest;
+
+            if (selitem.IdEmployee != null)
+                _IdEmployee = (int)selitem.IdEmployee;
+
             if (selitem.IdAddress !=null)
                 IdAddress = (int)selitem.IdAddress;
             IdClient = selitem.IdClient;
@@ -116,7 +121,7 @@ namespace AppForEmployees
             {
                 var selItem = ListOfRequestsDT.SelectedItem as Request;
                 IdRequest = selItem.IdRequest;
-                Manager.MainFrame.Navigate(new RequestPage(selItem.IdRequest));
+                Manager.MainFrame.Navigate(new RequestPage(selItem.IdRequest, selItem));
             }
             
         }

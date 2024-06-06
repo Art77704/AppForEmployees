@@ -37,20 +37,20 @@ namespace AppForEmployees
         public static string NumberOKS;
         public static bool CheckPage = false;
         string _AddOrEdit;
-        string SearchAddressText = "Введите улицу";
-        string SearchClientText = "Введите улицу";
 
         public AddRequestPage(string AddOrEdit="")
         {
             InitializeComponent();
             MainWindow.PageText.Text = "Добавление заявки";
             SearchClient_TXB.Text = "Введите фамилию";
+           
             SearchAddress_TXB.Text = "Введите улицу";
             
             MainWindow._previousPage = Manager.MainFrame.Content;
 
             SelectClient_DT.ItemsSource = AppConnect.modelOdb.Client.ToList();
             SelectAddress_DT.ItemsSource = AppConnect.modelOdb.EstateAddress.ToList();
+            
            
             _AddOrEdit = AddOrEdit;
             _currentpage = Manager.MainFrame.Content;
@@ -89,6 +89,10 @@ namespace AppForEmployees
                 SelectAddress_DT.Visibility = Visibility.Visible;
                 SearchAddress_TXB.Visibility = Visibility.Visible;
                 AddAddress_BTN.Visibility = Visibility.Visible;
+                var empl = from Employee in AppConnect.modelOdb.Employee
+                           where Employee.AuthorizationAcc.IdRole==4
+                           select Employee;
+                Employee_DT.ItemsSource = empl.ToList();
             }
             else
             {
@@ -98,6 +102,10 @@ namespace AppForEmployees
                 AddAddress_BTN.Visibility= Visibility.Collapsed;
                 NumberOKS_TB.Visibility = Visibility.Visible;
                 NumberOKS_TXB.Visibility = Visibility.Visible;
+                var empl = from Employee in AppConnect.modelOdb.Employee
+                           where Employee.AuthorizationAcc.IdRole == 3
+                           select Employee;
+                Employee_DT.ItemsSource = empl.ToList();
             }
         }
 
@@ -113,6 +121,11 @@ namespace AppForEmployees
                           where Client.IdClient== MainMenuPage.IdClient
                           select Client).FirstOrDefault();
 
+            var selempl = (from Employee in AppConnect.modelOdb.Employee
+                           where Employee.IdEmployee==MainMenuPage._IdEmployee
+                           select Employee).FirstOrDefault();
+
+            Employee_DT.SelectedItem = selempl;
             SelectClient_DT.SelectedItem = selcl;
             SelectRole_CMB.SelectedIndex  = RoleIndex - 3;
             WorkDescription_TXB.Text = WorkDescription;
@@ -142,15 +155,20 @@ namespace AppForEmployees
             string checkToNull2 = "";
             Client cl = null;
             EstateAddress ea = new EstateAddress();
+            Employee empl = new Employee();
+            int idempl = -1;
             if (SelectClient_DT.SelectedItem != null)
                 cl = SelectClient_DT.SelectedItem as Client;
             if (SelectAddress_DT.SelectedItem != null)
                 ea = SelectAddress_DT.SelectedItem as EstateAddress;
+            if (Employee_DT.SelectedItem != null)
+                empl= Employee_DT.SelectedItem as Employee;
             if (cl != null)
                 checkToNull = cl.ClientFirstName;
             if (ea != null)
                 checkToNull2 = ea.EstateHouse;
 
+            idempl=empl.IdEmployee;
             if (SelectRole_CMB.SelectedIndex == 1)
             {
                 string[] textToCheck = { WorkDescription_TXB.Text, CadastralNumber_TXB.Text, checkToNull, SelectRole_CMB.Text, checkToNull2 };
@@ -172,9 +190,23 @@ namespace AppForEmployees
             {
                 string sql;
                 if (SelectRole_CMB.SelectedIndex == 1)
-                    sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress={IdAddress}, WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction=NULL where IdRequest={NumberRequest}";
+                {
+                    if (idempl == -1)
+                        sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress={IdAddress}, WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction=NULL, IdEmployee=NULL where IdRequest={NumberRequest}";
+                    else
+                        sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress={IdAddress}, WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction=NULL, IdEmployee={idempl} where IdRequest={NumberRequest}";
+
+                }
                 else
-                    sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress=NULL,  WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction='{NumberOKS_TXB.Text}' where IdRequest={NumberRequest}";
+                {
+                    if (idempl == -1)
+                        sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress=NULL,  WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction='{NumberOKS_TXB.Text}', IdEmployee=NULL where IdRequest={NumberRequest}";
+                    else
+                        sql = $"update Request set IdClient={IdClient}, IdRole={SelectRole_CMB.SelectedIndex + 3}, IdAddress=NULL,  WorkDescription='{WorkDescription_TXB.Text}', CadastralNumber='{CadastralNumber_TXB.Text}', NumberCapitalConstruction='{NumberOKS_TXB.Text}', IdEmployee={idempl} where IdRequest={NumberRequest}";
+
+                }
+
+
 
                 DataBaseClass.AddEditDel(sql);
                 MessageBox.Show("Заявка изменена!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -185,11 +217,37 @@ namespace AppForEmployees
             { // 0 - без адреса, 1 - с адресом
                 string sql7;
                 if (SelectRole_CMB.SelectedIndex == 0)
-                    sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, NumberCapitalConstruction) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', '{NumberOKS_TXB.Text}')";
+                {
+                    if (idempl==-1)
+                        sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, NumberCapitalConstruction) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', '{NumberOKS_TXB.Text}')";
+                    else
+                        sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, NumberCapitalConstruction, IdEmployee) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', '{NumberOKS_TXB.Text}', {idempl})";
+                }
                 else
-                    sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, IdAddress) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', {IdAddress})";
-
+                {
+                    if (idempl==-1)
+                        sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, IdAddress) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', {IdAddress})";
+                    else
+                        sql7 = $"insert into Request (IdClient, IdRole, WorkDescription, CadastralNumber, IdAddress, IdEmployee) Values ({IdClient}, {IdRole}, '{WorkDescription_TXB.Text}', '{CadastralNumber_TXB.Text}', {IdAddress}, {idempl})";
+                }
                 DataBaseClass.AddEditDel(sql7);
+                int IdRequest_ = -1;
+
+                var cmd = DataBaseClass.connectionOpen("select IdRequest from Request");
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    IdRequest_=Convert.ToInt32(reader.GetValue(0).ToString());
+                }
+                EmployeeWorking ew = new EmployeeWorking();
+                {
+                    ew.WorkInProcess = true;
+                    ew.WorkFinished = false;
+                    ew.IdEmployee = idempl;
+                    ew.IdRequest = IdRequest_;
+                }; // Добавляет в БД  данные
+                AppConnect.modelOdb.EmployeeWorking.Add(ew);
+                AppConnect.modelOdb.SaveChanges();
                 MessageBox.Show("Заявка создана!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.Navigate(new ArchivePage());
                 Manager.MainFrame.Navigate(new MainMenuPage());
@@ -241,6 +299,7 @@ namespace AppForEmployees
                 SelectAddress_DT.ItemsSource = filteredData;
             }
         }
-      
+
+       
     }
 }

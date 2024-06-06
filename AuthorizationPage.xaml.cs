@@ -63,7 +63,6 @@ namespace AppForEmployees
                 var cmd = DataBaseClass.connectionOpen($"select AA.IdAuth from AuthorizationAcc AA, Employee em where AA.IdAuth=em.IdAuth");
                 SqlDataReader reader = cmd.ExecuteReader();
                 bool temp = false;
-
                 AppConnect.modelOdb = new RCCEntities();
                 try
                 { // Сверяет введённые данные с теми, которые имеются в БД
@@ -71,7 +70,8 @@ namespace AppForEmployees
                     if (MainWindow.CheckBD(userObj, "Такого пользователя нет!", true))
                     {// Если такой пользователь есть, то перейдёт в каталог, иначе выдаст ошибку
                         if (userObj.AccIsValid == false)
-                            MessageBox.Show("Для авторизации в систему необходимо дождаться подтверждения регистрации аккаунта от Менеджера (либо Администратора)", "Ожидайте подтверждения", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Для авторизации в систему необходимо дождаться подтверждения " +
+                                "регистрации аккаунта от Менеджера (либо Администратора)", "Ожидайте подтверждения", MessageBoxButton.OK, MessageBoxImage.Error);
                         else
                         {
                             while (reader.Read())
@@ -79,7 +79,9 @@ namespace AppForEmployees
                                 if (userObj.IdAuth == int.Parse(reader.GetValue(0).ToString()))
                                 {
                                     UserAuthId = userObj.IdAuth;
-                                    UserRoleName = DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, Role where AuthorizationAcc.IdAuth={AuthorizationPage.UserAuthId} and AuthorizationAcc.IdRole=Role.IdRole");
+                                
+                                    UserRoleName = DataBaseClass.GetData($"select Role.RoleName from AuthorizationAcc, " +
+                                        $"Role where AuthorizationAcc.IdAuth={AuthorizationPage.UserAuthId} and AuthorizationAcc.IdRole=Role.IdRole");
                                 Manager.MainFrame.Navigate(new MainMenuPage());
                                     temp = true;
                                 }
@@ -91,7 +93,6 @@ namespace AppForEmployees
                             }
                         }
                     }
-               
                 }
                 catch (Exception ex)
                 {

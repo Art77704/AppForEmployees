@@ -109,6 +109,7 @@
           <Property Name="CadastralNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="NumberCapitalConstruction" Type="nvarchar" MaxLength="50" />
           <Property Name="IdAddress" Type="int" />
+          <Property Name="IdEmployee" Type="int" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -116,16 +117,6 @@
           </Key>
           <Property Name="IdRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="89" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK__Authoriza__IdRol__398D8EEE">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
@@ -259,6 +250,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Request__IdEmplo__44FF419A">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IdEmployee" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Request__IdRole__440B1D61">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="Request" Type="Self.Request" Multiplicity="*" />
@@ -284,7 +287,6 @@
           <EntitySet Name="PlaceOfBirth" EntityType="Self.PlaceOfBirth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Authoriza__IdRol__398D8EEE" Association="Self.FK__Authoriza__IdRol__398D8EEE">
             <End Role="Role" EntitySet="Role" />
             <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
@@ -327,6 +329,10 @@
           </AssociationSet>
           <AssociationSet Name="FK__Request__IdClien__4316F928" Association="Self.FK__Request__IdClien__4316F928">
             <End Role="Client" EntitySet="Client" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdEmplo__44FF419A" Association="Self.FK__Request__IdEmplo__44FF419A">
+            <End Role="Employee" EntitySet="Employee" />
             <End Role="Request" EntitySet="Request" />
           </AssociationSet>
           <AssociationSet Name="FK__Request__IdRole__440B1D61" Association="Self.FK__Request__IdRole__440B1D61">
@@ -403,6 +409,7 @@
           <Property Name="IdAuth" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Employee__IdAuth__3B75D760" FromRole="Employee" ToRole="AuthorizationAcc" />
           <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdEmp__3C69FB99" FromRole="Employee" ToRole="EmployeeWorking" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdEmplo__44FF419A" FromRole="Employee" ToRole="Request" />
         </EntityType>
         <EntityType Name="EmployeeWorking">
           <Key>
@@ -461,7 +468,9 @@
           <Property Name="CadastralNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NumberCapitalConstruction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IdAddress" Type="Int32" />
+          <Property Name="IdEmployee" Type="Int32" />
           <NavigationProperty Name="Client" Relationship="Self.FK__Request__IdClien__4316F928" FromRole="Request" ToRole="Client" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Request__IdEmplo__44FF419A" FromRole="Request" ToRole="Employee" />
           <NavigationProperty Name="EmployeeWorking" Relationship="Self.FK__EmployeeW__IdReq__3D5E1FD2" FromRole="Request" ToRole="EmployeeWorking" />
           <NavigationProperty Name="EstateAddress" Relationship="Self.FK__Request__IdAddre__4222D4EF" FromRole="Request" ToRole="EstateAddress" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Request__IdRole__440B1D61" FromRole="Request" ToRole="Role" />
@@ -474,16 +483,6 @@
           <Property Name="RoleName" Type="String" MaxLength="89" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AuthorizationAcc" Relationship="Self.FK__Authoriza__IdRol__398D8EEE" FromRole="Role" ToRole="AuthorizationAcc" />
           <NavigationProperty Name="Request" Relationship="Self.FK__Request__IdRole__440B1D61" FromRole="Role" ToRole="Request" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK__Authoriza__IdRol__398D8EEE">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
@@ -581,6 +580,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Request__IdEmplo__44FF419A">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IdEmployee" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__EmployeeW__IdReq__3D5E1FD2">
           <End Role="Request" Type="Self.Request" Multiplicity="1" />
           <End Role="EmployeeWorking" Type="Self.EmployeeWorking" Multiplicity="*" />
@@ -642,7 +653,6 @@
           <EntitySet Name="PlaceOfBirth" EntityType="Self.PlaceOfBirth" />
           <EntitySet Name="Request" EntityType="Self.Request" />
           <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <AssociationSet Name="FK__Authoriza__IdRol__398D8EEE" Association="Self.FK__Authoriza__IdRol__398D8EEE">
             <End Role="Role" EntitySet="Role" />
             <End Role="AuthorizationAcc" EntitySet="AuthorizationAcc" />
@@ -674,6 +684,10 @@
           <AssociationSet Name="FK__EmployeeW__IdEmp__3C69FB99" Association="Self.FK__EmployeeW__IdEmp__3C69FB99">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeWorking" EntitySet="EmployeeWorking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__IdEmplo__44FF419A" Association="Self.FK__Request__IdEmplo__44FF419A">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Request" EntitySet="Request" />
           </AssociationSet>
           <AssociationSet Name="FK__EmployeeW__IdReq__3D5E1FD2" Association="Self.FK__EmployeeW__IdReq__3D5E1FD2">
             <End Role="Request" EntitySet="Request" />
@@ -811,6 +825,7 @@
                 <ScalarProperty Name="CadastralNumber" ColumnName="CadastralNumber" />
                 <ScalarProperty Name="NumberCapitalConstruction" ColumnName="NumberCapitalConstruction" />
                 <ScalarProperty Name="IdAddress" ColumnName="IdAddress" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -819,17 +834,6 @@
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="IdRole" ColumnName="IdRole" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="RCCModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
