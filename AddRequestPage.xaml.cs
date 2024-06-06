@@ -59,7 +59,7 @@ namespace AppForEmployees
             {
                 EditData();
                 MainWindow.PageText.Text = "Изменение заявки";
-                IdRequest_TB.Text = "Заявка №";
+                IdRequest_TB.Text = "Заявка - №";
                 IdRequest_TB.Text += NumberRequest.ToString();
                 AddRequest_BTN.Content = "Изменить";
                 AddClient_BTN.Visibility = Visibility.Collapsed;

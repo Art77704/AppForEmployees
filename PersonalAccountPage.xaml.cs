@@ -265,6 +265,17 @@ namespace AppForEmployees
             }; // Добавляет в БД  данные
             AppConnect.modelOdb.Archive.Add(ar);
             MainWindow.SaveToBD();
+           /* int IdArch=0;
+            var cmd = DataBaseClass.connectionOpen("select * from Archive");
+            SqlDataReader sqlDataReader = cmd.ExecuteReader();
+            while (sqlDataReader.Read())
+            {
+                 IdArch=int.Parse(sqlDataReader.GetValue(0).ToString());
+            }
+
+            
+            DataBaseClass.AddEditDel($"UPDATE Archive SET Report = {emplwork.Report.ToArray()} WHERE IdArchive={IdArch}");*/
+
 
             string sql7 = $"delete EmployeeWorking where IdRequest={IdRequest}\r\ndelete Request where IdRequest={IdRequest}";
             DataBaseClass.AddEditDel(sql7);

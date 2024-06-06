@@ -23,7 +23,6 @@
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="IdRequest_TB" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Margin="0,30,0,0"/>
 
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel VerticalAlignment="Center">
@@ -147,8 +146,9 @@
             
             <Label/>
             <StackPanel VerticalAlignment="Center" Width="400" Grid.Row="0">
-               
-                <TextBlock Text="Работа для:"  FontSize="18"></TextBlock>
+                <TextBlock x:Name="IdRequest_TB" HorizontalAlignment="Center" FontSize="18" />
+
+                <TextBlock Text="Заявка для:"  FontSize="18"></TextBlock>
                 <WrapPanel>
                     <ComboBox Width="370" Style="{StaticResource ComboBoxStyle1}" SelectionChanged="SelectRole_CMB_SelectionChanged" x:Name="SelectRole_CMB"  FontSize="16">
                         <TextBlock FontSize="16" Text="Кадастровый инженер"/>
