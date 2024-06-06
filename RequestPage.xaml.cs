@@ -35,8 +35,10 @@ namespace AppForEmployees
             if (req != null)
             {
                 if (req.Employee != null)
+                {
                     Employee_TXB.Text = $"{req.Employee.Surname} {req.Employee.FirstName} {req.Employee.Patronymic}";
-                IdEmployeeInRequest = req.Employee.IdEmployee;
+                    IdEmployeeInRequest = req.Employee.IdEmployee;
+                }
             }
 
             IdRequest_TB.Text = "Заявка - №";
