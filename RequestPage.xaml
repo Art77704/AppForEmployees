@@ -52,7 +52,7 @@
         </StackPanel>
 
 
-        <Button Grid.Row="2" Width="270" Height="50" FontSize="20" x:Name="GetWork_BTN" Click="GetWork_BTN_Click"  Content="Начать работу по заявке" Style="{StaticResource MyButtonStyle}" Margin="10" VerticalAlignment="Bottom"/>
+        <Button Grid.Row="2" Width="270" Height="50" FontSize="20" x:Name="GetWork_BTN" Click="GetWork_BTN_Click"  Content="Завершить работу по заявке" Style="{StaticResource MyButtonStyle}" Margin="10" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Page>

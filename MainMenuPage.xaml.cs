@@ -54,6 +54,13 @@ namespace AppForEmployees
 
         void ShowIdEmployee()
         {
+            if (AuthorizationPage.UserRoleName[0] == "Администратор" || AuthorizationPage.UserRoleName[0] == "Менеджер")
+                MainWindow.HideButton(MainWindow.menuItems);
+            else
+                MainWindow.HideButton(MainWindow.menuItems, false);
+
+
+
             var cmd = DataBaseClass.connectionOpen($"select e.IdEmployee from Employee e, AuthorizationAcc a where a.IdAuth={AuthorizationPage.UserAuthId} and e.IdAuth=a.IdAuth");
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -141,9 +148,8 @@ namespace AppForEmployees
                 editRequestButton.Visibility = Visibility.Visible;
                 AddRequestBTN.Visibility = Visibility.Visible;
                 AddClient_BTN.Visibility = Visibility.Visible;
+
             }
-            else
-                MainWindow.HideButton(MainWindow.menuItems);
         }
 
         private void Search_TXB_TextChanged(object sender, TextChangedEventArgs e)

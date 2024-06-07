@@ -45,9 +45,9 @@
                         </MenuItem.Icon>
                         <MenuItem Header="Личный кабинет" x:Name="PersonalAcc_BTN" Click="PersonalAcc_BTN_Click"/>
                         <MenuItem Header="Список заявок" x:Name="Request_BTN" Click="Request_BTN_Click"/>
-                        <MenuItem Header="Список клиентов" x:Name="AllClient_BTN" Click="AllClient_BTN_Click"/>
-                        <MenuItem Header="Список адресов" x:Name="AllAddress_BTN" Click="AllAddress_BTN_Click"/>
-                        <MenuItem Header="Список сотрудников" x:Name="AllEmployee_BTN" Click="AllEmployee_BTN_Click"/>
+                        <MenuItem Header="Список клиентов"  x:Name="AllClient_BTN" Click="AllClient_BTN_Click"/>
+                        <MenuItem Header="Список адресов"  x:Name="AllAddress_BTN" Click="AllAddress_BTN_Click"/>
+                        <MenuItem Header="Список сотрудников"  x:Name="AllEmployee_BTN" Click="AllEmployee_BTN_Click"/>
                         <MenuItem Header="Архив заявок" x:Name="Archive_BTN" Click="Archive_BTN_Click"/>
                         <Separator />
                         <MenuItem Header="Выход" x:Name="Exit_BTN" Click="Exit_BTN_Click"/>

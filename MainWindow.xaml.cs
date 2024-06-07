@@ -52,11 +52,21 @@ namespace AppForEmployees
             }
         }
 
-        public static void HideButton(MenuItem[] buttons=null)
+        public static void HideButton(MenuItem[] buttons=null, bool _adm=true)
         {
-            foreach (MenuItem button in buttons)
+            if (_adm)
             {
-                button.Visibility = Visibility.Collapsed;
+                foreach (MenuItem button in buttons)
+                {
+                    button.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                foreach (MenuItem button in buttons)
+                {
+                    button.Visibility = Visibility.Collapsed;
+                }
             }
         }
        

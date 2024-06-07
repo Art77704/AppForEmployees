@@ -26,12 +26,17 @@ namespace AppForEmployees
     {
         int IdRequest;
         int IdEmployeeInRequest;
+        int _IdEmpNow;
+
         public RequestPage(int IdReq=-1, Request req=null)
         {
             InitializeComponent();
             MainWindow._MenuRCC.Visibility = Visibility.Collapsed;
             MainWindow.PageText.Text = "Информация о заявке";
             MainWindow._previousPage = Manager.MainFrame.Content;
+
+          
+
             if (req != null)
             {
                 if (req.Employee != null)
@@ -51,20 +56,16 @@ namespace AppForEmployees
 
         void CheckNameBTN()
         {
-            var cmd = DataBaseClass.connectionOpen($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            var cmd = DataBaseClass.connectionOpen($"select e.IdEmployee from Employee e, " +
+                $"AuthorizationAcc aa where aa.IdAuth=e.IdAuth and e.IdAuth={AuthorizationPage.UserAuthId}");
+            SqlDataReader readr = cmd.ExecuteReader();
+            while (readr.Read())
             {
-                if (Convert.ToBoolean(reader.GetValue(0).ToString()) == false)
-                    GetWork_BTN.Content = "Начать работу по заявке";
-                else if (Convert.ToBoolean(reader.GetValue(0).ToString()) == true)
-                {
-                    GetWork_BTN.Content = "Завершить работу по заявке";
-                }
-                else if (Convert.ToBoolean(reader.GetValue(1).ToString()) == true)
-                    GetWork_BTN.Visibility = Visibility.Hidden;
-
+                _IdEmpNow = Convert.ToInt32(readr.GetValue(0).ToString());
             }
+
+            if (IdEmployeeInRequest != _IdEmpNow)
+                GetWork_BTN.Visibility = Visibility.Hidden;
         }
 
         void HideAndShow(string text="")
@@ -117,21 +118,13 @@ namespace AppForEmployees
 
             }
         }
-      
+
+
         private void GetWork_BTN_Click(object sender, RoutedEventArgs e)
         {
            
-            int _IdEmp=-1;
-            var cmd55=DataBaseClass.connectionOpen($"select e.IdEmployee from Employee e, AuthorizationAcc aa where aa.IdAuth=e.IdAuth and e.IdAuth={AuthorizationPage.UserAuthId}");
-            SqlDataReader readr = cmd55.ExecuteReader();
-            while (readr.Read())
-            {
-                _IdEmp=Convert.ToInt32(readr.GetValue(0).ToString());
-            }
            
-            if (IdEmployeeInRequest != _IdEmp)
-                MessageBox.Show("Данная заявка предназначена не для вас!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-            else if (IdEmployeeInRequest == _IdEmp)
+            if (IdEmployeeInRequest == _IdEmpNow)
             {
                 try
                 {

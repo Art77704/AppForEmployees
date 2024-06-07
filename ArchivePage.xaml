@@ -26,7 +26,12 @@
                 <DataGridTextColumn Header="ЗавершеннаяЗаявка"  Binding="{Binding WorkAllData}" ElementStyle="{StaticResource WrapText}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="ArchiveRequest_TXB" Grid.Row="1" Visibility="Collapsed" Height="300" FontSize="16" TextWrapping="Wrap" Style="{StaticResource Textbox1}" IsReadOnly="True"/>
+        <StackPanel Grid.Row="1">
+            <TextBox x:Name="ArchiveRequest_TXB"  Visibility="Collapsed" Height="250" FontSize="16" Width="930" TextWrapping="Wrap" Style="{StaticResource Textbox1}" IsReadOnly="True"/>
+            <Label/>
+            <Button x:Name="DownloadReport_BTN" Visibility="Collapsed" Width="200" Click="DownloadReport_BTN_Click" Content="Скачать отчёт" Style="{StaticResource MyButtonStyle}"/>
+        </StackPanel>
+       
         <Button Height="50" Width="40"  Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="2" ToolTip="К списку выполненных работ" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Background="Transparent"  BorderBrush="Transparent" x:Name="Back_BTN" Click="Back_BTN_Click">
             <svgc:SvgViewbox Source="\Icons\back_icon.svg"/>
         </Button>
