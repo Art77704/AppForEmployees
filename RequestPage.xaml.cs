@@ -120,33 +120,7 @@ namespace AppForEmployees
       
         private void GetWork_BTN_Click(object sender, RoutedEventArgs e)
         {
-            string tempRoleName = "";
-            var cmd7 = DataBaseClass.connectionOpen($"select r.RoleName from Role r, AuthorizationAcc aa where aa.IdRole = r.IdRole and aa.IdAuth = {AuthorizationPage.UserAuthId}");
-            SqlDataReader reader7 = cmd7.ExecuteReader();
-            while (reader7.Read())
-            {
-                tempRoleName = reader7.GetValue(0).ToString();
-            }
-
-            int _idemp = 0;
-
-            AppConnect.modelOdb = new RCCEntities();
-            bool WorkStatus = false;
-            bool WorkFinished = false;
-            var cmd = DataBaseClass.connectionOpen($"select ew.WorkInProcess, ew.WorkFinished from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                WorkStatus = Convert.ToBoolean(reader.GetValue(0).ToString());
-                WorkFinished = Convert.ToBoolean(reader.GetValue(1).ToString());
-
-            }
-            var cmd2 = DataBaseClass.connectionOpen($"select ew.IdEmployee from EmployeeWorking ew, Employee e where ew.IdRequest={IdRequest} and e.IdEmployee=ew.IdEmployee");
-            SqlDataReader reader2 = cmd2.ExecuteReader();
-            while (reader2.Read())
-            {
-                _idemp = Convert.ToInt32(reader2.GetValue(0).ToString());
-            }
+           
             int _IdEmp=-1;
             var cmd55=DataBaseClass.connectionOpen($"select e.IdEmployee from Employee e, AuthorizationAcc aa where aa.IdAuth=e.IdAuth and e.IdAuth={AuthorizationPage.UserAuthId}");
             SqlDataReader readr = cmd55.ExecuteReader();
@@ -155,9 +129,9 @@ namespace AppForEmployees
                 _IdEmp=Convert.ToInt32(readr.GetValue(0).ToString());
             }
            
-            if (WorkStatus && IdEmployeeInRequest != _IdEmp)
+            if (IdEmployeeInRequest != _IdEmp)
                 MessageBox.Show("Данная заявка предназначена не для вас!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-            else if (WorkStatus && IdEmployeeInRequest == _idemp)
+            else if (IdEmployeeInRequest == _IdEmp)
             {
                 try
                 {
@@ -188,9 +162,6 @@ namespace AppForEmployees
                 }
                 
             }
-            else if (WorkFinished && MainMenuPage.IdEmployee == _idemp)
-                MessageBox.Show("Вы уже выполнили данную работу! Пожалуйста, ожидайте проверку вашей работы от Менеджера!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
-
         }
     }
 }
