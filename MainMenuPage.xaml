@@ -39,6 +39,8 @@
             <svgc:SvgViewbox Source="/Icons/account_icon.svg"/>
         </Button>
 
+        <TextBlock Grid.Row="2" HorizontalAlignment="Right" x:Name="IdWorkForEmployee_TB" Margin="0,0,10,0" TextWrapping="Wrap" Width="220" Text="Вам необходимо исполнить заявки №: 23, 28, 52"/>
+
         <DataGrid Grid.Column="1" Margin="10,0,10,0" AutoGenerateColumns="False" x:Name="ListOfRequestsDT" CanUserAddRows="False" FontSize="16"  IsReadOnly="True"  Grid.Row="1">
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">

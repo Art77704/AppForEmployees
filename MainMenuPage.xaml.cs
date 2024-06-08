@@ -55,7 +55,10 @@ namespace AppForEmployees
         void ShowIdEmployee()
         {
             if (AuthorizationPage.UserRoleName[0] == "Администратор" || AuthorizationPage.UserRoleName[0] == "Менеджер")
+            {
                 MainWindow.HideButton(MainWindow.menuItems);
+                IdWorkForEmployee_TB.Visibility = Visibility.Collapsed;
+            }
             else
                 MainWindow.HideButton(MainWindow.menuItems, false);
 
@@ -67,6 +70,48 @@ namespace AppForEmployees
             {
                 IdEmployee = int.Parse(reader.GetValue(0).ToString());
             }
+
+
+           
+
+            int[] IdForWork;
+            int tempcount=0;
+            var cmd2 = DataBaseClass.connectionOpen($"select IdRequest from Request where IdEmployee={IdEmployee}");
+            SqlDataReader sqlDataReader = cmd2.ExecuteReader();
+            while (sqlDataReader.Read())
+            {
+                tempcount++;
+
+                
+            }
+            IdForWork = new int[tempcount];
+            var cmd3 = DataBaseClass.connectionOpen($"select IdRequest from Request where IdEmployee={IdEmployee}");
+            SqlDataReader sqlDataReader2 = cmd3.ExecuteReader();
+
+            int count = 0;
+                while (sqlDataReader2.Read())
+                {
+                    IdForWork[count] = Convert.ToInt32(sqlDataReader2.GetValue(0).ToString());
+                count++;
+                }
+            
+            
+            string requests = "Вам необходимо выполнить работу по заявкам №: ";
+            for (int i = 0; i < IdForWork.Length; i++)
+            {
+                if (i == IdForWork.Length - 1)
+                {
+                    requests += IdForWork[i].ToString() + ".";
+
+                }
+                else
+                {
+                    requests += IdForWork[i].ToString() + ", ";
+                }
+            }
+
+            IdWorkForEmployee_TB.Text = requests; 
+
         }
 
        
