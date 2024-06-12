@@ -25,7 +25,7 @@
                 <svgc:SvgViewbox Source="/Icons/add_icon.svg"/>
             </Button>
 
-            <Button x:Name="AddClient_BTN" Visibility="Collapsed" ToolTip="Добавить клиента" FontSize="16" Grid.Row="2" Height="50" Width="50" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="30,0,0,0" Click="AddClient_BTN_Click">
+            <Button x:Name="AddClient_BTN" Visibility="Collapsed" ToolTip="Список клиентов" FontSize="16" Grid.Row="2" Height="50" Width="50" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="30,0,0,0" Click="AddClient_BTN_Click">
                 <svgc:SvgViewbox Source="/Icons/add_user_icon.svg"/>
             </Button>
             
